@@ -1,7 +1,7 @@
 import { apiResponse, DELETE_REQUEST_STATUS, ROLES, STATUS_CODE } from "../../common";
-import { addressModel, studyDetailsModel, userModel, deleteRequestModel } from "../../database";
+import { addressModel, studyDetailsModel, userModel, deleteRequestModel, groupModel, batchModel } from "../../database";
 import { countData, createData, findAllWithPopulate, findOneAndPopulate, getFirstMatch, reqInfo, responseMessage, updateData, deleteFile } from "../../helper";
-import { deleteUserSchema, getAllUsersSchema, getUserByIdSchema, updateImageSchema, updateUserSchema } from "../../validation";
+import { deleteUserSchema, getAllUsersSchema, getUserByIdSchema, updateImageSchema, updateUserSchema, getUsersDropdownSchema } from "../../validation";
 import bcrypt from "bcryptjs";
 
 export const getAllUsers = async (req, res) => {
@@ -62,6 +62,61 @@ export const getAllUsers = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error fetching users", {}, error.message));
+    }
+};
+
+export const getUsersDropdown = async (req, res) => {
+    reqInfo(req)
+    try {
+        const { error, value } = getUsersDropdownSchema.validate(req.query);
+        if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
+
+        const { search, roleFilter, isUnassigned } = value;
+
+        const query: any = { isDeleted: false, isVerified: true };
+
+        if (search) {
+            query.$or = [
+                { name: { $regex: search, $options: "si" } },
+                { surname: { $regex: search, $options: "si" } },
+                { fatherName: { $regex: search, $options: "si" } },
+            ];
+        }
+
+        if (value.roleFilter && value.roleFilter.length > 0) {
+            query.role = { $in: value.roleFilter };
+        } else {
+            query.role = { $ne: ROLES.ADMIN };
+        }
+
+        if (isUnassigned) {
+            const excludedUserIds: any[] = [];
+
+            // If filtering for leaders, exclude those already in groups
+            if (!value.roleFilter || value.roleFilter.includes(ROLES.LEADER)) {
+                const groups = await groupModel.find({ isDeleted: false }, "leaderIds").lean();
+                groups.forEach((g: any) => excludedUserIds.push(...(g.leaderIds || [])));
+            }
+
+            // If filtering for monitors, exclude those already in batches
+            if (!value.roleFilter || value.roleFilter.includes(ROLES.MONITOR)) {
+                const batches = await batchModel.find({ isDeleted: false }, "monitorIds").lean();
+                batches.forEach((b: any) => excludedUserIds.push(...(b.monitorIds || [])));
+            }
+
+            if (excludedUserIds.length > 0) {
+                query._id = { $nin: excludedUserIds };
+            }
+        }
+
+        // Fetch minimal fields suitable for a dropdown
+        const users = await userModel.find(query).select("_id name surname fatherName role").lean();
+
+        return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Users dropdown fetched successfully", users, {}));
+
+    } catch (error) {
+        console.error(error);
+        return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error fetching users for dropdown", {}, error.message));
     }
 };
 

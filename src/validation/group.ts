@@ -22,3 +22,8 @@ export const getGroupsSchema = joi.object({
     search: joi.string().allow("", null).optional(),
     isActive: joi.boolean().optional(),
 });
+
+export const getGroupsDropdownSchema = joi.object({
+    search: joi.string().allow("", null).optional(),
+    isActive: joi.boolean().optional(),
+});

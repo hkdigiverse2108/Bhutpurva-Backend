@@ -13,6 +13,8 @@ export const settingSchema = joi.object({
     playStoreUrl: joi.string().optional(),
     appStoreUrl: joi.string().optional(),
     sgsiPdf: joi.string().optional(),
+    anubhutiImage: joi.string().optional(),
+    lifeLightImage: joi.string().optional(),
     socialLinks: joi.object({
         facebook: joi.string().optional(),
         instagram: joi.string().optional(),

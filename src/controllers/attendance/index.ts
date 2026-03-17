@@ -96,11 +96,16 @@ export const updateAttendance = async (req, res) => {
         const currentDate = new Date().toISOString().split("T")[0];
         const programDate = new Date(attendance.date).toISOString().split("T")[0];
 
+        const currentDateObj = new Date(currentDate);
+        const programDateObj = new Date(programDate);
+        const diffTime = Math.abs(currentDateObj.getTime() - programDateObj.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
         const isEnded = currentDate > programDate;
-        if (isEnded)
+        if (isEnded && diffDays > 7)
             return res
                 .status(STATUS_CODE.BAD_REQUEST)
-                .json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Program is ended You can't update attendance!", {}, {}));
+                .json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Program ended more than 7 days ago. You can't update attendance!", {}, {}));
 
         const isStarted = currentDate < programDate;
         if (isStarted)

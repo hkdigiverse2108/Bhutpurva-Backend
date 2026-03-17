@@ -1,7 +1,7 @@
 import { apiResponse, commonIdSchema, ROLES, STATUS_CODE } from "../../common";
 import { batchModel, groupModel, userModel } from "../../database";
 import { countData, createData, findAllWithPopulate, findOneAndPopulate, getData, reqInfo, updateData, updateMany, getFirstMatch } from "../../helper";
-import { createGroupSchema, getGroupsSchema, updateGroupSchema } from "../../validation";
+import { createGroupSchema, getGroupsSchema, updateGroupSchema, getGroupsDropdownSchema } from "../../validation";
 
 export const creategroup = async (req, res) => {
     reqInfo(req)
@@ -13,14 +13,14 @@ export const creategroup = async (req, res) => {
 
         const groupData: any = { ...rest };
         if (leaders) {
+            const validLeadersCount = await countData(userModel, { _id: { $in: leaders }, role: ROLES.LEADER, isDeleted: false });
+            if (validLeadersCount !== leaders.length) {
+                return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "One or more assigned users do not have the LEADER role.", {}, {}));
+            }
             groupData.leaderIds = leaders;
         }
 
         const group = await createData(groupModel, groupData);
-
-        if (leaders) {
-            await updateMany(userModel, { _id: { $in: leaders } }, { $set: { role: ROLES.LEADER } }, {});
-        }
 
         if (batches) {
             await updateMany(batchModel, { _id: { $in: batches } }, { $set: { groupId: group._id } }, {});
@@ -45,32 +45,15 @@ export const updateGroup = async (req, res) => {
 
         const updatePayload: any = { ...rest };
         if (leaders) {
+            const validLeadersCount = await countData(userModel, { _id: { $in: leaders }, role: ROLES.LEADER, isDeleted: false });
+            if (validLeadersCount !== leaders.length) {
+                return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "One or more assigned users do not have the LEADER role.", {}, {}));
+            }
             updatePayload.leaderIds = leaders;
         }
 
         const group = await updateData(groupModel, { _id: value.groupId }, updatePayload, {});
         if (!group) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Group not found", {}, {}));
-
-        if (leaders) {
-            await updateMany(userModel, { _id: { $in: leaders } }, { $set: { role: ROLES.LEADER } }, {});
-
-            if (previousGroup && previousGroup.leaderIds) {
-                const previousLeadersStr = previousGroup.leaderIds.map(id => id.toString());
-                const newLeadersStr = leaders.map(id => id.toString());
-                const removedLeaders = previousLeadersStr.filter(id => !newLeadersStr.includes(id));
-
-                for (let i = 0; i < removedLeaders.length; i++) {
-                    const isLeaderElsewhere = await getFirstMatch(groupModel, {
-                        leaderIds: removedLeaders[i],
-                        isDeleted: false
-                    }, {}, {});
-
-                    if (!isLeaderElsewhere) {
-                        await updateData(userModel, { _id: removedLeaders[i] }, { $set: { role: ROLES.USER } }, {});
-                    }
-                }
-            }
-        }
 
         if (batches) {
             const batchesDate = await getData(batchModel, { groupId: value.groupId }, {}, {});
@@ -101,20 +84,6 @@ export const deleteGroup = async (req, res) => {
 
         await updateMany(batchModel, { groupId: group._id }, { $unset: { groupId: 1 } }, {});
 
-        if (group.leaderIds && group.leaderIds.length > 0) {
-            for (let i = 0; i < group.leaderIds.length; i++) {
-                const leaderId = group.leaderIds[i].toString();
-                const isLeaderElsewhere = await getFirstMatch(groupModel, {
-                    leaderIds: leaderId,
-                    isDeleted: false
-                }, {}, {});
-
-                if (!isLeaderElsewhere) {
-                    await updateData(userModel, { _id: leaderId }, { $set: { role: ROLES.USER } }, {});
-                }
-            }
-        }
-
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Group deleted successfully", group, {}));
     } catch (error) {
         console.error(error);
@@ -139,10 +108,22 @@ export const getGroups = async (req, res) => {
 
         const groups = await findAllWithPopulate(groupModel, query, {}, { skip, limit: value.limit }, [{ path: 'leaderIds', select: "name fatherName surname phoneNumber whatsappNumber" }]);
 
+        const groupIds = groups.map((g: any) => g._id);
+        const batches = await batchModel.find({ groupId: { $in: groupIds }, isDeleted: false }).select("_id name groupId isActive");
+
+        const groupsWithBatches = groups.map((group: any) => {
+            const groupBatches = batches.filter(b => String(b.groupId) === String(group._id));
+            return {
+                ...group.toObject ? group.toObject() : group,
+                batches: groupBatches,
+                batchCount: groupBatches.length
+            };
+        });
+
         const total = await countData(groupModel, query);
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Groups fetched successfully", {
-            groups,
+            groups: groupsWithBatches,
             state: {
                 page: value.page,
                 limit: value.limit,
@@ -153,6 +134,28 @@ export const getGroups = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error getting groups", {}, error.message));
+    }
+};
+
+export const getGroupsDropdown = async (req, res) => {
+    reqInfo(req)
+    try {
+        const { error, value } = getGroupsDropdownSchema.validate(req.query);
+        if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
+
+        const query: any = { isDeleted: false };
+        if (value.search && value.search != "")
+            query.name = { $regex: value.search, $options: "si" };
+
+        if (value.isActive != null && value.isActive != undefined)
+            query.isActive = value.isActive;
+
+        const groups = await groupModel.find(query).select("_id name isActive").lean();
+
+        return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Groups dropdown fetched successfully", groups, {}));
+    } catch (error) {
+        console.error(error);
+        return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error getting groups for dropdown", {}, error.message));
     }
 };
 

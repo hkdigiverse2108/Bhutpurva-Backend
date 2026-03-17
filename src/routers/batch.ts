@@ -6,7 +6,8 @@ import { ROLES } from "../common";
 const router = express.Router();
 
 router.post("/create", roleCheck([ROLES.ADMIN]), batchController.createBatch);
-router.get("/get", roleCheck([ROLES.ADMIN]), batchController.getBatches);
+router.get("/get", roleCheck([ROLES.ADMIN, ROLES.MONITOR, ROLES.LEADER, ROLES.USER]), batchController.getBatches);
+router.get("/dropdown", roleCheck([ROLES.ADMIN, ROLES.MONITOR, ROLES.LEADER, ROLES.USER]), batchController.getBatchesDropdown);
 router.put("/update", roleCheck([ROLES.ADMIN]), batchController.updateBatch);
 router.delete("/delete/:id", roleCheck([ROLES.ADMIN]), batchController.deleteBatch);
 router.get("/get/:id", roleCheck([ROLES.ADMIN, ROLES.MONITOR, ROLES.USER]), batchController.getBatchById);

@@ -1,8 +1,8 @@
 import { apiResponse, batchModelName, commonIdSchema, monitorModelName, ROLES, STATUS_CODE, userModelName } from "../../common";
 import { batchModel, userModel } from "../../database";
-import { monitorModel } from "../../database";
+import { monitorModel, attendanceModel } from "../../database";
 import { countData, createData, findAllWithPopulate, findOneAndPopulate, getFirstMatch, updateData, reqInfo } from "../../helper";
-import { addDevoteeSchema, assignDevoteeSchema, createBatchSchema, createMonitorSchema, getBatchsSchema, getMonitorSchema, removeDevoteeSchema, unassignDevoteeSchema, updateBatchSchema } from "../../validation"
+import { addDevoteeSchema, assignDevoteeSchema, createBatchSchema, createMonitorSchema, getBatchsSchema, getMonitorSchema, removeDevoteeSchema, unassignDevoteeSchema, updateBatchSchema, getBatchesDropdownSchema } from "../../validation"
 
 export const createBatch = async (req, res) => {
     reqInfo(req)
@@ -75,7 +75,16 @@ export const getBatches = async (req, res) => {
 
         const skip = (value.page - 1) * value.limit;
 
-        const batch = await findAllWithPopulate(batchModel, query, { _id: 1, name: 1, group: 1, isActive: 1, createdAt: 1 }, { skip, limit: value.limit }, { path: "monitorIds", select: "_id name" });
+        const batch = await findAllWithPopulate(
+            batchModel,
+            query,
+            { _id: 1, name: 1, group: 1, isActive: 1, createdAt: 1 },
+            { skip, limit: value.limit },
+            { 
+               path: "monitorIds",
+               populate: { path: "userId", select: "name email surname" }
+            }
+        );
         if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
 
         const total = await countData(batchModel, query);
@@ -95,13 +104,68 @@ export const getBatches = async (req, res) => {
     }
 };
 
+export const getBatchesDropdown = async (req, res) => {
+    reqInfo(req)
+    try {
+        const { error, value } = getBatchesDropdownSchema.validate(req.query);
+        if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
+
+        const query: any = { isDeleted: false };
+        if (value.search)
+            query.name = { $regex: value.search, $options: "si" };
+
+        if (value.groupFilter)
+            query.groupId = value.groupFilter;
+
+        if (value.isUnassigned) {
+            if (value.groupFilter) {
+                // If groupFilter is provided, show unassigned batches OR batches belonging to this group
+                query.$or = [
+                    { groupId: { $exists: false } },
+                    { groupId: null },
+                    { groupId: value.groupFilter }
+                ];
+                delete query.groupId; // Remove the single groupId filter as it's now in the $or
+            } else {
+                // Only unassigned batches
+                query.$or = [
+                    { groupId: { $exists: false } },
+                    { groupId: null }
+                ];
+            }
+        }
+
+        if (value.isActive != null && value.isActive !== undefined)
+            query.isActive = value.isActive;
+
+        const batches = await batchModel.find(query)
+            .select("_id name groupId isActive")
+            .populate("groupId", "name")
+            .lean();
+
+        return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Batches dropdown fetched successfully", batches, {}));
+    } catch (error) {
+        console.error(error);
+        return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error getting batches for dropdown", {}, error.message));
+    }
+};
+
 export const getBatchById = async (req, res) => {
     reqInfo(req)
     try {
         const { error, value } = commonIdSchema.validate(req.params);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const batch = await findOneAndPopulate(batchModel, { _id: value.id, isDeleted: false }, { _id: 1, name: 1, group: 1, isActive: 1, createdAt: 1 }, {}, { path: "monitorIds", select: "_id name" });
+        const batch = await findOneAndPopulate(
+            batchModel,
+            { _id: value.id, isDeleted: false },
+            { _id: 1, name: 1, group: 1, isActive: 1, createdAt: 1 },
+            {},
+            { 
+                path: "monitorIds",
+                populate: { path: "userId", select: "name email surname" }
+            }
+        );
         if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Batch fetched successfully", batch, {}));
@@ -122,6 +186,24 @@ export const addDevoteeToBatch = async (req, res) => {
 
         const user = await updateData(userModel, { _id: value.devoteeId, isDeleted: false }, { batchId: value.batchId }, { new: true });
         if (!user) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User not found", {}, {}));
+
+        // Sync future attendance records
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        await updateData(
+            attendanceModel,
+            { batchId: value.batchId, date: { $gte: today } },
+            {
+                $addToSet: {
+                    students: {
+                        studentId: value.devoteeId,
+                        isPresent: false
+                    }
+                }
+            },
+            { multi: true }
+        );
 
         const payload = {
             batch: value.batchId,
@@ -147,6 +229,21 @@ export const removeDevoteeFromBatch = async (req, res) => {
         const user = await updateData(userModel, { _id: value.devoteeId, isDeleted: false }, { batchId: null }, { new: true });
         if (!user) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User not found", {}, {}));
 
+        // Sync future attendance records
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        await updateData(
+            attendanceModel,
+            { batchId: value.batchId, date: { $gte: today } },
+            {
+                $pull: {
+                    students: { studentId: value.devoteeId }
+                }
+            },
+            { multi: true }
+        );
+
         const payload = {
             batch: value.batchId,
             user: value.devoteeId,
@@ -168,6 +265,10 @@ export const createMonitor = async (req, res) => {
         const user = await getFirstMatch(userModel, { _id: value.userId, isDeleted: false }, {}, {});
         if (!user) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User not found", {}, {}));
 
+        if (user.role !== ROLES.MONITOR && user.role !== ROLES.LEADER) {
+            return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User does not have the required MONITOR or LEADER role.", {}, {}));
+        }
+
         if (user.batchId != value.batchId) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User is not in this batch", {}, {}));
 
         const isMonitor = await getFirstMatch(monitorModel, { userId: value.userId, isDeleted: false }, {}, {});
@@ -177,9 +278,6 @@ export const createMonitor = async (req, res) => {
 
         const batch = await updateData(batchModel, { _id: value.batchId }, { $push: { monitorIds: monitor._id } }, { new: true });
         if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
-
-        const updatedUser = await updateData(userModel, { _id: value.userId }, { role: ROLES.MONITOR }, { new: true });
-        if (!updatedUser) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User not found", {}, {}));
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Monitor created successfully", {
             monitor: monitor,
@@ -201,9 +299,6 @@ export const removeMonitor = async (req, res) => {
 
         const batch = await updateData(batchModel, { _id: monitor.batchId }, { $pull: { monitorIds: monitor._id } }, { new: true });
         if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
-
-        const updatedUser = await updateData(userModel, { _id: monitor.userId }, { role: ROLES.USER }, { new: true });
-        if (!updatedUser) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User not found", {}, {}));
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Monitor removed successfully", {
             monitor: monitor,

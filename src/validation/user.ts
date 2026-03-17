@@ -11,6 +11,12 @@ export const getAllUsersSchema = joi.object({
     isDeleted: joi.boolean().optional().default(false),
 });
 
+export const getUsersDropdownSchema = joi.object({
+    search: joi.string().allow("", null).optional(),
+    roleFilter: joi.array().items(joi.string().valid(...Object.values(ROLES))).optional(),
+    isUnassigned: joi.boolean().optional(),
+});
+
 export const updateUserSchema = joi.object({
     userId: objectId().required(),
     name: joi.string().min(3).max(30).optional(),

@@ -4,6 +4,7 @@ import { userController } from "../controllers";
 const router = express.Router();
 
 router.get("/get", userController.getAllUsers);
+router.get("/dropdown", userController.getUsersDropdown);
 router.put("/update", userController.updateUser);
 router.put("/update-image", userController.updateImage);
 router.delete("/delete", userController.deleteUser);

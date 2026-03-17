@@ -7,7 +7,13 @@
   },
   "variable": [
     { "key": "baseUrl", "value": "http://localhost:5000", "type": "string" },
-    { "key": "token", "value": "", "type": "string" }
+    { "key": "token", "value": "", "type": "string" },
+    { "key": "userId", "value": "", "type": "string" },
+    { "key": "batchId", "value": "", "type": "string" },
+    { "key": "groupId", "value": "", "type": "string" },
+    { "key": "programId", "value": "", "type": "string" },
+    { "key": "anubhutiId", "value": "", "type": "string" },
+    { "key": "attendanceId", "value": "", "type": "string" }
   ],
   "item": [
     {
@@ -58,7 +64,22 @@
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"admin123\"\n}"
-            }
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "const response = pm.response.json();",
+                    "if (response.data && response.data.token) {",
+                    "    pm.collectionVariables.set(\"token\", response.data.token);",
+                    "    console.log(\"Token set successfully\");",
+                    "}"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ]
           }
         },
         {
@@ -212,6 +233,37 @@
                 }
               ]
             }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.data && response.data.users && response.data.users.length > 0) {",
+                  "    pm.collectionVariables.set(\"userId\", response.data.users[0]._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Users Dropdown",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/user/dropdown?search=&roleFilter=leader&isUnassigned=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "dropdown"],
+              "query": [
+                { "key": "search", "value": "" },
+                { "key": "roleFilter", "value": "leader" },
+                { "key": "isUnassigned", "value": "true" }
+              ]
+            }
           }
         },
         {
@@ -223,7 +275,7 @@
               "raw": "{{baseUrl}}/user/get/:id",
               "host": ["{{baseUrl}}"],
               "path": ["user", "get", ":id"],
-              "variable": [{ "key": "id", "value": "USER_ID_HERE" }]
+              "variable": [{ "key": "id", "value": "{{userId}}" }]
             }
           }
         },
@@ -242,7 +294,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"userId\": \"USER_ID_HERE\",\n  \"name\": \"Updated Name\",\n  \"email\": \"updated@example.com\",\n  \"role\": \"user\",\n  \"phoneNumber\": \"9876543210\",\n  \"currentCity\": \"Mumbai\"\n}"
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"name\": \"Updated Name\",\n  \"email\": \"updated@example.com\",\n  \"role\": \"user\",\n  \"phoneNumber\": \"9876543210\",\n  \"currentCity\": \"Mumbai\"\n}"
             }
           }
         },
@@ -303,7 +355,21 @@
               "path": ["batch", "create"]
             },
             "body": { "mode": "raw", "raw": "{\n  \"name\": \"Batch A\"\n}" }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.data && response.data._id) {",
+                  "    pm.collectionVariables.set(\"batchId\", response.data._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
         },
         {
           "name": "Get Batches (Admin)",
@@ -321,6 +387,38 @@
                 { "key": "groupFilter", "value": "" }
               ]
             }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.data && response.data.batches && response.data.batches.length > 0) {",
+                  "    pm.collectionVariables.set(\"batchId\", response.data.batches[0]._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Batches Dropdown",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/batch/dropdown?search=&groupFilter=&isActive=true&isUnassigned=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["batch", "dropdown"],
+              "query": [
+                { "key": "search", "value": "" },
+                { "key": "groupFilter", "value": "" },
+                { "key": "isActive", "value": "true" },
+                { "key": "isUnassigned", "value": "true" }
+              ]
+            }
           }
         },
         {
@@ -332,7 +430,7 @@
               "raw": "{{baseUrl}}/batch/get/:id",
               "host": ["{{baseUrl}}"],
               "path": ["batch", "get", ":id"],
-              "variable": [{ "key": "id", "value": "BATCH_ID_HERE" }]
+              "variable": [{ "key": "id", "value": "{{batchId}}" }]
             }
           }
         },
@@ -351,7 +449,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"batchId\": \"BATCH_ID_HERE\",\n  \"name\": \"Updated Batch Name\"\n}"
+              "raw": "{\n  \"batchId\": \"{{batchId}}\",\n  \"name\": \"Updated Batch Name\"\n}"
             }
           }
         },
@@ -532,8 +630,22 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Group Alpha\",\n  \"leaders\": [\"USER_ID_HERE\"],\n  \"batches\": [\"BATCH_ID_HERE\"]\n}"
-            }
+              "raw": "{\n  \"name\": \"Group Alpha\",\n  \"leaders\": [\"{{userId}}\"],\n  \"batches\": [\"{{batchId}}\"]\n}"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "const response = pm.response.json();",
+                    "if (response.data && response.data._id) {",
+                    "    pm.collectionVariables.set(\"groupId\", response.data._id);",
+                    "}"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ]
           }
         },
         {
@@ -542,13 +654,43 @@
             "method": "GET",
             "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "url": {
-              "raw": "{{baseUrl}}/group/get?page=1&limit=10&search=",
+              "raw": "{{baseUrl}}/group/get?",
               "host": ["{{baseUrl}}"],
               "path": ["group", "get"],
               "query": [
                 { "key": "page", "value": "1" },
                 { "key": "limit", "value": "10" },
                 { "key": "search", "value": "" }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.data && response.data.groups && response.data.groups.length > 0) {",
+                  "    pm.collectionVariables.set(\"groupId\", response.data.groups[0]._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Groups Dropdown",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/group/dropdown?search=&isActive=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["group", "dropdown"],
+              "query": [
+                { "key": "search", "value": "" },
+                { "key": "isActive", "value": "true" }
               ]
             }
           }
@@ -562,7 +704,7 @@
               "raw": "{{baseUrl}}/group/get/:id",
               "host": ["{{baseUrl}}"],
               "path": ["group", "get", ":id"],
-              "variable": [{ "key": "id", "value": "GROUP_ID_HERE" }]
+              "variable": [{ "key": "id", "value": "{{groupId}}" }]
             }
           }
         },
@@ -581,7 +723,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Updated Group\",\n  \"leaders\": [\"USER_ID_HERE\"],\n  \"batches\": [\"BATCH_ID_HERE\"]\n}"
+              "raw": "{\n  \"groupId\": \"{{groupId}}\",\n  \"name\": \"Updated Group\",\n  \"leaders\": [\"{{userId}}\"],\n  \"batches\": [\"{{batchId}}\"]\n}"
             }
           }
         },
@@ -618,8 +760,22 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Weekly Satsang\",\n  \"batchId\": \"BATCH_ID_HERE\",\n  \"description\": \"Weekly program description\",\n  \"date\": \"2026-03-01\"\n}"
-            }
+              "raw": "{\n  \"name\": \"Weekly Satsang\",\n  \"batchId\": \"{{batchId}}\",\n  \"description\": \"Weekly program description\",\n  \"date\": \"2026-03-01\"\n}"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "const response = pm.response.json();",
+                    "if (response.data && response.data._id) {",
+                    "    pm.collectionVariables.set(\"programId\", response.data._id);",
+                    "}"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ]
           }
         },
         {
@@ -638,7 +794,21 @@
                 { "key": "batchFilter", "value": "" }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.data && response.data.programs && response.data.programs.length > 0) {",
+                  "    pm.collectionVariables.set(\"programId\", response.data.programs[0]._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
         },
         {
           "name": "Get Program By ID",
@@ -649,7 +819,7 @@
               "raw": "{{baseUrl}}/program/:id",
               "host": ["{{baseUrl}}"],
               "path": ["program", ":id"],
-              "variable": [{ "key": "id", "value": "PROGRAM_ID_HERE" }]
+              "variable": [{ "key": "id", "value": "{{programId}}" }]
             }
           }
         },
@@ -668,7 +838,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"programId\": \"PROGRAM_ID_HERE\",\n  \"name\": \"Updated Program\",\n  \"description\": \"Updated description\",\n  \"date\": \"2026-03-15\"\n}"
+              "raw": "{\n  \"programId\": \"{{programId}}\",\n  \"name\": \"Updated Program\",\n  \"description\": \"Updated description\",\n  \"date\": \"2026-03-15\"\n}"
             }
           }
         },
@@ -681,7 +851,7 @@
               "raw": "{{baseUrl}}/program/:id",
               "host": ["{{baseUrl}}"],
               "path": ["program", ":id"],
-              "variable": [{ "key": "id", "value": "PROGRAM_ID_HERE" }]
+              "variable": [{ "key": "id", "value": "{{programId}}" }]
             }
           }
         }
@@ -703,11 +873,24 @@
                 { "key": "page", "value": "1" },
                 { "key": "limit", "value": "10" },
                 { "key": "startDateFilter", "value": "" },
-                { "key": "endDateFilter", "value": "" },
                 { "key": "programFilter", "value": "" }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.data && response.data.attendances && response.data.attendances.length > 0) {",
+                  "    pm.collectionVariables.set(\"attendanceId\", response.data.attendances[0]._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
         },
         {
           "name": "Get Attendance By ID",
@@ -718,7 +901,7 @@
               "raw": "{{baseUrl}}/attendance/get/:id",
               "host": ["{{baseUrl}}"],
               "path": ["attendance", "get", ":id"],
-              "variable": [{ "key": "id", "value": "ATTENDANCE_ID_HERE" }]
+              "variable": [{ "key": "id", "value": "{{attendanceId}}" }]
             }
           }
         },
@@ -880,7 +1063,21 @@
             "body": {
               "mode": "raw",
               "raw": "{\n  \"anubhuti\": \"My anubhuti experience...\"\n}"
-            }
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "exec": [
+                    "const response = pm.response.json();",
+                    "if (response.data && response.data._id) {",
+                    "    pm.collectionVariables.set(\"anubhutiId\", response.data._id);",
+                    "}"
+                  ],
+                  "type": "text/javascript"
+                }
+              }
+            ]
           }
         },
         {
@@ -898,7 +1095,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"anubhuti\": \"Updated anubhuti...\",\n  \"anubhutiId\": \"ANUBHUTI_ID_HERE\"\n}"
+              "raw": "{\n  \"anubhuti\": \"Updated anubhuti...\",\n  \"anubhutiId\": \"{{anubhutiId}}\"\n}"
             }
           }
         },
@@ -924,21 +1121,35 @@
         {
           "name": "Get Anubhuti",
           "request": {
-            "method": "POST",
+            "method": "GET",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
               { "key": "Authorization", "value": "Bearer {{token}}" }
             ],
             "url": {
-              "raw": "{{baseUrl}}/anubhuti/get",
+              "raw": "{{baseUrl}}/anubhuti/get?page=1&limit=10&userFilter=",
               "host": ["{{baseUrl}}"],
-              "path": ["anubhuti", "get"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"page\": 1,\n  \"limit\": 10,\n  \"userFilter\": \"\"\n}"
+              "path": ["anubhuti", "get"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                { "key": "userFilter", "value": "" }
+              ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.data && response.data.anubhutis && response.data.anubhutis.length > 0) {",
+                  "    pm.collectionVariables.set(\"anubhutiId\", response.data.anubhutis[0]._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
         }
       ]
     },

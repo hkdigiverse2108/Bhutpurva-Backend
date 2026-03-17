@@ -20,6 +20,13 @@ export const getBatchsSchema = joi.object({
     isActive: joi.boolean().optional(),
 });
 
+export const getBatchesDropdownSchema = joi.object({
+    search: joi.string().allow("", null).optional(),
+    groupFilter: objectId().allow("", null).optional(),
+    isActive: joi.boolean().optional(),
+    isUnassigned: joi.boolean().optional(),
+});
+
 export const addDevoteeSchema = joi.object({
     batchId: objectId().required(),
     devoteeId: objectId().required(),
