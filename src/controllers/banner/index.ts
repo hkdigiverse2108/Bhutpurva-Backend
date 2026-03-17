@@ -53,7 +53,10 @@ export const updateBanner = async (req, res) => {
         const existingBanner = await getFirstMatch(bannerModel, { _id: value.id, isDeleted: false }, {}, {});
         if (!existingBanner) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Banner not found", {}, {}));
 
-        const updatedBanner = await updateData(bannerModel, { _id: value.id }, value, { new: true });
+        const updatePayload = { ...value };
+        delete updatePayload.id;
+
+        const updatedBanner = await updateData(bannerModel, { _id: value.id }, updatePayload, { new: true });
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Banner updated successfully", updatedBanner, {}));
     } catch (error) {
         console.error(error);

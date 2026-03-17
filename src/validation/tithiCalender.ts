@@ -1,5 +1,5 @@
 import joi from "joi";
-import { MONTH } from "../common";
+import { MONTH, objectId } from "../common";
 
 export const calenderSchema = joi.object({
     month: joi.string().valid(...Object.values(MONTH)).required(),
@@ -12,7 +12,7 @@ export const tithiCalenderSchema = joi.object({
 });
 
 export const addUpdateMonthSchema = joi.object({
-    tithiCalenderId: joi.string().required(),
+    tithiCalenderId: objectId().required(),
     month: joi.string().valid(...Object.values(MONTH)).required(),
     image: joi.string().required(),
 });

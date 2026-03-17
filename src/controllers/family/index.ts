@@ -52,27 +52,22 @@ export const updateFamily = async (req, res) => {
         if (error) {
             return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
         }
-        const { userId, members } = value;
+        const { familyId, members } = value;
 
-        const reqUser = req.headers.user;
-
-        if (reqUser.role == ROLES.USER) {
-            if (userId != reqUser._id) {
-                return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "You can not update other user's family", {}, {}));
-            }
-        }
-
-        const user = await getFirstMatch(userModel, { _id: userId }, {}, {});
-        if (!user) {
-            return res.status(STATUS_CODE.NOT_FOUND).json(new apiResponse(STATUS_CODE.NOT_FOUND, "User not found", {}, "User not found"));
-        }
-
-        const familyData = await getFirstMatch(familyModel, { userId }, {}, {});
+        const familyData = await getFirstMatch(familyModel, { _id: familyId }, {}, {});
         if (!familyData) {
             return res.status(STATUS_CODE.NOT_FOUND).json(new apiResponse(STATUS_CODE.NOT_FOUND, "Family not found", {}, "Family not found"));
         }
 
-        const family = await updateData(familyModel, { userId }, { members }, {});
+        const reqUser = req.headers.user;
+
+        if (reqUser.role == ROLES.USER) {
+            if (familyData.userId.toString() !== reqUser._id.toString()) {
+                return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "You can not update other user's family", {}, {}));
+            }
+        }
+
+        const family = await updateData(familyModel, { _id: familyId }, { members }, { new: true });
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Family updated successfully", family, {}));
     } catch (error) {
         console.error(error);

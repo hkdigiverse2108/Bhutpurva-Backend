@@ -120,7 +120,7 @@ export const addDevoteeToBatch = async (req, res) => {
         const batch = await getFirstMatch(batchModel, { _id: value.batchId, isDeleted: false }, {}, {});
         if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
 
-        const user = await updateData(userModel, { _id: value.devoteeId, isDeleted: false }, { batch: value.batchId }, { new: true });
+        const user = await updateData(userModel, { _id: value.devoteeId, isDeleted: false }, { batchId: value.batchId }, { new: true });
         if (!user) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User not found", {}, {}));
 
         const payload = {
@@ -144,7 +144,7 @@ export const removeDevoteeFromBatch = async (req, res) => {
         const batch = await getFirstMatch(batchModel, { _id: value.batchId, isDeleted: false }, {}, {});
         if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
 
-        const user = await updateData(userModel, { _id: value.devoteeId, isDeleted: false }, { batch: null }, { new: true });
+        const user = await updateData(userModel, { _id: value.devoteeId, isDeleted: false }, { batchId: null }, { new: true });
         if (!user) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User not found", {}, {}));
 
         const payload = {
@@ -173,7 +173,7 @@ export const createMonitor = async (req, res) => {
         const isMonitor = await getFirstMatch(monitorModel, { userId: value.userId, isDeleted: false }, {}, {});
         if (isMonitor) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User is already a monitor", {}, {}));
 
-        const monitor = await createData(monitorModel, { batch: value.batchId, user: value.userId });
+        const monitor = await createData(monitorModel, { batchId: value.batchId, userId: value.userId });
 
         const batch = await updateData(batchModel, { _id: value.batchId }, { $push: { monitorIds: monitor._id } }, { new: true });
         if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));

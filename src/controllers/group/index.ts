@@ -75,8 +75,9 @@ export const updateGroup = async (req, res) => {
         if (batches) {
             const batchesDate = await getData(batchModel, { groupId: value.groupId }, {}, {});
 
-            if (batchesDate) {
-                await updateMany(batchModel, { _id: { $in: batchesDate } }, { $unset: { groupId: value.groupId } }, {});
+            if (batchesDate && batchesDate.length > 0) {
+                const batchIds = batchesDate.map(b => b._id);
+                await updateMany(batchModel, { _id: { $in: batchIds } }, { $unset: { groupId: 1 } }, {});
             }
 
             await updateMany(batchModel, { _id: { $in: batches } }, { $set: { groupId: value.groupId } }, {});
@@ -98,7 +99,7 @@ export const deleteGroup = async (req, res) => {
         const group = await updateData(groupModel, { _id: value.id, isDeleted: false }, { $set: { isDeleted: true } }, { new: true });
         if (!group) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Group not found", {}, {}));
 
-        await updateMany(batchModel, { groupId: group._id }, { $unset: { groupId: group._id } }, {});
+        await updateMany(batchModel, { groupId: group._id }, { $unset: { groupId: 1 } }, {});
 
         if (group.leaderIds && group.leaderIds.length > 0) {
             for (let i = 0; i < group.leaderIds.length; i++) {

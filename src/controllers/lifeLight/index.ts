@@ -22,7 +22,10 @@ export const updateLifeLight = async (req, res) => {
         const { error, value } = updateLifeLightSchema.validate(req.body);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const lifeLight = await updateData(lifeLightModel, { _id: value.lifeLightId }, { $set: value }, { new: true });
+        const updatePayload = { ...value };
+        delete updatePayload.lifeLightId;
+
+        const lifeLight = await updateData(lifeLightModel, { _id: value.lifeLightId }, { $set: updatePayload }, { new: true });
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Life light updated successfully", lifeLight, {}));
     } catch (error) {
         console.error(error);
@@ -43,7 +46,11 @@ export const getLifeLight = async (req, res) => {
         if (userFilter) query.userId = userFilter;
         if (statusFilter) query.status = statusFilter;
 
-        const lifeLight = await getData(lifeLightModel, query, {}, { skip, limit });
+        const populate = [
+            { path: "userId", select: "name email" }
+        ]
+
+        const lifeLight = await findAllWithPopulate(lifeLightModel, query, {}, { skip, limit }, populate);
         const total = await countData(lifeLightModel, query);
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Life light fetched successfully", {

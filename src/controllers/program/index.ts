@@ -52,7 +52,10 @@ export const updateProgram = async (req, res) => {
             await updateData(attendanceModel, { programId: value.programId }, attendanceUpdate, {});
         }
 
-        const updatedProgram = await updateData(programModel, { _id: value.programId }, value, { new: true });
+        const updatePayload = { ...value };
+        delete updatePayload.programId;
+
+        const updatedProgram = await updateData(programModel, { _id: value.programId }, updatePayload, { new: true });
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Program updated successfully", updatedProgram, {}));
     } catch (error) {

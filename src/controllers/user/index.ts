@@ -95,9 +95,9 @@ export const updateUser = async (req, res) => {
             for (const address of updatePayload.addresses) {
                 // UPDATE existing address
                 if (address.id) {
-                    const { id, ...updateData } = address;
+                    const { id, ...addressUpdate } = address;
 
-                    await updateData(addressModel, { _id: id }, updateData, {});
+                    await updateData(addressModel, { _id: id }, addressUpdate, {});
 
                     addressIds.push(id);
                 }
@@ -117,7 +117,7 @@ export const updateUser = async (req, res) => {
         updatePayload.educations = updatePayload.education;
         delete updatePayload.education;
 
-        if (updatePayload.studyId) {
+        if (updatePayload.study) {
             if (updatePayload.studyId) {
                 await updateData(studyDetailsModel, { _id: updatePayload.studyId }, { classes: updatePayload.study }, {});
             } else {

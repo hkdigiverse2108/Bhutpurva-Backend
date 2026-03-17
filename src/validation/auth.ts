@@ -2,8 +2,8 @@ import joi from "joi";
 import { ROLES, GENDER, ADDRESS_TYPE, objectId } from "../common";
 
 export const classDetailsSchema = joi.object({
-    isStudied: joi.boolean().default(false),
-    branch: joi.string().when("isStudied", {
+    isStudded: joi.boolean().default(false),
+    branch: joi.string().when("isStudded", {
         is: true,
         then: joi.required(),
         otherwise: joi.optional(),

@@ -36,9 +36,12 @@ export const addUpdateMonth = async (req, res) => {
             return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, error.details[0].message, {}, {}));
         }
 
+        const updatePayload = { ...value };
+        delete updatePayload.tithiCalenderId;
+
         const tithiCalender = await updateData(TithiCalender, {
             _id: value.tithiCalenderId, isDeleted: false
-        }, value, { upsert: true, new: true });
+        }, updatePayload, { upsert: true, new: true });
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Tithi Calender updated successfully.", { tithiCalender }, {}));
     } catch (error) {
         return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, error.message, {}, error));

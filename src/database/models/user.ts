@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
     class12: classDetailsSchema,
     studyId: { type: mongoose.Schema.Types.ObjectId, ref: studyDetailsModelName },
     skill: { type: String },
-    hoddies: { type: String },
+    hobbies: { type: String },
     talents: [{ type: String }],
     awards: [{ type: String }],
 

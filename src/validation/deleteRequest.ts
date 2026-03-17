@@ -1,5 +1,5 @@
 import joi from "joi";
-import { DELETE_REQUEST_STATUS } from "../common";
+import { DELETE_REQUEST_STATUS, objectId } from "../common";
 
 export const getDeleteRequestSchema = joi.object({
     page: joi.number().optional().default(1),
@@ -8,6 +8,6 @@ export const getDeleteRequestSchema = joi.object({
 });
 
 export const updateDeleteRequestSchema = joi.object({
-    id: joi.string().required(),
+    id: objectId().required(),
     status: joi.string().required().valid(DELETE_REQUEST_STATUS.APPROVED, DELETE_REQUEST_STATUS.REJECTED),
 });

@@ -25,7 +25,10 @@ export const updateAnubhuti = async (req, res) => {
         const { error, value } = updateAnubhutiSchema.validate(req.body);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const updatedAnubhuti = await updateData(anubhutiModel, { _id: value.anubhutiId }, value, {});
+        const updatePayload = { ...value };
+        delete updatePayload.anubhutiId;
+
+        const updatedAnubhuti = await updateData(anubhutiModel, { _id: value.anubhutiId }, updatePayload, { new: true });
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Anubhuti updated successfully", updatedAnubhuti, {}));
     } catch (error) {
         console.error(error);
