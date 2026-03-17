@@ -1,6 +1,6 @@
 import { apiResponse, commonIdSchema, ROLES, STATUS_CODE } from "../../common";
 import { batchModel, groupModel, userModel } from "../../database";
-import { countData, createData, findAllWithPopulate, findOneAndPopulate, getData, reqInfo, updateData, updateMany } from "../../helper";
+import { countData, createData, findAllWithPopulate, findOneAndPopulate, getData, reqInfo, updateData, updateMany, getFirstMatch } from "../../helper";
 import { createGroupSchema, getGroupsSchema, updateGroupSchema } from "../../validation";
 
 export const creategroup = async (req, res) => {
@@ -11,7 +11,12 @@ export const creategroup = async (req, res) => {
 
         const { batches, leaders, ...rest } = value;
 
-        const group = await createData(groupModel, rest);
+        const groupData: any = { ...rest };
+        if (leaders) {
+            groupData.leaderIds = leaders;
+        }
+
+        const group = await createData(groupModel, groupData);
 
         if (leaders) {
             await updateMany(userModel, { _id: { $in: leaders } }, { $set: { role: ROLES.LEADER } }, {});
@@ -34,19 +39,47 @@ export const updateGroup = async (req, res) => {
         const { error, value } = updateGroupSchema.validate(req.body);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const { batches, ...rest } = value;
+        const previousGroup = await getFirstMatch(groupModel, { _id: value.groupId }, {}, {});
 
-        const group = await updateData(groupModel, { _id: req.params.id }, rest, {});
+        const { batches, leaders, ...rest } = value;
+
+        const updatePayload: any = { ...rest };
+        if (leaders) {
+            updatePayload.leaderIds = leaders;
+        }
+
+        const group = await updateData(groupModel, { _id: value.groupId }, updatePayload, {});
         if (!group) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Group not found", {}, {}));
 
+        if (leaders) {
+            await updateMany(userModel, { _id: { $in: leaders } }, { $set: { role: ROLES.LEADER } }, {});
+
+            if (previousGroup && previousGroup.leaderIds) {
+                const previousLeadersStr = previousGroup.leaderIds.map(id => id.toString());
+                const newLeadersStr = leaders.map(id => id.toString());
+                const removedLeaders = previousLeadersStr.filter(id => !newLeadersStr.includes(id));
+
+                for (let i = 0; i < removedLeaders.length; i++) {
+                    const isLeaderElsewhere = await getFirstMatch(groupModel, {
+                        leaderIds: removedLeaders[i],
+                        isDeleted: false
+                    }, {}, {});
+
+                    if (!isLeaderElsewhere) {
+                        await updateData(userModel, { _id: removedLeaders[i] }, { $set: { role: ROLES.USER } }, {});
+                    }
+                }
+            }
+        }
+
         if (batches) {
-            const batchesDate = await getData(batchModel, { groupId: group._id }, {}, {});
+            const batchesDate = await getData(batchModel, { groupId: value.groupId }, {}, {});
 
             if (batchesDate) {
-                await updateMany(batchModel, { _id: { $in: batchesDate } }, { $unset: { groupId: group._id } }, {});
+                await updateMany(batchModel, { _id: { $in: batchesDate } }, { $unset: { groupId: value.groupId } }, {});
             }
 
-            await updateMany(batchModel, { _id: { $in: batches } }, { $set: { groupId: group._id } }, {});
+            await updateMany(batchModel, { _id: { $in: batches } }, { $set: { groupId: value.groupId } }, {});
         }
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Group updated successfully", group, {}));
@@ -66,6 +99,20 @@ export const deleteGroup = async (req, res) => {
         if (!group) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Group not found", {}, {}));
 
         await updateMany(batchModel, { groupId: group._id }, { $unset: { groupId: group._id } }, {});
+
+        if (group.leaderIds && group.leaderIds.length > 0) {
+            for (let i = 0; i < group.leaderIds.length; i++) {
+                const leaderId = group.leaderIds[i].toString();
+                const isLeaderElsewhere = await getFirstMatch(groupModel, {
+                    leaderIds: leaderId,
+                    isDeleted: false
+                }, {}, {});
+
+                if (!isLeaderElsewhere) {
+                    await updateData(userModel, { _id: leaderId }, { $set: { role: ROLES.USER } }, {});
+                }
+            }
+        }
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Group deleted successfully", group, {}));
     } catch (error) {

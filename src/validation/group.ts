@@ -9,6 +9,7 @@ export const createGroupSchema = joi.object({
 });
 
 export const updateGroupSchema = joi.object({
+    groupId: joi.string().required(),
     name: joi.string().optional(),
     leaders: joi.array().items(objectId()).optional(),
     batches: joi.array().items(objectId()).optional(),
