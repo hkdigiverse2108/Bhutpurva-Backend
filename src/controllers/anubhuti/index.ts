@@ -72,7 +72,7 @@ export const getAnubhuti = async (req, res) => {
 
         const skip = (page - 1) * limit;
 
-        const anubhutis = await findAllWithPopulate(anubhutiModel, query, {}, { skip, limit }, [{ path: "userId", select: "name" }]);
+        const anubhutis = await findAllWithPopulate(anubhutiModel, query, {}, { skip, limit }, [{ path: "userId", select: "name email" }]);
         const totalAnubhutis = await countData(anubhutiModel, query);
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Anubhutis fetched successfully", {
