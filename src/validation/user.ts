@@ -13,7 +13,7 @@ export const getAllUsersSchema = joi.object({
 
 export const getUsersDropdownSchema = joi.object({
     search: joi.string().allow("", null).optional(),
-    roleFilter: joi.array().items(joi.string().valid(...Object.values(ROLES))).optional(),
+    roleFilter: joi.array().items(joi.string().valid(...Object.values(ROLES))).single().optional(),
     isUnassigned: joi.boolean().optional(),
 });
 

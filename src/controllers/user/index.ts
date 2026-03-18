@@ -73,7 +73,7 @@ export const getUsersDropdown = async (req, res) => {
 
         const { search, roleFilter, isUnassigned } = value;
 
-        const query: any = { isDeleted: false, isVerified: true };
+        const query: any = { isDeleted: false };
 
         if (search) {
             query.$or = [
@@ -90,22 +90,24 @@ export const getUsersDropdown = async (req, res) => {
         }
 
         if (isUnassigned) {
-            const excludedUserIds: any[] = [];
+            if (!value.roleFilter || value.roleFilter.includes(ROLES.USER)) {
+                const unassignedCondition = {
+                    $or: [
+                        { batchId: { $exists: false } },
+                        { batchId: null }
+                    ]
+                };
 
-            // If filtering for leaders, exclude those already in groups
-            if (!value.roleFilter || value.roleFilter.includes(ROLES.LEADER)) {
-                const groups = await groupModel.find({ isDeleted: false }, "leaderIds").lean();
-                groups.forEach((g: any) => excludedUserIds.push(...(g.leaderIds || [])));
-            }
-
-            // If filtering for monitors, exclude those already in batches
-            if (!value.roleFilter || value.roleFilter.includes(ROLES.MONITOR)) {
-                const batches = await batchModel.find({ isDeleted: false }, "monitorIds").lean();
-                batches.forEach((b: any) => excludedUserIds.push(...(b.monitorIds || [])));
-            }
-
-            if (excludedUserIds.length > 0) {
-                query._id = { $nin: excludedUserIds };
+                if (query.$or) {
+                    const searchOr = query.$or;
+                    delete query.$or;
+                    query.$and = [
+                        { $or: searchOr },
+                        unassignedCondition
+                    ];
+                } else {
+                    query.$or = unassignedCondition.$or;
+                }
             }
         }
 
