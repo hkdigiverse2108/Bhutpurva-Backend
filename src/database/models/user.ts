@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema({
     surname: { type: String },
     phoneNumber: { type: String },
     whatsappNumber: { type: String },
+    birthDate: { type: Date },
     gender: { type: String, enum: Object.values(GENDER), default: GENDER.MALE },
     hrNo: { type: String },
     role: { type: String, enum: Object.values(ROLES), default: ROLES.USER },

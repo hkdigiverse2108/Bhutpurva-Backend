@@ -1,7 +1,7 @@
 import { apiResponse, commonIdSchema, STATUS_CODE } from "../../common";
 import { userModel } from "../../database";
 import { feedbackModel } from "../../database/models/feedback";
-import { countData, createData, findAllWithPopulate, getFirstMatch, updateData } from "../../helper";
+import { countData, createData, findAllWithPopulate, getFirstMatch, reqInfo, updateData } from "../../helper";
 import { feedbackSchema, getFeedbackSchema } from "../../validation";
 
 export const addFeedback = async (req, res) => {
@@ -25,6 +25,7 @@ export const addFeedback = async (req, res) => {
 }
 
 export const getFeedback = async (req, res) => {
+    reqInfo(req)
     try {
         const { error, value } = getFeedbackSchema.validate(req.query);
         if (error) {
@@ -41,7 +42,7 @@ export const getFeedback = async (req, res) => {
         const feedback = await findAllWithPopulate(feedbackModel, query, {}, {
             skip,
             limit: value.limit,
-        }, {});
+        }, [{ path: "userId", select: "name email" }]);
         const total = await countData(feedbackModel, query);
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Feedback fetched successfully", {

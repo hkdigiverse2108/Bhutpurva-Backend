@@ -80,10 +80,14 @@ export const getBatches = async (req, res) => {
             query,
             { _id: 1, name: 1, group: 1, isActive: 1, createdAt: 1 },
             { skip, limit: value.limit },
-            { 
-               path: "monitorIds",
-               populate: { path: "userId", select: "name email surname" }
-            }
+            [{
+                path: "groupId",
+                select: "name"
+            },
+            {
+                path: "monitorIds",
+                populate: { path: "userId", select: "name email surname" }
+            }]
         );
         if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
 
@@ -159,12 +163,15 @@ export const getBatchById = async (req, res) => {
         const batch = await findOneAndPopulate(
             batchModel,
             { _id: value.id, isDeleted: false },
-            { _id: 1, name: 1, group: 1, isActive: 1, createdAt: 1 },
+            { _id: 1, name: 1, groupId: 1, isActive: 1, createdAt: 1 },
             {},
-            { 
+            [{
                 path: "monitorIds",
                 populate: { path: "userId", select: "name email surname" }
-            }
+            }, {
+                path: "groupId",
+                select: "name"
+            }]
         );
         if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
 
@@ -190,7 +197,7 @@ export const addDevoteeToBatch = async (req, res) => {
         // Sync future attendance records
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        
+
         await updateData(
             attendanceModel,
             { batchId: value.batchId, date: { $gte: today } },

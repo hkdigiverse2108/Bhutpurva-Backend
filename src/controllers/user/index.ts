@@ -254,10 +254,13 @@ export const getUserById = async (req, res) => {
         const { error, value } = getUserByIdSchema.validate(req.params);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const existingUser = await getFirstMatch(userModel, { _id: value.id, isDeleted: false }, {}, {});
+        const existingUser = await findOneAndPopulate(userModel, { _id: value.id, isDeleted: false }, {}, {}, [{ path: "addressIds" }]);
+
         if (!existingUser) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User not found", {}, {}));
 
-        return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "User fetched successfully", existingUser, {}));
+        const { password, activeSessions, studyId, otp, isDeleted, ...rest } = existingUser;
+
+        return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "User fetched successfully", rest, {}));
     } catch (error) {
         console.error(error);
         return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error fetching user", {}, error.message));
