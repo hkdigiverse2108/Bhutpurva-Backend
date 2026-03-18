@@ -11,6 +11,11 @@ export const createBatch = async (req, res) => {
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
         const batch = await createData(batchModel, value);
+
+        if (value.studentIds && value.studentIds.length > 0) {
+            await updateData(userModel, { _id: { $in: value.studentIds }, isDeleted: false }, { batchId: batch._id }, { multi: true });
+        }
+
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Batch created successfully", batch, {}));
     } catch (error) {
         console.error(error);
@@ -306,6 +311,8 @@ export const removeMonitor = async (req, res) => {
 
         const batch = await updateData(batchModel, { _id: monitor.batchId }, { $pull: { monitorIds: monitor._id } }, { new: true });
         if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
+
+        await updateData(monitorModel, { _id: monitor._id }, { isDeleted: true }, {});
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Monitor removed successfully", {
             monitor: monitor,

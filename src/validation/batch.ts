@@ -5,6 +5,7 @@ export const createBatchSchema = joi.object({
     name: joi.string().required(),
     isActive: joi.boolean().optional(),
     groupId: objectId().optional(),
+    studentIds: joi.array().items(objectId()).optional(),
 });
 
 export const updateBatchSchema = joi.object({
