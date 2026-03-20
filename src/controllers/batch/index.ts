@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { apiResponse, batchModelName, commonIdSchema, monitorModelName, ROLES, STATUS_CODE, userModelName } from "../../common";
 import { batchModel, userModel } from "../../database";
 import { monitorModel, attendanceModel } from "../../database";
@@ -73,37 +74,80 @@ export const getBatches = async (req, res) => {
             query.name = { $regex: value.search, $options: "si" };
 
         if (value.groupFilter)
-            query.group = value.groupFilter;
+            query.groupId = new mongoose.Types.ObjectId(value.groupFilter);
 
         if (value.isActive != null && value.isActive !== undefined)
             query.isActive = value.isActive;
 
-        const skip = (value.page - 1) * value.limit;
+        const hasPagination = value.page && value.limit;
 
-        const batch = await findAllWithPopulate(
-            batchModel,
-            query,
-            { _id: 1, name: 1, group: 1, isActive: 1, createdAt: 1 },
-            { skip, limit: value.limit },
-            [{
-                path: "groupId",
-                select: "name"
+        const skip = hasPagination ? (value.page - 1) * value.limit : 0;
+
+        const aggregationPipeline: any[] = [
+            { $match: query },
+            {
+                $lookup: {
+                    from: "groups",
+                    localField: "groupId",
+                    foreignField: "_id",
+                    as: "groupId"
+                }
+            },
+            { $unwind: { path: "$groupId", preserveNullAndEmptyArrays: true } },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "_id",
+                    foreignField: "batchId",
+                    pipeline: [
+                        { $match: { isDeleted: false } },
+                        { $project: { _id: 1, name: 1, surname: 1, email: 1, phoneNumber: 1, currentCity: 1, isVerified: 1 } }
+                    ],
+                    as: "students"
+                }
             },
             {
-                path: "monitorIds",
-                populate: { path: "userId", select: "name email surname" }
-            }]
-        );
-        if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
+                $addFields: {
+                    studentCount: { $size: "$students" }
+                }
+            },
+            { $sort: { createdAt: -1 } },
+            {
+                $facet: {
+                    data: hasPagination
+                        ? [
+                            { $skip: skip },
+                            { $limit: value.limit },
+                        ]
+                        : [], // no pagination → return all
+                    totalCount: [
+                        { $count: "count" }
+                    ]
+                }
+            }
+        ];
 
-        const total = await countData(batchModel, query);
+        const result = await batchModel.aggregate(aggregationPipeline);
+        const batchData = result[0].data;
+        const total = result[0].totalCount[0]?.count || 0;
+
+        if (!batchData) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
+
+        const batch = await batchModel.populate(batchData, [
+            {
+                path: "monitorIds",
+                populate: { path: "userId", select: "name email surname phoneNumber currentCity isVerified" }
+            }
+        ]);
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Batch fetched successfully", {
             batch,
             state: {
                 page: value.page,
                 limit: value.limit,
-                totalPages: Math.ceil(total / value.limit),
+                totalPages: hasPagination
+                    ? Math.ceil(total / value.limit)
+                    : 1,
             },
             totalData: total
         }, {}));
@@ -165,20 +209,44 @@ export const getBatchById = async (req, res) => {
         const { error, value } = commonIdSchema.validate(req.params);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const batch = await findOneAndPopulate(
-            batchModel,
-            { _id: value.id, isDeleted: false },
-            { _id: 1, name: 1, groupId: 1, isActive: 1, createdAt: 1 },
-            {},
-            [{
+        const result = await batchModel.aggregate([
+            { $match: { _id: new mongoose.Types.ObjectId(value.id), isDeleted: false } },
+            {
+                $lookup: {
+                    from: "groups",
+                    localField: "groupId",
+                    foreignField: "_id",
+                    as: "groupId"
+                }
+            },
+            { $unwind: { path: "$groupId", preserveNullAndEmptyArrays: true } },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "_id",
+                    foreignField: "batchId",
+                    pipeline: [
+                        { $match: { isDeleted: false } },
+                        { $project: { _id: 1, name: 1, surname: 1, email: 1, phoneNumber: 1, currentCity: 1, isVerified: 1 } }
+                    ],
+                    as: "students"
+                }
+            },
+            {
+                $addFields: {
+                    studentCount: { $size: "$students" }
+                }
+            }
+        ]);
+
+        if (!result || result.length === 0) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
+
+        const batch = await batchModel.populate(result[0], [
+            {
                 path: "monitorIds",
-                populate: { path: "userId", select: "name email surname" }
-            }, {
-                path: "groupId",
-                select: "name"
-            }]
-        );
-        if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
+                populate: { path: "userId", select: "name email surname phoneNumber currentCity isVerified" }
+            }
+        ]);
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Batch fetched successfully", batch, {}));
     } catch (error) {
