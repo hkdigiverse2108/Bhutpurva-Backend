@@ -20,6 +20,9 @@ export const creategroup = async (req, res) => {
             groupData.leaderIds = leaders;
         }
 
+        const isGroupExist = await countData(groupModel, { name: value.name, isDeleted: false });
+        if (isGroupExist) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Group already exists", {}, {}));
+
         const group = await createData(groupModel, groupData);
 
         if (batches) {

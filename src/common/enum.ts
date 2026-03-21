@@ -87,3 +87,10 @@ export const MONTH = {
     NOVEMBER: "november",
     DECEMBER: "december",
 };
+
+export const LOCATION_TYPE = {
+    CITY: "city",
+    STATE: "state",
+    DISTRICT: "district",
+    COUNTRY: "country",
+};

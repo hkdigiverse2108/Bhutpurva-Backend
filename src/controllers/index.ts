@@ -14,5 +14,7 @@ export * as settingController from "./setting";
 export * as tithiCalenderController from "./tithiCalender";
 export * as uploadController from "./upload";
 export * as bannerController from "./banner";
+export * as locationController from "./location";
+export * as branchController from "./branch";
 
 

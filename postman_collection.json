@@ -13,7 +13,9 @@
     { "key": "groupId", "value": "", "type": "string" },
     { "key": "programId", "value": "", "type": "string" },
     { "key": "anubhutiId", "value": "", "type": "string" },
-    { "key": "attendanceId", "value": "", "type": "string" }
+    { "key": "attendanceId", "value": "", "type": "string" },
+    { "key": "locationId", "value": "", "type": "string" },
+    { "key": "branchId", "value": "", "type": "string" }
   ],
   "item": [
     {
@@ -203,6 +205,237 @@
               "raw": "{{baseUrl}}/upload",
               "host": ["{{baseUrl}}"],
               "path": ["upload"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Location",
+      "item": [
+        {
+          "name": "Add Location (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/location/add",
+              "host": ["{{baseUrl}}"],
+              "path": ["location", "add"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Gujarat\",\n  \"type\": \"state\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.data && response.data._id) {",
+                  "    pm.collectionVariables.set(\"locationId\", response.data._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Locations",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/location/get?page=1&limit=10&typeFilter=state",
+              "host": ["{{baseUrl}}"],
+              "path": ["location", "get"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                { "key": "typeFilter", "value": "state" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Locations Dropdown",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/location/dropdown?typeFilter=state",
+              "host": ["{{baseUrl}}"],
+              "path": ["location", "dropdown"],
+              "query": [
+                { "key": "typeFilter", "value": "state" },
+                { "key": "parentIdFilter", "value": "", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Location By ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/location/get/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["location", "get", ":id"],
+              "variable": [{ "key": "id", "value": "{{locationId}}" }]
+            }
+          }
+        },
+        {
+          "name": "Update Location (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/location/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["location", "update"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationId\": \"{{locationId}}\",\n  \"name\": \"Updated Location Name\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Location (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/location/delete/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["location", "delete", ":id"],
+              "variable": [{ "key": "id", "value": "{{locationId}}" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Branch",
+      "item": [
+        {
+          "name": "Add Branch (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/branch/add",
+              "host": ["{{baseUrl}}"],
+              "path": ["branch", "add"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ahmedabad Branch\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.data && response.data._id) {",
+                  "    pm.collectionVariables.set(\"branchId\", response.data._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Branches",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/branch/get?page=1&limit=10&search=",
+              "host": ["{{baseUrl}}"],
+              "path": ["branch", "get"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                { "key": "search", "value": "" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Branches Dropdown",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/branch/dropdown?search=",
+              "host": ["{{baseUrl}}"],
+              "path": ["branch", "dropdown"],
+              "query": [{ "key": "search", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Get Branch By ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/branch/get/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["branch", "get", ":id"],
+              "variable": [{ "key": "id", "value": "{{branchId}}" }]
+            }
+          }
+        },
+        {
+          "name": "Update Branch (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/branch/update",
+              "host": ["{{baseUrl}}"],
+              "path": ["branch", "update"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"branchId\": \"{{branchId}}\",\n  \"name\": \"Updated Branch Name\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Branch (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/branch/delete/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["branch", "delete", ":id"],
+              "variable": [{ "key": "id", "value": "{{branchId}}" }]
             }
           }
         }
@@ -1122,9 +1355,7 @@
           "name": "Get Anubhuti",
           "request": {
             "method": "GET",
-            "header": [
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "url": {
               "raw": "{{baseUrl}}/anubhuti/get?page=1&limit=10&userFilter=",
               "host": ["{{baseUrl}}"],

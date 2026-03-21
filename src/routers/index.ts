@@ -17,6 +17,8 @@ import uploadRouter from "./upload";
 import settingRouter from "./setting";
 import tithiCalenderRouter from "./tithiCalender";
 import bannerRouter from "./banner";
+import locationRouter from "./location";
+import branchRouter from "./branch";
 
 
 const router = Router();
@@ -24,6 +26,9 @@ const router = Router();
 // with out Token
 router.use("/auth", authRouter);
 router.use("/upload", uploadRouter);
+router.use("/location", locationRouter);
+router.use("/branch", branchRouter);
+
 
 // with Token
 router.use(verifyToken);

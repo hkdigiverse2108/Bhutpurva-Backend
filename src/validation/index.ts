@@ -14,4 +14,6 @@ export * from "./upload";
 export * from "./setting";
 export * from "./tithiCalender";
 export * from "./banner";
+export * from "./location";
+export * from "./branch";
 
