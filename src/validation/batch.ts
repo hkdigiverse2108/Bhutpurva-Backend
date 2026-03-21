@@ -12,6 +12,8 @@ export const updateBatchSchema = joi.object({
     batchId: objectId().required(),
     name: joi.string().optional(),
     isActive: joi.boolean().optional(),
+    groupId: objectId().optional(),
+    studentIds: joi.array().items(objectId()).optional(),
 });
 
 export const getBatchsSchema = joi.object({

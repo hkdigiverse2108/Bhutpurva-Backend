@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { apiResponse, batchModelName, commonIdSchema, monitorModelName, ROLES, STATUS_CODE, userModelName } from "../../common";
 import { batchModel, userModel } from "../../database";
 import { monitorModel, attendanceModel } from "../../database";
-import { countData, createData, findAllWithPopulate, findOneAndPopulate, getFirstMatch, updateData, reqInfo } from "../../helper";
+import { countData, createData, findAllWithPopulate, findOneAndPopulate, getFirstMatch, updateData, reqInfo, updateMany, getData } from "../../helper";
 import { addDevoteeSchema, assignDevoteeSchema, createBatchSchema, createMonitorSchema, getBatchsSchema, getMonitorSchema, removeDevoteeSchema, unassignDevoteeSchema, updateBatchSchema, getBatchesDropdownSchema } from "../../validation"
 
 export const createBatch = async (req, res) => {
@@ -10,6 +10,10 @@ export const createBatch = async (req, res) => {
     try {
         const { error, value } = createBatchSchema.validate(req.body);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
+
+        // check batch name already exists
+        const batchExist = await getFirstMatch(batchModel, { name: { $regex: value.name, $options: "si" }, isDeleted: false }, {}, {});
+        if (batchExist) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch name already exists", {}, {}));
 
         const batch = await createData(batchModel, value);
 
@@ -31,8 +35,57 @@ export const updateBatch = async (req, res) => {
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
         const updatePayload: any = {};
+
         if (value.name !== undefined) updatePayload.name = value.name;
         if (value.isActive !== undefined) updatePayload.isActive = value.isActive;
+        if (value.groupId !== undefined) updatePayload.groupId = value.groupId;
+        if (value.studentIds !== undefined) {
+            const currentStudents = await getData(userModel, { batchId: value.batchId, isDeleted: false }, { _id: 1 }, {});
+            const currentStudentIds = currentStudents.map(s => s._id.toString());
+            const newStudentIds = value.studentIds.map(id => id.toString());
+
+            const studentsToAdd = value.studentIds.filter(id => !currentStudentIds.includes(id.toString()));
+            const studentsToRemove = currentStudentIds.filter(id => !newStudentIds.includes(id));
+
+            if (studentsToAdd.length > 0) {
+                await updateMany(userModel, { _id: { $in: studentsToAdd }, isDeleted: false }, { batchId: value.batchId }, {});
+            }
+
+            if (studentsToRemove.length > 0) {
+                await updateMany(userModel, { _id: { $in: studentsToRemove }, isDeleted: false }, { batchId: null }, {});
+            }
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            if (studentsToAdd.length > 0) {
+                await updateMany(
+                    attendanceModel,
+                    { batchId: value.batchId, date: { $gte: today } },
+                    {
+                        $addToSet: {
+                            students: {
+                                $each: studentsToAdd.map(id => ({ studentId: id, isPresent: false }))
+                            }
+                        }
+                    },
+                    {}
+                );
+            }
+
+            if (studentsToRemove.length > 0) {
+                await updateMany(
+                    attendanceModel,
+                    { batchId: value.batchId, date: { $gte: today } },
+                    {
+                        $pull: {
+                            students: { studentId: { $in: studentsToRemove } }
+                        }
+                    },
+                    {}
+                );
+            }
+        }
 
         const batch = await updateData(batchModel, { _id: value.batchId, isDeleted: false }, updatePayload, { new: true });
         if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
