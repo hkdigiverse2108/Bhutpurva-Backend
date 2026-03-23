@@ -1,7 +1,7 @@
 import { apiResponse, commonIdSchema, STATUS_CODE } from "../../common";
 import { userModel } from "../../database";
 import { feedbackModel } from "../../database/models/feedback";
-import { countData, createData, findAllWithPopulate, getFirstMatch, reqInfo, updateData } from "../../helper";
+import { countData, createData, findAllWithPopulate, getData, getFirstMatch, reqInfo, updateData } from "../../helper";
 import { feedbackSchema, getFeedbackSchema } from "../../validation";
 
 export const addFeedback = async (req, res) => {
@@ -35,6 +35,21 @@ export const getFeedback = async (req, res) => {
         const query: any = { isDeleted: false };
         if (value.userFilter) {
             query.userId = value.userFilter;
+        }
+
+        if (value.search) {
+            const users = await getData(userModel, {
+                $or: [
+                    { name: { $regex: value.search, $options: "si" } },
+                    { email: { $regex: value.search, $options: "si" } },
+                ]
+            }, { _id: 1 }, {});
+            const userIds = users.map(u => u._id);
+
+            query.$or = [
+                { userId: { $in: userIds } },
+                { feedback: { $regex: value.search, $options: "si" } },
+            ];
         }
 
         const skip = (value.page - 1) * value.limit;

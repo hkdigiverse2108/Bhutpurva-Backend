@@ -10,4 +10,5 @@ export const getFeedbackSchema = joi.object({
     page: joi.number().optional().default(1),
     limit: joi.number().optional(),
     userFilter: objectId().optional(),
+    search: joi.string().optional(),
 });
