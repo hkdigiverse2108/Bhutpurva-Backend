@@ -108,3 +108,11 @@ export const resetPasswordSchema = joi.object({
     email: joi.string().email().required(),
     newPassword: joi.string().min(6).required(),
 });
+
+export const changePasswordSchema = joi.object({
+    oldPassword: joi.string().required(),
+    newPassword: joi.string().min(6).required(),
+    confirmPassword: joi.string().required().valid(joi.ref("newPassword")).messages({
+        "any.only": "Passwords do not match",
+    }),
+});

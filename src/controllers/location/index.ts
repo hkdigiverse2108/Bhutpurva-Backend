@@ -90,6 +90,7 @@ export const getLocationsDropdown = async (req, res) => {
         if (value.search) query.name = { $regex: value.search, $options: "si" };
         if (value.typeFilter) query.type = value.typeFilter;
         if (value.parentIdFilter) query.parentId = value.parentIdFilter;
+        if (value.isActive !== undefined) query.isActive = value.isActive;
 
         const locations = await locationModel.find(query).select("_id name type parentId").sort({ name: 1 }).lean();
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Location dropdown fetched successfully", locations, {}));

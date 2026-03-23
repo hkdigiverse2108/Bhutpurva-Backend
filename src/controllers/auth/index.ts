@@ -1,3 +1,4 @@
+import { changePasswordSchema } from './../../validation/auth';
 import { findOneAndPopulate } from './../../helper/database-service';
 import { forgotPasswordSchema, loginSchema, registerAdminSchema, registerSchema, resetPasswordSchema, verifyOtpSchema, sendOtpSchema } from "../../validation";
 import bcrypt from "bcryptjs";
@@ -240,5 +241,28 @@ export const logoutUser = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error logging out user", {}, error.message));
+    }
+};
+
+export const changePassword = async (req, res) => {
+    reqInfo(req)
+    try {
+        const user = req.headers.user;
+
+        const { error, value } = changePasswordSchema.validate(req.body);
+        if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error));
+
+        const isUserExist = await getFirstMatch(userModel, { _id: user.id }, {}, {});
+        if (!isUserExist) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User not found", {}, {}));
+
+        const isPasswordValid = await bcrypt.compare(value.oldPassword, isUserExist.password);
+        if (!isPasswordValid) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Invalid password", {}, {}));
+
+        await updateData(userModel, { _id: isUserExist._id }, { password: await bcrypt.hash(value.newPassword, 10) }, {});
+
+        return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Password changed successfully", {}, {}));
+    } catch (error) {
+        console.error(error);
+        return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error changing password", {}, error.message));
     }
 };

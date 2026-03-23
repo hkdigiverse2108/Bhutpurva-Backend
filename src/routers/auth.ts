@@ -1,5 +1,6 @@
 import express from "express";
 import { authController } from "../controllers";
+import { verifyToken } from "../helper";
 
 const router = express.Router();
 
@@ -11,5 +12,8 @@ router.post("/send-otp", authController.sendOtp);
 router.post("/verify-otp", authController.verifyOtp);
 router.post("/reset-password", authController.resetPassword);
 router.post("/logout", authController.logoutUser);
+
+router.use(verifyToken);
+router.post("/change-password", authController.changePassword);
 
 export default router;
