@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/create', anubhutiController.createAnubhuti);
 router.post('/update', anubhutiController.updateAnubhuti);
-router.post('/delete', roleCheck([ROLES.ADMIN]), anubhutiController.deleteAnubhuti);
+router.delete('/:id', roleCheck([ROLES.ADMIN]), anubhutiController.deleteAnubhuti);
 router.get('/get', anubhutiController.getAnubhuti);
 
 export default router;

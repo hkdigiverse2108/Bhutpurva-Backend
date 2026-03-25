@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { attendanceModel, batchModel, programModel, userModel } from "../../database";
 import { countData, createData, findAllWithPopulate, findOneAndPopulate, getData, getFirstMatch, reqInfo, updateData } from "../../helper";
 import { apiResponse, commonIdSchema, STATUS_CODE } from "../../common";
@@ -5,32 +6,47 @@ import { createProgramSchema, getProgramsSchema, updateProgramSchema } from "../
 
 export const createProgram = async (req, res) => {
     reqInfo(req)
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
         const { error, value } = createProgramSchema.validate(req.body);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const program = await createData(programModel, value);
+        const program = await createData(programModel, value, { session });
 
-        const students = await getData(userModel, { batchId: value.batchId, isDeleted: false }, {}, {});
+        const students = await getData(userModel, { batchId: value.batchId, isDeleted: false }, {}, { session });
 
-        const attendance = await createData(attendanceModel, { programId: program._id, batchId: value.batchId, students: students.map((student) => ({ studentId: student._id })), date: value.date });
-        if (!attendance) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Attendance not created", {}, {}));
+        const attendance = await createData(attendanceModel, {
+            programId: program._id,
+            batchId: value.batchId,
+            students: students.map((student) => ({ studentId: student._id })),
+            date: value.date
+        }, { session });
 
+        if (!attendance) {
+            throw new Error("Attendance not created");
+        }
+
+        await session.commitTransaction();
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Program created successfully", program, {}));
     } catch (error) {
+        await session.abortTransaction();
         console.error(error);
         return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error creating program", {}, error.message));
+    } finally {
+        session.endSession();
     }
 };
 
 export const updateProgram = async (req, res) => {
     reqInfo(req)
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
         const { error, value } = updateProgramSchema.validate(req.body);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const existingProgram = await getFirstMatch(programModel, { _id: value.programId }, {}, {});
-
+        const existingProgram = await getFirstMatch(programModel, { _id: value.programId, isDeleted: false }, {}, { session });
         if (!existingProgram) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Program not found", {}, {}));
 
         const isDateChanged = value.date && new Date(value.date).toISOString() !== new Date(existingProgram.date).toISOString();
@@ -39,7 +55,7 @@ export const updateProgram = async (req, res) => {
         let attendanceUpdate: any = {};
 
         if (isBatchChanged) {
-            const students = await getData(userModel, { batchId: value.batchId, isDeleted: false }, {}, {});
+            const students = await getData(userModel, { batchId: value.batchId, isDeleted: false }, {}, { session });
             attendanceUpdate.batchId = value.batchId;
             attendanceUpdate.students = students.map((student) => ({ studentId: student._id }));
         }
@@ -49,18 +65,22 @@ export const updateProgram = async (req, res) => {
         }
 
         if (Object.keys(attendanceUpdate).length > 0) {
-            await updateData(attendanceModel, { programId: value.programId }, attendanceUpdate, {});
+            await updateData(attendanceModel, { programId: value.programId, isDeleted: false }, attendanceUpdate, { session });
         }
 
         const updatePayload = { ...value };
         delete updatePayload.programId;
 
-        const updatedProgram = await updateData(programModel, { _id: value.programId }, updatePayload, { new: true });
+        const updatedProgram = await updateData(programModel, { _id: value.programId }, updatePayload, { session, new: true });
 
+        await session.commitTransaction();
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Program updated successfully", updatedProgram, {}));
     } catch (error) {
+        await session.abortTransaction();
         console.error(error);
         return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error updating program", {}, error.message));
+    } finally {
+        session.endSession();
     }
 };
 
@@ -70,7 +90,7 @@ export const getPrograms = async (req, res) => {
         const { error, value } = getProgramsSchema.validate(req.query);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        let query: any = {};
+        let query: any = { isDeleted: false };
 
         if (value.batchFilter) {
             query.batchId = value.batchFilter;
@@ -107,7 +127,7 @@ export const getProgramById = async (req, res) => {
         const { error, value } = commonIdSchema.validate(req.params);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const program = await findOneAndPopulate(programModel, { _id: value.id }, {}, {}, [{ path: "batchId", select: "name isActive" }]);
+        const program = await findOneAndPopulate(programModel, { _id: value.id, isDeleted: false }, {}, {}, [{ path: "batchId", select: "name isActive" }]);
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Program fetched successfully", program, {}));
     } catch (error) {
@@ -118,19 +138,24 @@ export const getProgramById = async (req, res) => {
 
 export const deleteProgram = async (req, res) => {
     reqInfo(req)
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
         const { error, value } = commonIdSchema.validate(req.params);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const program = await updateData(programModel, { _id: value.id, isDeleted: false }, { isDeleted: true }, {});
+        const program = await updateData(programModel, { _id: value.id, isDeleted: false }, { isDeleted: true }, { session });
         if (!program) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Program not found", {}, {}));
 
-        const attendance = await updateData(attendanceModel, { programId: value.id, isDeleted: false }, { isDeleted: true }, {});
-        if (!attendance) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Attendance not found", {}, {}));
+        await updateData(attendanceModel, { programId: value.id, isDeleted: false }, { isDeleted: true }, { session });
 
+        await session.commitTransaction();
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Program deleted successfully", program, {}));
     } catch (error) {
+        await session.abortTransaction();
         console.error(error);
         return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error deleting program", {}, error.message));
+    } finally {
+        session.endSession();
     }
 };

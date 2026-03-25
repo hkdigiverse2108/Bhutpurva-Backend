@@ -28,7 +28,8 @@ const attendanceSchema = new mongoose.Schema({
     date: {
         type: Date,
         required: true,
-    }
+    },
+    isDeleted: { type: Boolean, default: false }
 }, { timestamps: true, versionKey: false })
 
 export const attendanceModel = mongoose.model(attendanceModelName, attendanceSchema);

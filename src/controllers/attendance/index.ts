@@ -131,3 +131,20 @@ export const updateAttendance = async (req, res) => {
         return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error updating attendance", {}, error.message));
     }
 };
+
+export const getAttendanceByProgramId = async (req, res) => {
+    reqInfo(req)
+    try {
+        const { error, value } = commonIdSchema.validate(req.params);
+        if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
+
+        const attendance = await getFirstMatch(attendanceModel, { programId: value.id }, {}, { populate: [{ path: 'batchId', select: "name" }, { path: 'programId', select: "name" }] });
+
+        if (!attendance) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Attendance not found", {}, {}));
+
+        return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Attendance fetched successfully", attendance, {}));
+    } catch (error) {
+        console.error(error);
+        return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error fetching attendance", {}, error.message));
+    }
+};

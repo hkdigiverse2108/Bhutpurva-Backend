@@ -39,7 +39,7 @@ export const updateAnubhuti = async (req, res) => {
 export const deleteAnubhuti = async (req, res) => {
     reqInfo(req);
     try {
-        const { error, value } = commonIdSchema.validate(req.body);
+        const { error, value } = commonIdSchema.validate(req.params);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
         const updatedAnubhuti = await updateData(anubhutiModel, { _id: value.id }, { isDeleted: true }, {});

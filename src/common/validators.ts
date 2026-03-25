@@ -1,10 +1,6 @@
 import joi from "joi";
 import mongoose from "mongoose";
 
-export const commonIdSchema = joi.object({
-    id: joi.string().hex().length(24).required(),
-});
-
 export const objectId = () =>
     joi.string().custom((value, helpers) => {
         if (!mongoose?.Types.ObjectId.isValid(value)) {
@@ -12,3 +8,7 @@ export const objectId = () =>
         }
         return value;
     }, "ObjectId Validation").allow("", null);
+
+export const commonIdSchema = joi.object({
+    id: objectId().required(),
+});

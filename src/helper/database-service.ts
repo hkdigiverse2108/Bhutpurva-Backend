@@ -28,8 +28,8 @@ export const countData = async (modelName, criteria) => {
     return modelName.countDocuments(criteria);
 }
 
-export const createData = async (modelName, objToSave) => {
-    return new modelName(objToSave).save();
+export const createData = async (modelName, objToSave, options: any = {}) => {
+    return new modelName(objToSave).save(options);
 }
 
 export const insertMany = async (modelName, objToSave) => {
