@@ -138,7 +138,7 @@ export const getAttendanceByProgramId = async (req, res) => {
         const { error, value } = commonIdSchema.validate(req.params);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const attendance = await getFirstMatch(attendanceModel, { programId: value.id }, {}, { populate: [{ path: 'batchId', select: "name" }, { path: 'programId', select: "name" }] });
+        const attendance = await getFirstMatch(attendanceModel, { programId: value.id }, {}, { populate: [{ path: 'batchId', select: "name" }, { path: 'programId', select: "name" }, { path: 'students.studentId', select: "name fatherName surname phoneNumber whatsappNumber" }] });
 
         if (!attendance) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Attendance not found", {}, {}));
 
