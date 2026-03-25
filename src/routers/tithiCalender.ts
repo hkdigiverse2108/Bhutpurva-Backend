@@ -7,6 +7,6 @@ const router = Router();
 
 router.post("/add-update", roleCheck([ROLES.ADMIN]), tithiCalenderController.addUpdateTithiCalender);
 router.post("/add-update-month", roleCheck([ROLES.ADMIN]), tithiCalenderController.addUpdateMonth);
-router.get("/", tithiCalenderController.getTithiCalender);
+router.get("/", roleCheck([ROLES.ADMIN, ROLES.USER, ROLES.MONITOR, ROLES.LEADER]), tithiCalenderController.getTithiCalender);
 
 export = router;

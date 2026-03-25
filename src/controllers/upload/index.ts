@@ -7,8 +7,29 @@ import { reqInfo } from "../../helper";
 export const uploadImages = async (req, res) => {
     reqInfo(req);
     try {
+        // Handling deletion of old images if provided in form data
+        let { oldImages } = req.body;
+        if (oldImages) {
+            // Converting single string to array if necessary
+            const imagesToDelete = Array.isArray(oldImages) ? oldImages : [oldImages];
+
+            imagesToDelete.forEach(imagePath => {
+                if (imagePath && typeof imagePath === 'string') {
+                    const filename = path.basename(imagePath);
+                    const filePath = path.join(process.cwd(), "uploads", filename);
+                    if (fs.existsSync(filePath)) {
+                        try {
+                            fs.unlinkSync(filePath);
+                        } catch (err) {
+                            console.error(`Error deleting file ${filePath}:`, err);
+                        }
+                    }
+                }
+            });
+        }
+
         if (!req.files || (req.files as any[]).length === 0) {
-            return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "No files uploaded.", {}, {}));
+            return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Old files handled, no new files uploaded.", { files: [] }, {}));
         }
 
         const files = req.files as any[];

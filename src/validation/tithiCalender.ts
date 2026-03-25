@@ -11,6 +11,10 @@ export const tithiCalenderSchema = joi.object({
     calender: joi.array().items(calenderSchema).required(),
 });
 
+export const getTithiCalenderSchema = joi.object({
+    year: joi.number().required(),
+});
+
 export const addUpdateMonthSchema = joi.object({
     tithiCalenderId: objectId().required(),
     month: joi.string().valid(...Object.values(MONTH)).required(),
