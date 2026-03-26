@@ -1,4 +1,5 @@
-import { apiResponse, STATUS_CODE } from "../../common";
+import { apiResponse, DELETE_REQUEST_STATUS, STATUS_CODE } from "../../common";
+import { userModel } from "../../database";
 import { deleteRequestModel } from "../../database/models/deleteRequest";
 import { countData, findAllWithPopulate, updateData } from "../../helper";
 import { getDeleteRequestSchema, updateDeleteRequestSchema } from "../../validation";
@@ -39,6 +40,10 @@ export const updateDeleteRequest = async (req, res) => {
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
         const deleteRequest = await updateData(deleteRequestModel, { _id: value.id }, { status: value.status }, {});
+
+        if (value.status === DELETE_REQUEST_STATUS.APPROVED) {
+            await updateData(userModel, { _id: deleteRequest.userId }, { isDeleted: true }, {});
+        }
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Delete request updated successfully", { deleteRequest }, {}));
     } catch (error) {
         console.error(error);
