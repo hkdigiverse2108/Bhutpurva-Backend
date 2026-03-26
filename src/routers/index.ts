@@ -19,6 +19,7 @@ import tithiCalenderRouter from "./tithiCalender";
 import bannerRouter from "./banner";
 import locationRouter from "./location";
 import branchRouter from "./branch";
+import surveyRouter from "./survey";
 
 
 const router = Router();
@@ -46,6 +47,6 @@ router.use("/lifeLight", lifeLightRouter);
 router.use("/setting", settingRouter);
 router.use("/tithiCalender", tithiCalenderRouter);
 router.use("/banner", bannerRouter);
-
+router.use("/survey", surveyRouter);
 
 export { router };

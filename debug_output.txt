@@ -1,0 +1,261 @@
+Base paths found: {"auth":{"path":"/auth","isProtected":false},"upload":{"path":"/upload","isProtected":false},"location":{"path":"/location","isProtected":false},"branch":{"path":"/branch","isProtected":false},"user":{"path":"/user","isProtected":true},"batch":{"path":"/batch","isProtected":true},"group":{"path":"/group","isProtected":true},"program":{"path":"/program","isProtected":true},"attendance":{"path":"/attendance","isProtected":true},"anubhuti":{"path":"/anubhuti","isProtected":true},"deleteRequest":{"path":"/deleteRequest","isProtected":true},"family":{"path":"/family","isProtected":true},"feedback":{"path":"/feedback","isProtected":true},"legality":{"path":"/legality","isProtected":true},"lifeLight":{"path":"/lifeLight","isProtected":true},"setting":{"path":"/setting","isProtected":true},"tithiCalender":{"path":"/tithiCalender","isProtected":true},"banner":{"path":"/banner","isProtected":true},"survey":{"path":"/survey","isProtected":true}}
+Processing router: auth at /auth
+Found 9 routes in auth
+  Processing route: POST /register
+    Found schema: registerSchema for controller: registerUser
+  Processing route: POST /register-admin
+    Found schema: registerAdminSchema for controller: registerAdmin
+  Processing route: POST /login
+    Found schema: loginSchema for controller: loginUser
+  Processing route: POST /forgot-password
+    Found schema: forgotPasswordSchema for controller: forgotPassword
+  Processing route: POST /send-otp
+    Found schema: sendOtpSchema for controller: sendOtp
+  Processing route: POST /verify-otp
+    Found schema: verifyOtpSchema for controller: verifyOtp
+  Processing route: POST /reset-password
+    Found schema: resetPasswordSchema for controller: resetPassword
+  Processing route: POST /logout
+  Processing route: POST /change-password
+    Found schema: changePasswordSchema for controller: changePassword
+Processing router: upload at /upload
+Found 3 routes in upload
+  Processing route: POST /
+  Processing route: GET /
+  Processing route: DELETE /delete
+Processing router: location at /location
+Found 6 routes in location
+  Processing route: GET /get
+    Found schema: getLocationsSchema for controller: getLocations
+  Processing route: GET /dropdown
+    Found schema: getLocationsDropdownSchema for controller: getLocationsDropdown
+  Processing route: GET /get/:id
+    Found schema: commonIdSchema for controller: getLocationById
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\location.ts
+  Processing route: POST /add
+    Found schema: createLocationSchema for controller: addLocation
+  Processing route: PUT /update
+    Found schema: updateLocationSchema for controller: updateLocation
+  Processing route: DELETE /delete/:id
+    Found schema: commonIdSchema for controller: deleteLocation
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\location.ts
+Processing router: branch at /branch
+Found 6 routes in branch
+  Processing route: GET /get
+    Found schema: getBranchesSchema for controller: getBranches
+  Processing route: GET /dropdown
+    Found schema: getBranchesDropdownSchema for controller: getBranchesDropdown
+  Processing route: GET /get/:id
+    Found schema: commonIdSchema for controller: getBranchById
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\branch.ts
+  Processing route: POST /add
+    Found schema: createBranchSchema for controller: addBranch
+  Processing route: PUT /update
+    Found schema: updateBranchSchema for controller: updateBranch
+  Processing route: DELETE /delete/:id
+    Found schema: commonIdSchema for controller: deleteBranch
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\branch.ts
+Processing router: user at /user
+Found 6 routes in user
+  Processing route: GET /get
+    Found schema: getAllUsersSchema for controller: getAllUsers
+  Processing route: GET /dropdown
+    Found schema: getUsersDropdownSchema for controller: getUsersDropdown
+  Processing route: PUT /update
+    Found schema: updateUserSchema for controller: updateUser
+  Processing route: PUT /update-image
+    Found schema: updateImageSchema for controller: updateImage
+  Processing route: DELETE /delete
+    Found schema: deleteUserSchema for controller: deleteUser
+  Processing route: GET /get/:id
+    Found schema: getUserByIdSchema for controller: getUserById
+Processing router: batch at /batch
+Found 16 routes in batch
+  Processing route: POST /create
+    Found schema: createBatchSchema for controller: createBatch
+  Processing route: GET /get
+    Found schema: getBatchsSchema for controller: getBatches
+  Processing route: GET /dropdown
+    Found schema: getBatchesDropdownSchema for controller: getBatchesDropdown
+  Processing route: PUT /update
+    Found schema: updateBatchSchema for controller: updateBatch
+  Processing route: DELETE /delete/:id
+    Found schema: commonIdSchema for controller: deleteBatch
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\batch.ts
+  Processing route: GET /get/:id
+    Found schema: commonIdSchema for controller: getBatchById
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\batch.ts
+  Processing route: GET /group/:id
+    Found schema: commonIdSchema for controller: getBatchesByGroupId
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\batch.ts
+  Processing route: GET /monitor/:id
+    Found schema: commonIdSchema for controller: getBatchesByMonitorId
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\batch.ts
+  Processing route: POST /add-devotee
+    Found schema: addDevoteeSchema for controller: addDevoteeToBatch
+  Processing route: POST /remove-devotee
+    Found schema: removeDevoteeSchema for controller: removeDevoteeFromBatch
+  Processing route: POST /add-monitor
+    Found schema: createMonitorSchema for controller: createMonitor
+  Processing route: POST /remove-monitor
+    Found schema: commonIdSchema for controller: removeMonitor
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\batch.ts
+  Processing route: POST /assign-devotee
+    Found schema: assignDevoteeSchema for controller: assignDevotee
+  Processing route: POST /unassign-devotee
+    Found schema: unassignDevoteeSchema for controller: unassignDevotee
+  Processing route: GET /get-monitors
+    Found schema: getMonitorSchema for controller: getMonitors
+  Processing route: GET /get-monitor/:id
+    Found schema: commonIdSchema for controller: getMonitorById
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\batch.ts
+Processing router: group at /group
+Found 7 routes in group
+  Processing route: POST /create
+    Found schema: createGroupSchema for controller: creategroup
+  Processing route: GET /get
+    Found schema: getGroupsSchema for controller: getGroups
+  Processing route: GET /dropdown
+    Found schema: getGroupsDropdownSchema for controller: getGroupsDropdown
+  Processing route: GET /get/:id
+    Found schema: commonIdSchema for controller: getGroupById
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\group.ts
+  Processing route: PUT /update
+    Found schema: updateGroupSchema for controller: updateGroup
+  Processing route: DELETE /delete/:id
+    Found schema: commonIdSchema for controller: deleteGroup
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\group.ts
+  Processing route: GET /leader/:id
+    Found schema: commonIdSchema for controller: getGroupsByLeaderId
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\group.ts
+Processing router: program at /program
+Found 5 routes in program
+  Processing route: POST /create
+    Found schema: createProgramSchema for controller: createProgram
+  Processing route: PUT /update
+    Found schema: updateProgramSchema for controller: updateProgram
+  Processing route: GET /get
+    Found schema: getProgramsSchema for controller: getPrograms
+  Processing route: GET /:id
+    Found schema: commonIdSchema for controller: getProgramById
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\program.ts
+  Processing route: DELETE /:id
+    Found schema: commonIdSchema for controller: deleteProgram
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\program.ts
+Processing router: attendance at /attendance
+Found 5 routes in attendance
+  Processing route: GET /get
+    Found schema: getAttendanceSchema for controller: getAttendance
+  Processing route: GET /user/:id
+    Found schema: commonIdSchema for controller: getUserAttendance
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\attendance.ts
+  Processing route: PUT /update/:id
+    Found schema: updateAttendanceSchema for controller: updateAttendance
+  Processing route: GET /program/:id
+    Found schema: commonIdSchema for controller: getAttendanceByProgramId
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\attendance.ts
+  Processing route: GET /:id
+    Found schema: commonIdSchema for controller: getAttendanceById
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\attendance.ts
+Processing router: anubhuti at /anubhuti
+Found 4 routes in anubhuti
+  Processing route: POST /create
+    Found schema: addAnubhutiSchema for controller: createAnubhuti
+  Processing route: POST /update
+    Found schema: updateAnubhutiSchema for controller: updateAnubhuti
+  Processing route: DELETE /:id
+    Found schema: commonIdSchema for controller: deleteAnubhuti
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\anubhuti.ts
+  Processing route: GET /get
+    Found schema: getAnubhutiSchema for controller: getAnubhuti
+Processing router: deleteRequest at /deleteRequest
+Found 2 routes in deleteRequest
+  Processing route: POST /update
+    Found schema: updateDeleteRequestSchema for controller: updateDeleteRequest
+  Processing route: POST /get
+    Found schema: getDeleteRequestSchema for controller: getDeleteRequest
+Processing router: family at /family
+Found 3 routes in family
+  Processing route: GET /get
+  Processing route: POST /add
+    Found schema: addFamilySchema for controller: addFamily
+  Processing route: PUT /update
+    Found schema: updateFamilySchema for controller: updateFamily
+Processing router: feedback at /feedback
+Found 3 routes in feedback
+  Processing route: POST /add
+    Found schema: feedbackSchema for controller: addFeedback
+  Processing route: GET /get
+    Found schema: getFeedbackSchema for controller: getFeedback
+  Processing route: DELETE /:id
+    Found schema: commonIdSchema for controller: deleteFeedback
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\feedback.ts
+Processing router: legality at /legality
+Found 2 routes in legality
+  Processing route: POST /add-update
+    Found schema: addUpdateLegalitySchema for controller: addUpdateLegality
+  Processing route: GET /get
+    Found schema: getLegalitySchema for controller: getLegality
+Processing router: lifeLight at /lifeLight
+Found 6 routes in lifeLight
+  Processing route: POST /add
+    Found schema: addLifeLightSchema for controller: addLifeLight
+  Processing route: PUT /update
+    Found schema: updateLifeLightSchema for controller: updateLifeLight
+  Processing route: GET /get
+    Found schema: getLifeLightSchema for controller: getLifeLight
+  Processing route: GET /user/:id
+    Found schema: commonIdSchema for controller: getByUserId
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\lifeLight.ts
+  Processing route: GET /get/:id
+    Found schema: commonIdSchema for controller: getById
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\lifeLight.ts
+  Processing route: DELETE /delete/:id
+    Found schema: commonIdSchema for controller: deleteLifeLight
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\lifeLight.ts
+Processing router: setting at /setting
+Found 3 routes in setting
+  Processing route: POST /add-update
+    Found schema: settingSchema for controller: addUpdateSetting
+  Processing route: GET /get
+  Processing route: GET /get-sgis-pdf
+Processing router: tithiCalender at /tithiCalender
+Found 3 routes in tithiCalender
+  Processing route: POST /add-update
+    Found schema: tithiCalenderSchema for controller: addUpdateTithiCalender
+  Processing route: POST /add-update-month
+    Found schema: addUpdateMonthSchema for controller: addUpdateMonth
+  Processing route: GET /
+    Found schema: getTithiCalenderSchema for controller: getTithiCalender
+Processing router: banner at /banner
+Found 5 routes in banner
+  Processing route: POST /create
+    Found schema: createBannerSchema for controller: createBanner
+  Processing route: GET /get
+  Processing route: GET /get/:id
+    Found schema: getBannerByIdSchema for controller: getBannerById
+  Processing route: PUT /update
+    Found schema: updateBannerSchema for controller: updateBanner
+  Processing route: DELETE /delete/:id
+    Found schema: getBannerByIdSchema for controller: deleteBanner
+Processing router: survey at /survey
+Found 8 routes in survey
+  Processing route: POST /create
+    Found schema: createSurveySchema for controller: createSurvey
+  Processing route: PUT /update
+    Found schema: updateSurveySchema for controller: updateSurvey
+  Processing route: DELETE /delete/:id
+    Found schema: commonIdSchema for controller: deleteSurvey
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\survey.ts
+  Processing route: GET /get
+    Found schema: getSurveysSchema for controller: getSurveys
+  Processing route: GET /get/:id
+    Found schema: commonIdSchema for controller: getSurveyById
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\survey.ts
+  Processing route: POST /response
+    Found schema: submitSurveyResponseSchema for controller: submitSurveyResponse
+  Processing route: GET /responses
+    Found schema: getSurveyResponsesSchema for controller: getSurveyResponses
+  Processing route: GET /response/:id
+    Found schema: commonIdSchema for controller: getSurveyResponseById
+Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\survey.ts

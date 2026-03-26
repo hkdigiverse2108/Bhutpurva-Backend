@@ -15,3 +15,6 @@ export * from "./tithiCalender";
 export * from "./banner";
 export * from "./location";
 export * from "./branch";
+export * from "./survey";
+export * from "./surveyResponse";
+

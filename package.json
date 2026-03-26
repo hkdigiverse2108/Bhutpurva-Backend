@@ -14,7 +14,8 @@
     "deploy": "start deploy.bat",
     "ebs": "start ebs.bat",
     "dist": "sh ./scripts/build.sh",
-    "server": "tsc-watch --outDir ./build --onSuccess \"npm run start -- --mode=http\" --onFailure \"echo ERROR! Compilation Failed\""
+    "server": "tsc-watch --outDir ./build --onSuccess \"npm run start -- --mode=http\" --onFailure \"echo ERROR! Compilation Failed\"",
+    "postman": "ts-node scripts/generatePostman.ts"
   },
   "dependencies": {
     "axios": "^1.13.4",
@@ -31,7 +32,8 @@
     "nodemailer": "^7.0.13",
     "sharp": "^0.34.5",
     "twilio": "^5.12.1",
-    "winston": "^3.19.0"
+    "winston": "^3.19.0",
+    "postman-collection": "^5.3.0"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",

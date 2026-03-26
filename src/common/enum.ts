@@ -94,3 +94,17 @@ export const LOCATION_TYPE = {
     DISTRICT: "district",
     COUNTRY: "country",
 };
+
+export const SURVEY_SCOPE = {
+    OVERALL: "overall",
+    GROUP: "group",
+    BATCH: "batch",
+};
+
+export const SURVEY_QUESTION_TYPE = {
+    TEXT: "text",
+    RATING: "rating",
+    MULTIPLE_CHOICE: "multiple_choice",
+    SINGLE_CHOICE: "single_choice",
+    BOOLEAN: "boolean",
+};

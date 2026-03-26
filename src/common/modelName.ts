@@ -17,3 +17,5 @@ export const locationModelName = "location";
 export const branchModelName = "branch";
 export const bannerModelName = "banner";
 export const tithiCalenderModelName = "tithiCalender";
+export const surveyModelName = "survey";
+export const surveyResponseModelName = "surveyResponse";

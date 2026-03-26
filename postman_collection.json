@@ -1,1808 +1,4023 @@
 {
-  "info": {
-    "_postman_id": "bhutpurva-api-collection",
-    "name": "Bhutpurva API Collection",
-    "description": "Complete API collection for Bhutpurva project. Base URL: http://localhost:5000",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "variable": [
-    { "key": "baseUrl", "value": "http://localhost:5000", "type": "string" },
-    { "key": "token", "value": "", "type": "string" },
-    { "key": "userId", "value": "", "type": "string" },
-    { "key": "batchId", "value": "", "type": "string" },
-    { "key": "groupId", "value": "", "type": "string" },
-    { "key": "programId", "value": "", "type": "string" },
-    { "key": "anubhutiId", "value": "", "type": "string" },
-    { "key": "attendanceId", "value": "", "type": "string" },
-    { "key": "locationId", "value": "", "type": "string" },
-    { "key": "branchId", "value": "", "type": "string" }
-  ],
   "item": [
     {
-      "name": "Auth (No Token Required)",
+      "id": "9fbb2222-6b50-40c5-8b83-134f7fe6b08f",
+      "name": "AUTH",
+      "description": {
+        "content": "Routes for auth",
+        "type": "text/plain"
+      },
       "item": [
         {
-          "name": "Register User",
+          "id": "eefabd19-92f1-4d8e-9338-a250227612ba",
+          "name": "Register",
           "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": {
-              "raw": "{{baseUrl}}/auth/register",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "register"]
+            "description": {
+              "content": "Controller: registerUser\nSchema: registerSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| name | string | Required |\n| fatherName | string | Required |\n| surname | string | Required |\n| email | string | Optional |\n| role | string | Optional |\n| birthDate | date | Required |\n| phoneNumber | string | Required |\n| whatsappNumber | string | Required |\n| gender | string | Required |\n| hrNo | string | Required |\n| currentCity | string | Required |\n| addresses | array | Required |\n| addresses[].id | string | Optional |\n| addresses[].address | string | Required |\n| addresses[].city | string | Required |\n| addresses[].district | string | Required |\n| addresses[].state | string | Required |\n| addresses[].country | string | Required |\n| addresses[].pincode | string | Required |\n| addresses[].type | string | Optional |\n| occupation | string | Required |\n| professions | array | Required |\n| education | array | Required |\n| maritalStatus | string | Required |\n| bloodGroup | string | Required |\n| study | object | Optional |\n| skill | string | Optional |\n| hobbies | string | Optional |\n| talents | array | Optional |\n| awards | array | Optional |\n| class10 | object | Required |\n| class10.class | string | Required |\n| class10.isStudded | boolean | Optional |\n| class10.branch | string | Optional |\n| class10.passingYear | string | Optional |\n| class10.medium | string | Optional |\n| class10.hostel | boolean | Optional |\n| class12 | object | Required |\n| class12.class | string | Required |\n| class12.isStudded | boolean | Optional |\n| class12.branch | string | Optional |\n| class12.passingYear | string | Optional |\n| class12.medium | string | Optional |\n| class12.hostel | boolean | Optional |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "auth",
+                "register"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"John\",\n  \"fatherName\": \"Robert\",\n  \"surname\": \"Doe\",\n  \"email\": \"john@example.com\",\n  \"birthDate\": \"2000-01-01\",\n  \"phoneNumber\": \"9876543210\",\n  \"whatsappNumber\": \"9876543210\",\n  \"gender\": \"male\",\n  \"hrNo\": \"HR001\",\n  \"currentCity\": \"Ahmedabad\",\n  \"addresses\": [{ \"address\": \"123 Main St\", \"city\": \"Ahmedabad\", \"district\": \"Ahmedabad\", \"state\": \"Gujarat\", \"country\": \"India\", \"pincode\": \"380001\", \"type\": \"current\" }],\n  \"occupation\": \"Engineer\",\n  \"professions\": [\"Software Developer\"],\n  \"education\": [\"B.Tech\"],\n  \"maritalStatus\": \"single\",\n  \"bloodGroup\": \"O+\",\n  \"class10\": { \"class\": \"10\", \"isStudded\": true, \"branch\": \"Science\", \"passingYear\": \"2015\", \"medium\": \"English\", \"hostel\": false },\n  \"class12\": { \"class\": \"12\", \"isStudded\": true, \"branch\": \"Science\", \"passingYear\": \"2017\", \"medium\": \"English\", \"hostel\": false },\n  \"skill\": \"Coding\",\n  \"hobbies\": \"Reading\",\n  \"talents\": [\"Singing\"],\n  \"awards\": [\"Best Student\"]\n}"
+              "raw": "{\n  \"name\": \"John\",\n  \"fatherName\": \"Robert\",\n  \"surname\": \"Doe\",\n  \"email\": \"john@example.com\",\n  \"role\": \"sample_role\",\n  \"birthDate\": \"2000-01-01\",\n  \"phoneNumber\": \"9876543210\",\n  \"whatsappNumber\": \"9876543210\",\n  \"gender\": \"male\",\n  \"hrNo\": \"HR001\",\n  \"currentCity\": \"Ahmedabad\",\n  \"addresses\": [\n    {\n      \"address\": \"123 Main St\",\n      \"city\": \"Ahmedabad\",\n      \"district\": \"Ahmedabad\",\n      \"state\": \"Gujarat\",\n      \"country\": \"India\",\n      \"pincode\": \"380001\",\n      \"type\": \"current\"\n    }\n  ],\n  \"occupation\": \"Engineer\",\n  \"professions\": [\n    \"Software Developer\"\n  ],\n  \"education\": [\n    \"B.Tech\"\n  ],\n  \"maritalStatus\": \"single\",\n  \"bloodGroup\": \"O+\",\n  \"study\": {},\n  \"skill\": \"Coding\",\n  \"hobbies\": \"Reading\",\n  \"talents\": [\n    \"Singing\"\n  ],\n  \"awards\": [\n    \"Best Student\"\n  ],\n  \"class10\": {\n    \"class\": \"10\",\n    \"isStudded\": true,\n    \"branch\": \"Science\",\n    \"passingYear\": \"2015\",\n    \"medium\": \"English\",\n    \"hostel\": false\n  },\n  \"class12\": {\n    \"class\": \"12\",\n    \"isStudded\": true,\n    \"branch\": \"Science\",\n    \"passingYear\": \"2017\",\n    \"medium\": \"English\",\n    \"hostel\": false\n  }\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
         },
         {
+          "id": "1bd2bec0-c5ae-440e-9414-82205723664c",
           "name": "Register Admin",
           "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": {
-              "raw": "{{baseUrl}}/auth/register-admin",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "register-admin"]
+            "description": {
+              "content": "Controller: registerAdmin\nSchema: registerAdminSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| name | string | Required |\n| email | string | Required |\n| password | string | Required |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "auth",
+                "register-admin"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"name\": \"Admin User\",\n  \"email\": \"admin@example.com\",\n  \"password\": \"admin123\"\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
         },
         {
+          "id": "5242a72e-bd10-45af-becc-687aa2614a48",
           "name": "Login",
           "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": {
-              "raw": "{{baseUrl}}/auth/login",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "login"]
+            "description": {
+              "content": "Controller: loginUser\nSchema: loginSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| email | string | Required |\n| password | string | Required |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "auth",
+                "login"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"admin123\"\n}"
-            },
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "const response = pm.response.json();",
-                    "if (response.data && response.data.token) {",
-                    "    pm.collectionVariables.set(\"token\", response.data.token);",
-                    "    console.log(\"Token set successfully\");",
-                    "}"
-                  ],
-                  "type": "text/javascript"
-                }
-              }
-            ]
-          }
+            }
+          },
+          "response": [],
+          "event": []
         },
         {
+          "id": "dd83ad7d-db2b-4bfc-ade8-d2a9cb3cb60a",
           "name": "Forgot Password",
           "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": {
-              "raw": "{{baseUrl}}/auth/forgot-password",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "forgot-password"]
+            "description": {
+              "content": "Controller: forgotPassword\nSchema: forgotPasswordSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| email | string | Required |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "auth",
+                "forgot-password"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"admin@example.com\"\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
         },
         {
-          "name": "Send OTP",
+          "id": "0870dd8e-cbc7-4e81-9454-95b9e2b69ef8",
+          "name": "Send Otp",
           "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": {
-              "raw": "{{baseUrl}}/auth/send-otp",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "send-otp"]
+            "description": {
+              "content": "Controller: sendOtp\nSchema: sendOtpSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| phoneNumber | string | Required |\n| role | string | Optional |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "auth",
+                "send-otp"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"phoneNumber\": \"9876543210\"\n}"
+              "raw": "{\n  \"phoneNumber\": \"9876543210\",\n  \"role\": \"sample_role\"\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
         },
         {
-          "name": "Verify OTP",
+          "id": "bbb240ac-7db1-4a91-8f00-e16f115c05f5",
+          "name": "Verify Otp",
           "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": {
-              "raw": "{{baseUrl}}/auth/verify-otp",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "verify-otp"]
+            "description": {
+              "content": "Controller: verifyOtp\nSchema: verifyOtpSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| phoneNumber | string | Required |\n| otp | string | Required |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "auth",
+                "verify-otp"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"phoneNumber\": \"9876543210\",\n  \"otp\": \"123456\"\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
         },
         {
+          "id": "bab1823a-1934-4822-9bb4-4ef390879235",
           "name": "Reset Password",
           "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": {
-              "raw": "{{baseUrl}}/auth/reset-password",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "reset-password"]
+            "description": {
+              "content": "Controller: resetPassword\nSchema: resetPasswordSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| email | string | Required |\n| newPassword | string | Required |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "auth",
+                "reset-password"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"admin@example.com\",\n  \"newPassword\": \"newpass123\"\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
         },
         {
-          "name": "Logout",
+          "id": "842fb9f3-8deb-4e58-9ebc-fb1dd1a5b44c",
+          "name": "Create Logout",
           "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/auth/logout",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "logout"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Upload (No Token Required)",
-      "item": [
-        {
-          "name": "Upload Images",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/upload",
-              "host": ["{{baseUrl}}"],
-              "path": ["upload"]
+            "description": {
+              "content": "Controller: logoutUser",
+              "type": "text/markdown"
             },
-            "body": {
-              "mode": "formdata",
-              "formdata": [{ "key": "files", "type": "file", "src": "" }]
-            }
-          }
-        },
-        {
-          "name": "Get Images",
-          "request": {
-            "method": "GET",
-            "header": [],
             "url": {
-              "raw": "{{baseUrl}}/upload",
-              "host": ["{{baseUrl}}"],
-              "path": ["upload"]
-            }
-          }
-        },
-        {
-          "name": "Delete Image (Admin)",
-          "request": {
-            "method": "DELETE",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/upload",
-              "host": ["{{baseUrl}}"],
-              "path": ["upload"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Location",
-      "item": [
-        {
-          "name": "Add Location (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/location/add",
-              "host": ["{{baseUrl}}"],
-              "path": ["location", "add"]
+              "path": [
+                "auth",
+                "logout"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
             },
+            "method": "POST",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "5dfd60e3-94a7-48fb-b900-0434302674cc",
+          "name": "Change Password",
+          "request": {
+            "description": {
+              "content": "Controller: changePassword\nSchema: changePasswordSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| oldPassword | string | Required |\n| newPassword | string | Required |\n| confirmPassword | string | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "auth",
+                "change-password"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Gujarat\",\n  \"type\": \"state\"\n}"
+              "raw": "{\n  \"oldPassword\": \"Password123!\",\n  \"newPassword\": \"Password123!\",\n  \"confirmPassword\": \"Password123!\"\n}"
             }
           },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "const response = pm.response.json();",
-                  "if (response.data && response.data._id) {",
-                  "    pm.collectionVariables.set(\"locationId\", response.data._id);",
-                  "}"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ]
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "bfad252f-6a0a-4c8b-bbd5-0f52a3704f4c",
+      "name": "UPLOAD",
+      "description": {
+        "content": "Routes for upload",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6a79f09b-6bf9-48ef-903d-df49194d5cf6",
+          "name": "Create Item",
+          "request": {
+            "description": {
+              "content": "Controller: uploadImages",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "upload"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {}
+          },
+          "response": [],
+          "event": []
         },
         {
+          "id": "bd03cf08-a648-4a88-b8c4-110bcb83f77b",
+          "name": "Get Item",
+          "request": {
+            "description": {
+              "content": "Controller: getImages",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "upload"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "a49dbfe0-c6d9-472d-a2c3-e41b84108327",
+          "name": "Delete Delete",
+          "request": {
+            "description": {
+              "content": "Controller: deleteImage",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "upload",
+                "delete"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "id": "83632226-180e-4c8e-b9e2-29a66e08f37a",
+      "name": "LOCATION",
+      "description": {
+        "content": "Routes for location",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8455c4b1-b574-47a0-b034-b6d41ddbb5d9",
           "name": "Get Locations",
           "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": {
+              "content": "Controller: getLocations\nSchema: getLocationsSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| page | number | Optional |\n| limit | number | Optional |\n| search | string | Optional |\n| typeFilter | string | Optional |\n| parentIdFilter | string | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
             "url": {
-              "raw": "{{baseUrl}}/location/get?page=1&limit=10&typeFilter=state",
-              "host": ["{{baseUrl}}"],
-              "path": ["location", "get"],
+              "path": [
+                "location",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
               "query": [
-                { "key": "page", "value": "1" },
-                { "key": "limit", "value": "10" },
-                { "key": "typeFilter", "value": "state" }
-              ]
-            }
-          }
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "sample_search"
+                },
+                {
+                  "key": "typeFilter",
+                  "value": "state"
+                },
+                {
+                  "key": "parentIdFilter",
+                  "value": "sample_parentIdFilter"
+                },
+                {
+                  "key": "isActive",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
         },
         {
+          "id": "ad0b2079-1a7d-4459-9eaf-7980925377b8",
           "name": "Get Locations Dropdown",
           "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/location/dropdown?typeFilter=state",
-              "host": ["{{baseUrl}}"],
-              "path": ["location", "dropdown"],
-              "query": [
-                { "key": "typeFilter", "value": "state" },
-                { "key": "parentIdFilter", "value": "", "disabled": true }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get Location By ID",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/location/get/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["location", "get", ":id"],
-              "variable": [{ "key": "id", "value": "{{locationId}}" }]
-            }
-          }
-        },
-        {
-          "name": "Update Location (Admin)",
-          "request": {
-            "method": "PUT",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/location/update",
-              "host": ["{{baseUrl}}"],
-              "path": ["location", "update"]
+            "description": {
+              "content": "Controller: getLocationsDropdown\nSchema: getLocationsDropdownSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| search | string | Optional |\n| typeFilter | string | Optional |\n| parentIdFilter | string | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
             },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"locationId\": \"{{locationId}}\",\n  \"name\": \"Updated Location Name\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Delete Location (Admin)",
-          "request": {
-            "method": "DELETE",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "url": {
-              "raw": "{{baseUrl}}/location/delete/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["location", "delete", ":id"],
-              "variable": [{ "key": "id", "value": "{{locationId}}" }]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Branch",
-      "item": [
-        {
-          "name": "Add Branch (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/branch/add",
-              "host": ["{{baseUrl}}"],
-              "path": ["branch", "add"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Ahmedabad Branch\"\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "const response = pm.response.json();",
-                  "if (response.data && response.data._id) {",
-                  "    pm.collectionVariables.set(\"branchId\", response.data._id);",
-                  "}"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ]
-        },
-        {
-          "name": "Get Branches",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/branch/get?page=1&limit=10&search=",
-              "host": ["{{baseUrl}}"],
-              "path": ["branch", "get"],
+              "path": [
+                "location",
+                "dropdown"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
               "query": [
-                { "key": "page", "value": "1" },
-                { "key": "limit", "value": "10" },
-                { "key": "search", "value": "" }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get Branches Dropdown",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/branch/dropdown?search=",
-              "host": ["{{baseUrl}}"],
-              "path": ["branch", "dropdown"],
-              "query": [{ "key": "search", "value": "" }]
-            }
-          }
-        },
-        {
-          "name": "Get Branch By ID",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/branch/get/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["branch", "get", ":id"],
-              "variable": [{ "key": "id", "value": "{{branchId}}" }]
-            }
-          }
-        },
-        {
-          "name": "Update Branch (Admin)",
-          "request": {
-            "method": "PUT",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/branch/update",
-              "host": ["{{baseUrl}}"],
-              "path": ["branch", "update"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"branchId\": \"{{branchId}}\",\n  \"name\": \"Updated Branch Name\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Delete Branch (Admin)",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/branch/delete/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["branch", "delete", ":id"],
-              "variable": [{ "key": "id", "value": "{{branchId}}" }]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "User",
-      "item": [
-        {
-          "name": "Get All Users",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/user/get?page=1&limit=10&search=&isVerified=true&isDeleted=false",
-              "host": ["{{baseUrl}}"],
-              "path": ["user", "get"],
-              "query": [
-                { "key": "page", "value": "1" },
-                { "key": "limit", "value": "10" },
-                { "key": "search", "value": "" },
-                { "key": "isVerified", "value": "true" },
-                { "key": "isDeleted", "value": "false" },
                 {
-                  "key": "roleFilter",
-                  "value": "user",
-                  "description": "Values: admin, user, monitor, leader"
+                  "key": "search",
+                  "value": "sample_search"
+                },
+                {
+                  "key": "typeFilter",
+                  "value": "state"
+                },
+                {
+                  "key": "parentIdFilter",
+                  "value": "sample_parentIdFilter"
+                },
+                {
+                  "key": "isActive",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "9b7bc018-0417-4abe-bc10-a5b14be8729e",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getLocationById\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "location",
+                "get",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
                 }
               ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "const response = pm.response.json();",
-                  "if (response.data && response.data.users && response.data.users.length > 0) {",
-                  "    pm.collectionVariables.set(\"userId\", response.data.users[0]._id);",
-                  "}"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ]
-        },
-        {
-          "name": "Get Users Dropdown",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/user/dropdown?search=&roleFilter=leader&isUnassigned=true",
-              "host": ["{{baseUrl}}"],
-              "path": ["user", "dropdown"],
-              "query": [
-                { "key": "search", "value": "" },
-                { "key": "roleFilter", "value": "leader" },
-                { "key": "isUnassigned", "value": "true" }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get User By ID",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/user/get/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["user", "get", ":id"],
-              "variable": [{ "key": "id", "value": "{{userId}}" }]
-            }
-          }
-        },
-        {
-          "name": "Update User",
-          "request": {
-            "method": "PUT",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/user/update",
-              "host": ["{{baseUrl}}"],
-              "path": ["user", "update"]
             },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "0188e789-91e7-4476-b87c-18d5eaaed85c",
+          "name": "Create Location",
+          "request": {
+            "description": {
+              "content": "Controller: addLocation\nSchema: createLocationSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| name | string | Required |\n| type | string | Required |\n| parentId | string | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "location",
+                "add"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"name\": \"Updated Name\",\n  \"email\": \"updated@example.com\",\n  \"role\": \"user\",\n  \"phoneNumber\": \"9876543210\",\n  \"currentCity\": \"Mumbai\"\n}"
+              "raw": "{\n  \"name\": \"Gujarat\",\n  \"type\": \"state\",\n  \"parentId\": \"sample_parentId\",\n  \"isActive\": true\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
         },
         {
-          "name": "Update User Image",
+          "id": "526c9c5c-4911-42cb-86c9-b6b642cd7c35",
+          "name": "Update Location",
           "request": {
-            "method": "PUT",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/user/update-image",
-              "host": ["{{baseUrl}}"],
-              "path": ["user", "update-image"]
+            "description": {
+              "content": "Controller: updateLocation\nSchema: updateLocationSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| locationId | string | Required |\n| name | string | Optional |\n| type | string | Optional |\n| parentId | string | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "location",
+                "update"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locationId\": \"{{locationId}}\",\n  \"name\": \"Updated Location Name\",\n  \"type\": \"sample_type\",\n  \"parentId\": \"sample_parentId\",\n  \"isActive\": true\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "a0ddcfe3-738b-49ee-8748-a776f6e39a3e",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: deleteLocation\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "location",
+                "delete",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fa10cff2-0cbe-4fde-a796-913e3caa682b",
+      "name": "BRANCH",
+      "description": {
+        "content": "Routes for branch",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d4f1044f-ebda-4aaf-9b53-39ae6d361fa0",
+          "name": "Get Branches",
+          "request": {
+            "description": {
+              "content": "Controller: getBranches\nSchema: getBranchesSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| page | number | Optional |\n| limit | number | Optional |\n| search | string | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "branch",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "sample_search"
+                },
+                {
+                  "key": "isActive",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "e8d697f4-d903-4d4d-a46a-f94730ff9d32",
+          "name": "Get Branches Dropdown",
+          "request": {
+            "description": {
+              "content": "Controller: getBranchesDropdown\nSchema: getBranchesDropdownSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| search | string | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "branch",
+                "dropdown"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "sample_search"
+                },
+                {
+                  "key": "isActive",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "d42c78cc-0d0a-44af-a595-6cfea3b2fac2",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getBranchById\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "branch",
+                "get",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "d91cdfbc-58ed-426e-a080-a78c541e1a36",
+          "name": "Create Branch",
+          "request": {
+            "description": {
+              "content": "Controller: addBranch\nSchema: createBranchSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| name | string | Required |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "branch",
+                "add"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ahmedabad Branch\",\n  \"isActive\": true\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "f6618271-7f38-44ae-bb56-8f330da34d38",
+          "name": "Update Branch",
+          "request": {
+            "description": {
+              "content": "Controller: updateBranch\nSchema: updateBranchSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| branchId | string | Required |\n| name | string | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "branch",
+                "update"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"branchId\": \"{{branchId}}\",\n  \"name\": \"Updated Branch Name\",\n  \"isActive\": true\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "19ed73fc-f3ae-44c7-a877-f59012fd017b",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: deleteBranch\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "branch",
+                "delete",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "id": "12afb35b-0ac9-4a2b-8be2-0e5e6a50c7b6",
+      "name": "USER",
+      "description": {
+        "content": "Routes for user",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f52b50c7-33ff-4f1e-a758-9d87d0ccb054",
+          "name": "Get All Users",
+          "request": {
+            "description": {
+              "content": "Controller: getAllUsers\nSchema: getAllUsersSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| page | number | Optional |\n| limit | number | Optional |\n| search | string | Optional |\n| roleFilter | array | Optional |\n| isVerified | boolean | Optional |\n| isDeleted | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "user",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "sample_search"
+                },
+                {
+                  "key": "roleFilter",
+                  "value": "sample_string"
+                },
+                {
+                  "key": "isVerified",
+                  "value": "true"
+                },
+                {
+                  "key": "isDeleted",
+                  "value": "false"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "cd5c0b23-0998-4a17-a8b1-8a86ddacd392",
+          "name": "Get Users Dropdown",
+          "request": {
+            "description": {
+              "content": "Controller: getUsersDropdown\nSchema: getUsersDropdownSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| search | string | Optional |\n| roleFilter | array | Optional |\n| isUnassigned | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "user",
+                "dropdown"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "sample_search"
+                },
+                {
+                  "key": "roleFilter",
+                  "value": "sample_string"
+                },
+                {
+                  "key": "isUnassigned",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "226b138c-1f78-4194-8964-3ae61276e25a",
+          "name": "Update User",
+          "request": {
+            "description": {
+              "content": "Controller: updateUser\nSchema: updateUserSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| userId | string | Required |\n| name | string | Optional |\n| email | string | Optional |\n| role | string | Optional |\n| fatherName | string | Optional |\n| surname | string | Optional |\n| birthDate | date | Optional |\n| phoneNumber | string | Optional |\n| whatsappNumber | string | Optional |\n| gender | string | Optional |\n| hrNo | string | Optional |\n| currentCity | string | Optional |\n| addresses | array | Optional |\n| addresses[].id | string | Optional |\n| addresses[].address | string | Required |\n| addresses[].city | string | Required |\n| addresses[].district | string | Required |\n| addresses[].state | string | Required |\n| addresses[].country | string | Required |\n| addresses[].pincode | string | Required |\n| addresses[].type | string | Optional |\n| occupation | string | Optional |\n| professions | array | Optional |\n| education | array | Optional |\n| maritalStatus | string | Optional |\n| bloodGroup | string | Optional |\n| study | object | Optional |\n| skill | string | Optional |\n| hobbies | string | Optional |\n| talents | array | Optional |\n| awards | array | Optional |\n| class10 | object | Optional |\n| class10.class | string | Required |\n| class10.isStudded | boolean | Optional |\n| class10.branch | string | Optional |\n| class10.passingYear | string | Optional |\n| class10.medium | string | Optional |\n| class10.hostel | boolean | Optional |\n| class12 | object | Optional |\n| class12.class | string | Required |\n| class12.isStudded | boolean | Optional |\n| class12.branch | string | Optional |\n| class12.passingYear | string | Optional |\n| class12.medium | string | Optional |\n| class12.hostel | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "user",
+                "update"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"name\": \"Updated Name\",\n  \"email\": \"updated@example.com\",\n  \"role\": \"user\",\n  \"fatherName\": \"sample_fatherName\",\n  \"surname\": \"sample_surname\",\n  \"birthDate\": \"\",\n  \"phoneNumber\": \"9876543210\",\n  \"whatsappNumber\": \"sample_whatsappNumber\",\n  \"gender\": \"sample_gender\",\n  \"hrNo\": \"sample_hrNo\",\n  \"currentCity\": \"Mumbai\",\n  \"addresses\": [\n    {\n      \"id\": \"sample_id\",\n      \"address\": \"sample_address\",\n      \"city\": \"sample_city\",\n      \"district\": \"sample_district\",\n      \"state\": \"sample_state\",\n      \"country\": \"sample_country\",\n      \"pincode\": \"sample_pincode\",\n      \"type\": \"sample_type\"\n    }\n  ],\n  \"occupation\": \"sample_occupation\",\n  \"professions\": [\n    \"sample_string\"\n  ],\n  \"education\": [\n    \"sample_string\"\n  ],\n  \"maritalStatus\": \"sample_maritalStatus\",\n  \"bloodGroup\": \"sample_bloodGroup\",\n  \"study\": {},\n  \"skill\": \"sample_skill\",\n  \"hobbies\": \"sample_hobbies\",\n  \"talents\": [\n    \"sample_string\"\n  ],\n  \"awards\": [\n    \"sample_string\"\n  ],\n  \"class10\": {\n    \"class\": \"sample_class\",\n    \"isStudded\": true,\n    \"branch\": \"sample_branch\",\n    \"passingYear\": \"sample_passingYear\",\n    \"medium\": \"sample_medium\",\n    \"hostel\": true\n  },\n  \"class12\": {\n    \"class\": \"sample_class\",\n    \"isStudded\": true,\n    \"branch\": \"sample_branch\",\n    \"passingYear\": \"sample_passingYear\",\n    \"medium\": \"sample_medium\",\n    \"hostel\": true\n  }\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "0bfd3813-29a1-46b8-8b74-a6405a34d3fd",
+          "name": "Update Image",
+          "request": {
+            "description": {
+              "content": "Controller: updateImage\nSchema: updateImageSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| userId | string | Required |\n| image | string | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "user",
+                "update-image"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"userId\": \"USER_ID_HERE\",\n  \"image\": \"https://example.com/image.jpg\"\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
         },
         {
+          "id": "f1598f91-0a0f-4519-a6b4-048926ea0d77",
           "name": "Delete User",
           "request": {
-            "method": "DELETE",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/user/delete",
-              "host": ["{{baseUrl}}"],
-              "path": ["user", "delete"]
+            "description": {
+              "content": "Controller: deleteUser\nSchema: deleteUserSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| userId | string | Required |\n| email | string | Required |\n| password | string | Required |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "user",
+                "delete"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "sample_userId"
+                },
+                {
+                  "key": "email",
+                  "value": "test@example.com"
+                },
+                {
+                  "key": "password",
+                  "value": "Password123!"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"userId\": \"USER_ID_HERE\",\n  \"email\": \"admin@example.com\",\n  \"password\": \"admin123\"\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "55df403f-ea9b-4a6a-89f2-f9fcf69bd9d1",
+          "name": "Get User By Id",
+          "request": {
+            "description": {
+              "content": "Controller: getUserById\nSchema: getUserByIdSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| id | string | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "user",
+                "get",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
         }
-      ]
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
     },
     {
-      "name": "Batch",
+      "id": "b4f5e796-a586-48d5-8996-e5ced15d2696",
+      "name": "BATCH",
+      "description": {
+        "content": "Routes for batch",
+        "type": "text/plain"
+      },
       "item": [
         {
-          "name": "Create Batch (Admin)",
+          "id": "fe2a5ccd-1fa1-48f4-a151-63af3d6a9690",
+          "name": "Create Batch",
           "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/batch/create",
-              "host": ["{{baseUrl}}"],
-              "path": ["batch", "create"]
+            "description": {
+              "content": "Controller: createBatch\nSchema: createBatchSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| name | string | Required |\n| isActive | boolean | Optional |\n| groupId | string | Optional |\n| studentIds | array | Optional |\n",
+              "type": "text/markdown"
             },
-            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Batch A\"\n}" }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "const response = pm.response.json();",
-                  "if (response.data && response.data._id) {",
-                  "    pm.collectionVariables.set(\"batchId\", response.data._id);",
-                  "}"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ]
-        },
-        {
-          "name": "Get Batches (Admin)",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "url": {
-              "raw": "{{baseUrl}}/batch/get?page=1&limit=10&search=",
-              "host": ["{{baseUrl}}"],
-              "path": ["batch", "get"],
-              "query": [
-                { "key": "page", "value": "1" },
-                { "key": "limit", "value": "10" },
-                { "key": "search", "value": "" },
-                { "key": "groupFilter", "value": "" }
-              ]
+              "path": [
+                "batch",
+                "create"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Batch A\",\n  \"isActive\": true,\n  \"groupId\": \"sample_groupId\",\n  \"studentIds\": [\n    \"sample_string\"\n  ]\n}"
             }
           },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "const response = pm.response.json();",
-                  "if (response.data && response.data.batches && response.data.batches.length > 0) {",
-                  "    pm.collectionVariables.set(\"batchId\", response.data.batches[0]._id);",
-                  "}"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ]
+          "response": [],
+          "event": []
         },
         {
+          "id": "6ce8be85-6a14-4724-b9c2-d1262dc81a8b",
+          "name": "Get Batchs",
+          "request": {
+            "description": {
+              "content": "Controller: getBatches\nSchema: getBatchsSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| page | number | Optional |\n| limit | number | Optional |\n| search | string | Optional |\n| groupFilter | string | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "batch",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "sample_search"
+                },
+                {
+                  "key": "groupFilter",
+                  "value": "sample_groupFilter"
+                },
+                {
+                  "key": "isActive",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "38254527-9a06-40c0-a974-4ca1e96d1771",
           "name": "Get Batches Dropdown",
           "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": {
+              "content": "Controller: getBatchesDropdown\nSchema: getBatchesDropdownSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| search | string | Optional |\n| groupFilter | string | Optional |\n| isActive | boolean | Optional |\n| isUnassigned | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
             "url": {
-              "raw": "{{baseUrl}}/batch/dropdown?search=&groupFilter=&isActive=true&isUnassigned=true",
-              "host": ["{{baseUrl}}"],
-              "path": ["batch", "dropdown"],
+              "path": [
+                "batch",
+                "dropdown"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
               "query": [
-                { "key": "search", "value": "" },
-                { "key": "groupFilter", "value": "" },
-                { "key": "isActive", "value": "true" },
-                { "key": "isUnassigned", "value": "true" }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get Batch By ID",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/batch/get/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["batch", "get", ":id"],
-              "variable": [{ "key": "id", "value": "{{batchId}}" }]
-            }
-          }
-        },
-        {
-          "name": "Update Batch (Admin)",
-          "request": {
-            "method": "PUT",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/batch/update",
-              "host": ["{{baseUrl}}"],
-              "path": ["batch", "update"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"batchId\": \"{{batchId}}\",\n  \"name\": \"Updated Batch Name\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Delete Batch (Admin)",
-          "request": {
-            "method": "DELETE",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/batch/delete/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["batch", "delete", ":id"],
-              "variable": [{ "key": "id", "value": "BATCH_ID_HERE" }]
-            }
-          }
-        },
-        {
-          "name": "Add Devotee to Batch (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/batch/add-devotee",
-              "host": ["{{baseUrl}}"],
-              "path": ["batch", "add-devotee"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"batchId\": \"BATCH_ID_HERE\",\n  \"devoteeId\": \"USER_ID_HERE\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Remove Devotee from Batch (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/batch/remove-devotee",
-              "host": ["{{baseUrl}}"],
-              "path": ["batch", "remove-devotee"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"batchId\": \"BATCH_ID_HERE\",\n  \"devoteeId\": \"USER_ID_HERE\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Add Monitor (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/batch/add-monitor",
-              "host": ["{{baseUrl}}"],
-              "path": ["batch", "add-monitor"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"batchId\": \"BATCH_ID_HERE\",\n  \"userId\": \"USER_ID_HERE\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Remove Monitor (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/batch/remove-monitor",
-              "host": ["{{baseUrl}}"],
-              "path": ["batch", "remove-monitor"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"batchId\": \"BATCH_ID_HERE\",\n  \"userId\": \"USER_ID_HERE\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Assign Devotee (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/batch/assign-devotee",
-              "host": ["{{baseUrl}}"],
-              "path": ["batch", "assign-devotee"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"monitorId\": \"MONITOR_ID_HERE\",\n  \"devoteeIds\": [\"USER_ID_1\", \"USER_ID_2\"]\n}"
-            }
-          }
-        },
-        {
-          "name": "Unassign Devotee (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/batch/unassign-devotee",
-              "host": ["{{baseUrl}}"],
-              "path": ["batch", "unassign-devotee"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"monitorId\": \"MONITOR_ID_HERE\",\n  \"devoteeIds\": [\"USER_ID_1\", \"USER_ID_2\"]\n}"
-            }
-          }
-        },
-        {
-          "name": "Get Monitors (Admin)",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/batch/get-monitors?page=1&limit=10",
-              "host": ["{{baseUrl}}"],
-              "path": ["batch", "get-monitors"],
-              "query": [
-                { "key": "page", "value": "1" },
-                { "key": "limit", "value": "10" },
-                { "key": "batchFilter", "value": "" }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get Monitor By ID (Admin)",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/batch/get-monitor/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["batch", "get-monitor", ":id"],
-              "variable": [{ "key": "id", "value": "MONITOR_ID_HERE" }]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Group",
-      "item": [
-        {
-          "name": "Create Group (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/group/create",
-              "host": ["{{baseUrl}}"],
-              "path": ["group", "create"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Group Alpha\",\n  \"leaders\": [\"{{userId}}\"],\n  \"batches\": [\"{{batchId}}\"]\n}"
-            },
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "const response = pm.response.json();",
-                    "if (response.data && response.data._id) {",
-                    "    pm.collectionVariables.set(\"groupId\", response.data._id);",
-                    "}"
-                  ],
-                  "type": "text/javascript"
+                {
+                  "key": "search",
+                  "value": "sample_search"
+                },
+                {
+                  "key": "groupFilter",
+                  "value": "sample_groupFilter"
+                },
+                {
+                  "key": "isActive",
+                  "value": "true"
+                },
+                {
+                  "key": "isUnassigned",
+                  "value": "true"
                 }
-              }
-            ]
-          }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
         },
         {
-          "name": "Get Groups",
+          "id": "0972b525-dcd7-4074-8309-ea16603d6e17",
+          "name": "Update Batch",
           "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": {
+              "content": "Controller: updateBatch\nSchema: updateBatchSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| batchId | string | Required |\n| name | string | Optional |\n| isActive | boolean | Optional |\n| groupId | string | Optional |\n| studentIds | array | Optional |\n",
+              "type": "text/markdown"
+            },
             "url": {
-              "raw": "{{baseUrl}}/group/get?",
-              "host": ["{{baseUrl}}"],
-              "path": ["group", "get"],
-              "query": [
-                { "key": "page", "value": "1" },
-                { "key": "limit", "value": "10" },
-                { "key": "search", "value": "" }
-              ]
+              "path": [
+                "batch",
+                "update"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"batchId\": \"{{batchId}}\",\n  \"name\": \"Updated Batch Name\",\n  \"isActive\": true,\n  \"groupId\": \"sample_groupId\",\n  \"studentIds\": [\n    \"sample_string\"\n  ]\n}"
             }
           },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "const response = pm.response.json();",
-                  "if (response.data && response.data.groups && response.data.groups.length > 0) {",
-                  "    pm.collectionVariables.set(\"groupId\", response.data.groups[0]._id);",
-                  "}"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ]
+          "response": [],
+          "event": []
         },
         {
-          "name": "Get Groups Dropdown",
+          "id": "10e9856c-2557-47ec-8b03-c7f8e31fad2d",
+          "name": "Common Id",
           "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/group/dropdown?search=&isActive=true",
-              "host": ["{{baseUrl}}"],
-              "path": ["group", "dropdown"],
-              "query": [
-                { "key": "search", "value": "" },
-                { "key": "isActive", "value": "true" }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get Group By ID",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/group/get/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["group", "get", ":id"],
-              "variable": [{ "key": "id", "value": "{{groupId}}" }]
-            }
-          }
-        },
-        {
-          "name": "Update Group (Admin)",
-          "request": {
-            "method": "PUT",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/group/update",
-              "host": ["{{baseUrl}}"],
-              "path": ["group", "update"]
+            "description": {
+              "content": "Controller: deleteBatch\nSchema: commonIdSchema",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "batch",
+                "delete",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "f07fd6a4-604d-4dd6-9c7e-d8f7e011ad4d",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getBatchById\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "batch",
+                "get",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "6ea0d4b3-641c-4dd5-a97e-bda62dd4d366",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getBatchesByGroupId\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "batch",
+                "group",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "91290207-56c3-43c8-9034-48dc4191ccd7",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getBatchesByMonitorId\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "batch",
+                "monitor",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "34f0f83a-33c2-43be-8b95-383a7eb2281f",
+          "name": "Add Devotee",
+          "request": {
+            "description": {
+              "content": "Controller: addDevoteeToBatch\nSchema: addDevoteeSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| batchId | string | Required |\n| devoteeId | string | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "batch",
+                "add-devotee"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"groupId\": \"{{groupId}}\",\n  \"name\": \"Updated Group\",\n  \"leaders\": [\"{{userId}}\"],\n  \"batches\": [\"{{batchId}}\"]\n}"
+              "raw": "{\n  \"batchId\": \"BATCH_ID_HERE\",\n  \"devoteeId\": \"USER_ID_HERE\"\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
         },
         {
-          "name": "Delete Group (Admin)",
+          "id": "50f82615-5b03-4301-87e3-31d0265a45f6",
+          "name": "Remove Devotee",
           "request": {
-            "method": "DELETE",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": {
+              "content": "Controller: removeDevoteeFromBatch\nSchema: removeDevoteeSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| batchId | string | Required |\n| devoteeId | string | Required |\n",
+              "type": "text/markdown"
+            },
             "url": {
-              "raw": "{{baseUrl}}/group/delete/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["group", "delete", ":id"],
-              "variable": [{ "key": "id", "value": "GROUP_ID_HERE" }]
+              "path": [
+                "batch",
+                "remove-devotee"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"batchId\": \"BATCH_ID_HERE\",\n  \"devoteeId\": \"USER_ID_HERE\"\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "ece5d2b4-0ab1-4673-a28a-8b2659ac385b",
+          "name": "Create Monitor",
+          "request": {
+            "description": {
+              "content": "Controller: createMonitor\nSchema: createMonitorSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| batchId | string | Required |\n| userId | string | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "batch",
+                "add-monitor"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"batchId\": \"BATCH_ID_HERE\",\n  \"userId\": \"USER_ID_HERE\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "736e3362-3628-48dc-ab71-611bb92d2767",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: removeMonitor\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "batch",
+                "remove-monitor"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "POST",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "275da5f8-8010-4848-994a-00450c21160a",
+          "name": "Assign Devotee",
+          "request": {
+            "description": {
+              "content": "Controller: assignDevotee\nSchema: assignDevoteeSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| monitorId | string | Required |\n| devoteeIds | array | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "batch",
+                "assign-devotee"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"monitorId\": \"MONITOR_ID_HERE\",\n  \"devoteeIds\": [\n    \"USER_ID_1\",\n    \"USER_ID_2\"\n  ]\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "1cdc4539-4281-440c-b522-d3dfa8e4b54b",
+          "name": "Unassign Devotee",
+          "request": {
+            "description": {
+              "content": "Controller: unassignDevotee\nSchema: unassignDevoteeSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| monitorId | string | Required |\n| devoteeIds | array | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "batch",
+                "unassign-devotee"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"monitorId\": \"MONITOR_ID_HERE\",\n  \"devoteeIds\": [\n    \"USER_ID_1\",\n    \"USER_ID_2\"\n  ]\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "a8b5201a-8a03-487e-bd10-e817b00053c4",
+          "name": "Get Monitor",
+          "request": {
+            "description": {
+              "content": "Controller: getMonitors\nSchema: getMonitorSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| page | number | Optional |\n| limit | number | Optional |\n| batchFilter | string | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "batch",
+                "get-monitors"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "batchFilter",
+                  "value": "sample_batchFilter"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "bb39ad9c-007e-4820-826c-2af2aef89467",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getMonitorById\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "batch",
+                "get-monitor",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
         }
-      ]
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
     },
     {
-      "name": "Program",
+      "id": "554d87dc-cfc5-484e-9dfb-13c204a09b76",
+      "name": "GROUP",
+      "description": {
+        "content": "Routes for group",
+        "type": "text/plain"
+      },
       "item": [
         {
+          "id": "d62743c5-10ec-4e30-948d-3308e6e7e19b",
+          "name": "Create Group",
+          "request": {
+            "description": {
+              "content": "Controller: creategroup\nSchema: createGroupSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| name | string | Required |\n| leaders | array | Optional |\n| batches | array | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "group",
+                "create"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Group Alpha\",\n  \"leaders\": [\n    \"{{userId}}\"\n  ],\n  \"batches\": [\n    \"{{batchId}}\"\n  ],\n  \"isActive\": true\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "2f63c115-a278-4978-a7d7-00322b5628c5",
+          "name": "Get Groups",
+          "request": {
+            "description": {
+              "content": "Controller: getGroups\nSchema: getGroupsSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| page | number | Optional |\n| limit | number | Optional |\n| search | string | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "group",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "sample_search"
+                },
+                {
+                  "key": "isActive",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "34fba38f-f0af-4a43-a962-51d1a2685cf8",
+          "name": "Get Groups Dropdown",
+          "request": {
+            "description": {
+              "content": "Controller: getGroupsDropdown\nSchema: getGroupsDropdownSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| search | string | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "group",
+                "dropdown"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "sample_search"
+                },
+                {
+                  "key": "isActive",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "4f64bb73-a172-487a-a5fe-b1faecc968dd",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getGroupById\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "group",
+                "get",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "5cabb4a3-eb2e-4224-b9e5-1d90ea16e078",
+          "name": "Update Group",
+          "request": {
+            "description": {
+              "content": "Controller: updateGroup\nSchema: updateGroupSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| groupId | string | Required |\n| name | string | Optional |\n| leaders | array | Optional |\n| batches | array | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "group",
+                "update"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"groupId\": \"{{groupId}}\",\n  \"name\": \"Updated Group\",\n  \"leaders\": [\n    \"{{userId}}\"\n  ],\n  \"batches\": [\n    \"{{batchId}}\"\n  ],\n  \"isActive\": true\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "09f2cdee-3818-429c-bdb7-57677f32a464",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: deleteGroup\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "group",
+                "delete",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "ed4fef4d-3d7f-4311-b8e7-951bab2bfc34",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getGroupsByLeaderId\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "group",
+                "leader",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cfe3445b-7eb3-4dce-b0ad-aba996cb01f6",
+      "name": "PROGRAM",
+      "description": {
+        "content": "Routes for program",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "dab5a19f-2fb4-40f5-8974-bd7e0375e3ab",
           "name": "Create Program",
           "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/program/create",
-              "host": ["{{baseUrl}}"],
-              "path": ["program", "create"]
+            "description": {
+              "content": "Controller: createProgram\nSchema: createProgramSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| name | string | Required |\n| batchId | string | Required |\n| description | string | Optional |\n| date | date | Optional |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "program",
+                "create"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"name\": \"Weekly Satsang\",\n  \"batchId\": \"{{batchId}}\",\n  \"description\": \"Weekly program description\",\n  \"date\": \"2026-03-01\"\n}"
-            },
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "const response = pm.response.json();",
-                    "if (response.data && response.data._id) {",
-                    "    pm.collectionVariables.set(\"programId\", response.data._id);",
-                    "}"
-                  ],
-                  "type": "text/javascript"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "name": "Get Programs",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/program/get?page=1&limit=10&search=&batchFilter=",
-              "host": ["{{baseUrl}}"],
-              "path": ["program", "get"],
-              "query": [
-                { "key": "page", "value": "1" },
-                { "key": "limit", "value": "10" },
-                { "key": "search", "value": "" },
-                { "key": "batchFilter", "value": "" }
-              ]
             }
           },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "const response = pm.response.json();",
-                  "if (response.data && response.data.programs && response.data.programs.length > 0) {",
-                  "    pm.collectionVariables.set(\"programId\", response.data.programs[0]._id);",
-                  "}"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ]
+          "response": [],
+          "event": []
         },
         {
-          "name": "Get Program By ID",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/program/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["program", ":id"],
-              "variable": [{ "key": "id", "value": "{{programId}}" }]
-            }
-          }
-        },
-        {
+          "id": "00270b5f-6eca-4b67-bf17-9cb76c659246",
           "name": "Update Program",
           "request": {
-            "method": "PUT",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/program/update",
-              "host": ["{{baseUrl}}"],
-              "path": ["program", "update"]
+            "description": {
+              "content": "Controller: updateProgram\nSchema: updateProgramSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| programId | string | Required |\n| name | string | Optional |\n| batchId | string | Optional |\n| description | string | Optional |\n| date | date | Optional |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "program",
+                "update"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"programId\": \"{{programId}}\",\n  \"name\": \"Updated Program\",\n  \"description\": \"Updated description\",\n  \"date\": \"2026-03-15\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Delete Program",
-          "request": {
-            "method": "DELETE",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/program/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["program", ":id"],
-              "variable": [{ "key": "id", "value": "{{programId}}" }]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Attendance",
-      "item": [
-        {
-          "name": "Get Attendance",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/attendance/get?page=1&limit=10",
-              "host": ["{{baseUrl}}"],
-              "path": ["attendance", "get"],
-              "query": [
-                { "key": "page", "value": "1" },
-                { "key": "limit", "value": "10" },
-                { "key": "startDateFilter", "value": "" },
-                { "key": "programFilter", "value": "" }
-              ]
+              "raw": "{\n  \"programId\": \"{{programId}}\",\n  \"name\": \"Updated Program\",\n  \"batchId\": \"sample_batchId\",\n  \"description\": \"Updated description\",\n  \"date\": \"2026-03-15\"\n}"
             }
           },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "const response = pm.response.json();",
-                  "if (response.data && response.data.attendances && response.data.attendances.length > 0) {",
-                  "    pm.collectionVariables.set(\"attendanceId\", response.data.attendances[0]._id);",
-                  "}"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ]
+          "response": [],
+          "event": []
         },
         {
-          "name": "Get Attendance By ID",
+          "id": "563a05a2-b9da-4087-a9cf-7e8a52bf1cfe",
+          "name": "Get Programs",
           "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/attendance/get/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["attendance", "get", ":id"],
-              "variable": [{ "key": "id", "value": "{{attendanceId}}" }]
-            }
-          }
-        },
-        {
-          "name": "Get User Attendance",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/attendance/user/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["attendance", "user", ":id"],
-              "variable": [{ "key": "id", "value": "USER_ID_HERE" }]
-            }
-          }
-        },
-        {
-          "name": "Update Attendance",
-          "request": {
-            "method": "PUT",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/attendance/update/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["attendance", "update", ":id"],
-              "variable": [{ "key": "id", "value": "ATTENDANCE_ID_HERE" }]
+            "description": {
+              "content": "Controller: getPrograms\nSchema: getProgramsSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| page | number | Optional |\n| limit | number | Optional |\n| search | string | Optional |\n| batchFilter | string | Optional |\n",
+              "type": "text/markdown"
             },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"attendanceId\": \"ATTENDANCE_ID_HERE\",\n  \"students\": [\n    { \"studentId\": \"USER_ID_1\", \"isPresent\": true },\n    { \"studentId\": \"USER_ID_2\", \"isPresent\": false }\n  ]\n}"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Life Light",
-      "item": [
-        {
-          "name": "Add Life Light",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
             "url": {
-              "raw": "{{baseUrl}}/lifeLight/add",
-              "host": ["{{baseUrl}}"],
-              "path": ["lifeLight", "add"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"userId\": \"USER_ID_HERE\",\n  \"lifeLight\": \"My life light story...\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Update Life Light",
-          "request": {
-            "method": "PUT",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/lifeLight/update",
-              "host": ["{{baseUrl}}"],
-              "path": ["lifeLight", "update"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"lifeLightId\": \"LIFELIGHT_ID_HERE\",\n  \"status\": \"viewed\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Get All Life Light (Admin)",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/lifeLight/get?page=1&limit=10",
-              "host": ["{{baseUrl}}"],
-              "path": ["lifeLight", "get"],
+              "path": [
+                "program",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
               "query": [
-                { "key": "page", "value": "1" },
-                { "key": "limit", "value": "10" },
-                { "key": "userFilter", "value": "" },
                 {
-                  "key": "statusFilter",
-                  "value": "",
-                  "description": "Values: pending, viewed, draft"
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "sample_search"
+                },
+                {
+                  "key": "batchFilter",
+                  "value": "sample_batchFilter"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "270829c2-f6f0-42a9-949b-e7ac364621a1",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getProgramById\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "program",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
                 }
               ]
-            }
-          }
-        },
-        {
-          "name": "Get Life Light By User ID",
-          "request": {
+            },
             "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/lifeLight/user/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["lifeLight", "user", ":id"],
-              "variable": [{ "key": "id", "value": "USER_ID_HERE" }]
-            }
-          }
+            "body": {}
+          },
+          "response": [],
+          "event": []
         },
         {
-          "name": "Get Life Light By ID",
+          "id": "2d63f7c5-a2cf-4eed-b0ec-9070113ace96",
+          "name": "Common Id",
           "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": {
+              "content": "Controller: deleteProgram\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
             "url": {
-              "raw": "{{baseUrl}}/lifeLight/get/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["lifeLight", "get", ":id"],
-              "variable": [{ "key": "id", "value": "LIFELIGHT_ID_HERE" }]
-            }
-          }
-        },
-        {
-          "name": "Delete Life Light",
-          "request": {
+              "path": [
+                "program",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
             "method": "DELETE",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/lifeLight/delete/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["lifeLight", "delete", ":id"],
-              "variable": [{ "key": "id", "value": "LIFELIGHT_ID_HERE" }]
-            }
-          }
+            "body": {}
+          },
+          "response": [],
+          "event": []
         }
-      ]
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
     },
     {
-      "name": "Anubhuti",
+      "id": "54670087-d204-4af8-860c-7b29a416c5dc",
+      "name": "ATTENDANCE",
+      "description": {
+        "content": "Routes for attendance",
+        "type": "text/plain"
+      },
       "item": [
         {
-          "name": "Create Anubhuti",
+          "id": "396f93c0-ba6e-4aa1-aaca-da06a37d0e5f",
+          "name": "Get Attendance",
           "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/anubhuti/create",
-              "host": ["{{baseUrl}}"],
-              "path": ["anubhuti", "create"]
+            "description": {
+              "content": "Controller: getAttendance\nSchema: getAttendanceSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| page | number | Optional |\n| limit | number | Optional |\n| startDateFilter | string | Optional |\n| endDateFilter | string | Optional |\n| programFilter | string | Optional |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "attendance",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "startDateFilter",
+                  "value": "sample_startDateFilter"
+                },
+                {
+                  "key": "endDateFilter",
+                  "value": "sample_endDateFilter"
+                },
+                {
+                  "key": "programFilter",
+                  "value": "sample_programFilter"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "580b9138-ca45-4862-bcb5-6a11496e0153",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getUserAttendance\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "attendance",
+                "user",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "8195e07c-68c7-4f41-a670-188a04d8e269",
+          "name": "Update Attendance",
+          "request": {
+            "description": {
+              "content": "Controller: updateAttendance\nSchema: updateAttendanceSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| attendanceId | string | Required |\n| students | array | Required |\n| students[].studentId | string | Required |\n| students[].isPresent | boolean | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "attendance",
+                "update",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"attendanceId\": \"ATTENDANCE_ID_HERE\",\n  \"students\": [\n    {\n      \"studentId\": \"USER_ID_1\",\n      \"isPresent\": true\n    },\n    {\n      \"studentId\": \"USER_ID_2\",\n      \"isPresent\": false\n    }\n  ]\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "4662ebe4-f368-463e-9608-0a3ce8e1c13b",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getAttendanceByProgramId\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "attendance",
+                "program",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "1aad2bf7-4f08-4650-be27-3a0abb1bb948",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getAttendanceById\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "attendance",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "id": "631a4639-326e-4b42-ac2d-c1e9bbd948a9",
+      "name": "ANUBHUTI",
+      "description": {
+        "content": "Routes for anubhuti",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c9529ebf-e554-40b3-94b4-edfd1f5c8aa7",
+          "name": "Add Anubhuti",
+          "request": {
+            "description": {
+              "content": "Controller: createAnubhuti\nSchema: addAnubhutiSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| anubhuti | string | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "anubhuti",
+                "create"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"anubhuti\": \"My anubhuti experience...\"\n}"
-            },
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "exec": [
-                    "const response = pm.response.json();",
-                    "if (response.data && response.data._id) {",
-                    "    pm.collectionVariables.set(\"anubhutiId\", response.data._id);",
-                    "}"
-                  ],
-                  "type": "text/javascript"
-                }
-              }
-            ]
-          }
+            }
+          },
+          "response": [],
+          "event": []
         },
         {
+          "id": "0c6a01e9-4d60-4aae-accc-600ef8cbef05",
           "name": "Update Anubhuti",
           "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/anubhuti/update",
-              "host": ["{{baseUrl}}"],
-              "path": ["anubhuti", "update"]
+            "description": {
+              "content": "Controller: updateAnubhuti\nSchema: updateAnubhutiSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| anubhuti | string | Required |\n| anubhutiId | string | Required |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "anubhuti",
+                "update"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"anubhuti\": \"Updated anubhuti...\",\n  \"anubhutiId\": \"{{anubhutiId}}\"\n}"
             }
-          }
-        },
-        {
-          "name": "Delete Anubhuti (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/anubhuti/delete",
-              "host": ["{{baseUrl}}"],
-              "path": ["anubhuti", "delete"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"anubhutiId\": \"ANUBHUTI_ID_HERE\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Get Anubhuti",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/anubhuti/get?page=1&limit=10&userFilter=",
-              "host": ["{{baseUrl}}"],
-              "path": ["anubhuti", "get"],
-              "query": [
-                { "key": "page", "value": "1" },
-                { "key": "limit", "value": "10" },
-                { "key": "userFilter", "value": "" }
-              ]
-            }
           },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "const response = pm.response.json();",
-                  "if (response.data && response.data.anubhutis && response.data.anubhutis.length > 0) {",
-                  "    pm.collectionVariables.set(\"anubhutiId\", response.data.anubhutis[0]._id);",
-                  "}"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Feedback",
-      "item": [
+          "response": [],
+          "event": []
+        },
         {
-          "name": "Add Feedback",
+          "id": "24360e78-333b-433a-a091-8de583c577d5",
+          "name": "Common Id",
           "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/feedback/add",
-              "host": ["{{baseUrl}}"],
-              "path": ["feedback", "add"]
+            "description": {
+              "content": "Controller: deleteAnubhuti\nSchema: commonIdSchema",
+              "type": "text/markdown"
             },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"userId\": \"USER_ID_HERE\",\n  \"feedback\": \"This is my feedback...\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Get Feedback (Admin)",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
             "url": {
-              "raw": "{{baseUrl}}/feedback/get?page=1&limit=10",
-              "host": ["{{baseUrl}}"],
-              "path": ["feedback", "get"],
-              "query": [
-                { "key": "page", "value": "1" },
-                { "key": "limit", "value": "10" },
-                { "key": "userFilter", "value": "" }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Delete Feedback (Admin)",
-          "request": {
-            "method": "DELETE",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/feedback/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["feedback", ":id"],
-              "variable": [{ "key": "id", "value": "FEEDBACK_ID_HERE" }]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Legality",
-      "item": [
-        {
-          "name": "Add/Update Legality (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/legality/add-update",
-              "host": ["{{baseUrl}}"],
-              "path": ["legality", "add-update"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"type\": \"privacy_policy\",\n  \"content\": \"<h1>Privacy Policy</h1><p>Content here...</p>\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Get Legality (Admin)",
-          "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/legality/get?type=privacy_policy",
-              "host": ["{{baseUrl}}"],
-              "path": ["legality", "get"],
-              "query": [
+              "path": [
+                "anubhuti",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
                 {
-                  "key": "type",
-                  "value": "privacy_policy",
-                  "description": "Values: privacy_policy, terms_and_conditions"
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
                 }
               ]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Setting",
-      "item": [
-        {
-          "name": "Add/Update Setting (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/setting/add-update",
-              "host": ["{{baseUrl}}"],
-              "path": ["setting", "add-update"]
             },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"logo\": \"https://example.com/logo.png\",\n  \"appName\": \"Bhutpurva\",\n  \"webSiteUrl\": \"https://bhutpurva.com\",\n  \"supportEmail\": \"support@bhutpurva.com\",\n  \"supportPhone\": \"9876543210\",\n  \"supportWhatsApp\": \"9876543210\",\n  \"address\": \"Ahmedabad, Gujarat\",\n  \"playStoreId\": \"com.bhutpurva.app\",\n  \"appStoreId\": \"com.bhutpurva.app\",\n  \"playStoreUrl\": \"https://play.google.com/store/apps/details?id=com.bhutpurva.app\",\n  \"appStoreUrl\": \"https://apps.apple.com/app/bhutpurva\",\n  \"sgsiPdf\": \"https://example.com/sgsi.pdf\",\n  \"socialLinks\": {\n    \"facebook\": \"https://facebook.com/bhutpurva\",\n    \"instagram\": \"https://instagram.com/bhutpurva\",\n    \"twitter\": \"https://twitter.com/bhutpurva\",\n    \"linkedin\": \"https://linkedin.com/company/bhutpurva\",\n    \"youtube\": \"https://youtube.com/bhutpurva\",\n    \"whatsapp\": \"https://wa.me/9876543210\"\n  }\n}"
-            }
-          }
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
         },
         {
-          "name": "Get Setting",
+          "id": "cc6460d6-54d6-43e6-a447-b22e4c68a618",
+          "name": "Get Anubhuti",
           "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/setting/get",
-              "host": ["{{baseUrl}}"],
-              "path": ["setting", "get"]
+            "description": {
+              "content": "Controller: getAnubhuti\nSchema: getAnubhutiSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| page | number | Optional |\n| limit | number | Optional |\n| userFilter | string | Optional |\n",
+              "type": "text/markdown"
             },
-            "body": { "mode": "raw", "raw": "{}" }
-          }
-        },
-        {
-          "name": "Get SGIS PDF",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
             "url": {
-              "raw": "{{baseUrl}}/setting/get-sgis-pdf",
-              "host": ["{{baseUrl}}"],
-              "path": ["setting", "get-sgis-pdf"]
+              "path": [
+                "anubhuti",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "userFilter",
+                  "value": "sample_userFilter"
+                }
+              ],
+              "variable": []
             },
-            "body": { "mode": "raw", "raw": "{}" }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Tithi Calender",
-      "item": [
-        {
-          "name": "Add/Update Tithi Calender (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/tithiCalender/add-update",
-              "host": ["{{baseUrl}}"],
-              "path": ["tithiCalender", "add-update"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"year\": 2026,\n  \"calender\": [\n    { \"month\": \"january\", \"image\": \"https://example.com/jan.jpg\" },\n    { \"month\": \"february\", \"image\": \"https://example.com/feb.jpg\" }\n  ]\n}"
-            }
-          }
-        },
-        {
-          "name": "Add/Update Month (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/tithiCalender/add-update-month",
-              "host": ["{{baseUrl}}"],
-              "path": ["tithiCalender", "add-update-month"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"tithiCalenderId\": \"CALENDER_ID_HERE\",\n  \"month\": \"march\",\n  \"image\": \"https://example.com/march.jpg\"\n}"
-            }
-          }
-        },
-        {
-          "name": "Get Tithi Calender",
-          "request": {
             "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
-            "url": {
-              "raw": "{{baseUrl}}/tithiCalender/",
-              "host": ["{{baseUrl}}"],
-              "path": ["tithiCalender", ""]
-            }
-          }
+            "body": {}
+          },
+          "response": [],
+          "event": []
         }
-      ]
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
     },
     {
-      "name": "Family",
+      "id": "2d05f61e-4809-4c12-a0cd-6e00a99535b9",
+      "name": "DELETEREQUEST",
+      "description": {
+        "content": "Routes for deleteRequest",
+        "type": "text/plain"
+      },
       "item": [
         {
-          "name": "Get Family",
+          "id": "688f2fb6-9d6a-4378-9321-c2eead113559",
+          "name": "Update Delete Request",
           "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": {
+              "content": "Controller: updateDeleteRequest\nSchema: updateDeleteRequestSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| id | string | Required |\n| status | string | Required |\n",
+              "type": "text/markdown"
+            },
             "url": {
-              "raw": "{{baseUrl}}/family/get",
-              "host": ["{{baseUrl}}"],
-              "path": ["family", "get"]
-            }
-          }
-        },
-        {
-          "name": "Add Family",
-          "request": {
+              "path": [
+                "deleteRequest",
+                "update"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/family/add",
-              "host": ["{{baseUrl}}"],
-              "path": ["family", "add"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"userId\": \"USER_ID_HERE\",\n  \"members\": [\n    { \"memberId\": \"MEMBER_USER_ID\", \"relationship\": \"father\" },\n    { \"memberId\": \"MEMBER_USER_ID_2\", \"relationship\": \"mother\" }\n  ]\n}"
-            }
-          }
-        },
-        {
-          "name": "Update Family",
-          "request": {
-            "method": "PUT",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/family/update",
-              "host": ["{{baseUrl}}"],
-              "path": ["family", "update"]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"familyId\": \"FAMILY_ID_HERE\",\n  \"members\": [\n    { \"memberId\": \"MEMBER_USER_ID\", \"relationship\": \"brother\" }\n  ]\n}"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Delete Request",
-      "item": [
-        {
-          "name": "Update Delete Request (Admin)",
-          "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/deleteRequest/update",
-              "host": ["{{baseUrl}}"],
-              "path": ["deleteRequest", "update"]
-            },
             "body": {
               "mode": "raw",
               "raw": "{\n  \"id\": \"REQUEST_ID_HERE\",\n  \"status\": \"approved\"\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
         },
         {
-          "name": "Get Delete Requests (Admin)",
+          "id": "05aefd01-d054-46f3-ae4b-0093579b93bd",
+          "name": "Get Delete Request",
           "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/deleteRequest/get",
-              "host": ["{{baseUrl}}"],
-              "path": ["deleteRequest", "get"]
+            "description": {
+              "content": "Controller: getDeleteRequest\nSchema: getDeleteRequestSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| page | number | Optional |\n| limit | number | Optional |\n| status | string | Optional |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "deleteRequest",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"page\": 1,\n  \"limit\": 10,\n  \"status\": \"pending\"\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
         }
-      ]
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
     },
     {
-      "name": "Banner",
+      "id": "8ad56012-3616-443b-be2e-9925eaa45cf1",
+      "name": "FAMILY",
+      "description": {
+        "content": "Routes for family",
+        "type": "text/plain"
+      },
       "item": [
         {
+          "id": "ab32ff10-115f-4e2f-a93c-ed8257074c82",
+          "name": "Get Get",
+          "request": {
+            "description": {
+              "content": "Controller: getFamily",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "family",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "976624e0-d75a-4690-93ae-2f6c236cde48",
+          "name": "Add Family",
+          "request": {
+            "description": {
+              "content": "Controller: addFamily\nSchema: addFamilySchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| userId | string | Required |\n| members | array | Optional |\n| members[].memberId | string | Required |\n| members[].relationship | string | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "family",
+                "add"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"USER_ID_HERE\",\n  \"members\": [\n    {\n      \"memberId\": \"MEMBER_USER_ID\",\n      \"relationship\": \"father\"\n    },\n    {\n      \"memberId\": \"MEMBER_USER_ID_2\",\n      \"relationship\": \"mother\"\n    }\n  ]\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "fdaf05bf-f6e6-466d-92ee-e759a8bf8795",
+          "name": "Update Family",
+          "request": {
+            "description": {
+              "content": "Controller: updateFamily\nSchema: updateFamilySchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| familyId | string | Required |\n| members | array | Optional |\n| members[].memberId | string | Required |\n| members[].relationship | string | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "family",
+                "update"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"familyId\": \"FAMILY_ID_HERE\",\n  \"members\": [\n    {\n      \"memberId\": \"MEMBER_USER_ID\",\n      \"relationship\": \"brother\"\n    }\n  ]\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "id": "56563bd4-3461-43d0-9782-844acb946ef1",
+      "name": "FEEDBACK",
+      "description": {
+        "content": "Routes for feedback",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "46f6ebbc-d2a0-4c0c-8fbc-9f27e700dd25",
+          "name": "Feedback",
+          "request": {
+            "description": {
+              "content": "Controller: addFeedback\nSchema: feedbackSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| userId | string | Required |\n| feedback | string | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "feedback",
+                "add"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"USER_ID_HERE\",\n  \"feedback\": \"This is my feedback...\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "49bbc7fd-39b2-444a-bd0e-47d7bc760ebe",
+          "name": "Get Feedback",
+          "request": {
+            "description": {
+              "content": "Controller: getFeedback\nSchema: getFeedbackSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| page | number | Optional |\n| limit | number | Optional |\n| userFilter | string | Optional |\n| search | string | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "feedback",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "userFilter",
+                  "value": "sample_userFilter"
+                },
+                {
+                  "key": "search",
+                  "value": "sample_search"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "f34726ed-cb29-42e8-b18d-1e98f5646583",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: deleteFeedback\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "feedback",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "id": "5efc47ec-d2da-4aca-8b97-ee366d16a5dc",
+      "name": "LEGALITY",
+      "description": {
+        "content": "Routes for legality",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f312e97e-c76d-4198-8a23-1c2c9f5c3c82",
+          "name": "Add Update Legality",
+          "request": {
+            "description": {
+              "content": "Controller: addUpdateLegality\nSchema: addUpdateLegalitySchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| type | string | Required |\n| content | string | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "legality",
+                "add-update"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"activist_policy\",\n  \"content\": \"<h1>Privacy Policy</h1><p>Content here...</p>\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "f50b1802-f109-4179-9691-5201ef1b11ad",
+          "name": "Get Legality",
+          "request": {
+            "description": {
+              "content": "Controller: getLegality\nSchema: getLegalitySchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| type | string | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "legality",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "privacy_policy"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "id": "94719532-5192-43f7-b94e-abb82a6ec467",
+      "name": "LIFELIGHT",
+      "description": {
+        "content": "Routes for lifeLight",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "18581a71-5bfe-4616-a357-d235c16437cd",
+          "name": "Add Life Light",
+          "request": {
+            "description": {
+              "content": "Controller: addLifeLight\nSchema: addLifeLightSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| userId | string | Required |\n| lifeLight | string | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "lifeLight",
+                "add"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"USER_ID_HERE\",\n  \"lifeLight\": \"My life light story...\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "d6b076bc-42ff-440a-80b2-5ed092e86418",
+          "name": "Update Life Light",
+          "request": {
+            "description": {
+              "content": "Controller: updateLifeLight\nSchema: updateLifeLightSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| lifeLightId | string | Required |\n| status | string | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "lifeLight",
+                "update"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lifeLightId\": \"LIFELIGHT_ID_HERE\",\n  \"status\": \"viewed\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "c14c0422-c166-4f82-b48e-41fb4be7b0e7",
+          "name": "Get Life Light",
+          "request": {
+            "description": {
+              "content": "Controller: getLifeLight\nSchema: getLifeLightSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| page | number | Optional |\n| limit | number | Optional |\n| userFilter | string | Optional |\n| statusFilter | string | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "lifeLight",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "userFilter",
+                  "value": "sample_userFilter"
+                },
+                {
+                  "key": "statusFilter",
+                  "value": "sample_statusFilter"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "334e797f-cfd9-4579-90a8-40889a642e0e",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getByUserId\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "lifeLight",
+                "user",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "a9e73f81-ba87-45e8-ab89-8a8b89c21f67",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getById\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "lifeLight",
+                "get",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "768f5c5c-2a14-49b4-a154-ef508b8a5db2",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: deleteLifeLight\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "lifeLight",
+                "delete",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "id": "911738b5-0145-4747-8d97-7a78e6d32581",
+      "name": "SETTING",
+      "description": {
+        "content": "Routes for setting",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "95806265-a6c9-4505-9ad4-1ba47ca458a4",
+          "name": "Setting",
+          "request": {
+            "description": {
+              "content": "Controller: addUpdateSetting\nSchema: settingSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| logo | string | Optional |\n| appName | string | Optional |\n| webSiteUrl | string | Optional |\n| supportEmail | string | Optional |\n| supportPhone | string | Optional |\n| supportWhatsApp | string | Optional |\n| address | string | Optional |\n| playStoreId | string | Optional |\n| appStoreId | string | Optional |\n| playStoreUrl | string | Optional |\n| appStoreUrl | string | Optional |\n| sgsiPdf | string | Optional |\n| anubhutiImage | string | Optional |\n| lifeLightImage | string | Optional |\n| socialLinks | object | Optional |\n| socialLinks.facebook | string | Optional |\n| socialLinks.instagram | string | Optional |\n| socialLinks.twitter | string | Optional |\n| socialLinks.linkedin | string | Optional |\n| socialLinks.youtube | string | Optional |\n| socialLinks.whatsapp | string | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "setting",
+                "add-update"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"logo\": \"https://example.com/logo.png\",\n  \"appName\": \"Bhutpurva\",\n  \"webSiteUrl\": \"https://bhutpurva.com\",\n  \"supportEmail\": \"support@bhutpurva.com\",\n  \"supportPhone\": \"9876543210\",\n  \"supportWhatsApp\": \"9876543210\",\n  \"address\": \"Ahmedabad, Gujarat\",\n  \"playStoreId\": \"com.bhutpurva.app\",\n  \"appStoreId\": \"com.bhutpurva.app\",\n  \"playStoreUrl\": \"https://play.google.com/store/apps/details?id=com.bhutpurva.app\",\n  \"appStoreUrl\": \"https://apps.apple.com/app/bhutpurva\",\n  \"sgsiPdf\": \"https://example.com/sgsi.pdf\",\n  \"anubhutiImage\": \"sample_anubhutiImage\",\n  \"lifeLightImage\": \"sample_lifeLightImage\",\n  \"socialLinks\": {\n    \"facebook\": \"https://facebook.com/bhutpurva\",\n    \"instagram\": \"https://instagram.com/bhutpurva\",\n    \"twitter\": \"https://twitter.com/bhutpurva\",\n    \"linkedin\": \"https://linkedin.com/company/bhutpurva\",\n    \"youtube\": \"https://youtube.com/bhutpurva\",\n    \"whatsapp\": \"https://wa.me/9876543210\"\n  }\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "3ef6befd-7c4c-49ea-9a32-9d28ac6cff0c",
+          "name": "Get Get",
+          "request": {
+            "description": {
+              "content": "Controller: getSetting",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "setting",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "d3d3f4d4-8576-4054-83d1-62d2572ba0ab",
+          "name": "Get Get-sgis-pdf",
+          "request": {
+            "description": {
+              "content": "Controller: getSgisPdf",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "setting",
+                "get-sgis-pdf"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bb65c7ed-7edf-487d-b8e7-ff4c2ec8cbd0",
+      "name": "TITHICALENDER",
+      "description": {
+        "content": "Routes for tithiCalender",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "faaa1e1e-4cdf-4e75-8f3e-8e2f26ac8cbf",
+          "name": "Tithi Calender",
+          "request": {
+            "description": {
+              "content": "Controller: addUpdateTithiCalender\nSchema: tithiCalenderSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| year | number | Required |\n| calender | array | Required |\n| calender[].month | string | Required |\n| calender[].image | string | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "tithiCalender",
+                "add-update"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"year\": 2026,\n  \"calender\": [\n    {\n      \"month\": \"january\",\n      \"image\": \"https://example.com/jan.jpg\"\n    },\n    {\n      \"month\": \"february\",\n      \"image\": \"https://example.com/feb.jpg\"\n    }\n  ]\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "36907479-fbd3-437b-80f2-b8d50931d4b7",
+          "name": "Add Update Month",
+          "request": {
+            "description": {
+              "content": "Controller: addUpdateMonth\nSchema: addUpdateMonthSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| tithiCalenderId | string | Required |\n| month | string | Required |\n| image | string | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "tithiCalender",
+                "add-update-month"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tithiCalenderId\": \"CALENDER_ID_HERE\",\n  \"month\": \"march\",\n  \"image\": \"https://example.com/march.jpg\"\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "174fad8c-4d7a-48ec-99c1-8f1416382a51",
+          "name": "Get Tithi Calender",
+          "request": {
+            "description": {
+              "content": "Controller: getTithiCalender\nSchema: getTithiCalenderSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| year | number | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "tithiCalender"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "123"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        }
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "id": "a8227f25-96ec-45ab-a162-9d48e8a8e3af",
+      "name": "BANNER",
+      "description": {
+        "content": "Routes for banner",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "62b445ab-b1a7-45a8-a629-90339d8d5fe3",
           "name": "Create Banner",
           "request": {
-            "method": "POST",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/banner/create",
-              "host": ["{{baseUrl}}"],
-              "path": ["banner", "create"]
+            "description": {
+              "content": "Controller: createBanner\nSchema: createBannerSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| image | string | Required |\n| title | string | Optional |\n| subtitle | string | Optional |\n| link | string | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "banner",
+                "create"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"image\": \"https://example.com/banner.jpg\",\n  \"title\": \"Banner Title\",\n  \"subtitle\": \"Banner Subtitle\",\n  \"link\": \"https://example.com\"\n}"
+              "raw": "{\n  \"image\": \"https://example.com/banner.jpg\",\n  \"title\": \"Banner Title\",\n  \"subtitle\": \"Banner Subtitle\",\n  \"link\": \"https://example.com\",\n  \"isActive\": true\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
         },
         {
-          "name": "Get All Banners",
+          "id": "045879e3-3cde-49d0-a414-1bc5b47c2141",
+          "name": "Get Get",
           "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": {
+              "content": "Controller: getAllBanners",
+              "type": "text/markdown"
+            },
             "url": {
-              "raw": "{{baseUrl}}/banner/get",
-              "host": ["{{baseUrl}}"],
-              "path": ["banner", "get"]
-            }
-          }
+              "path": [
+                "banner",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
         },
         {
-          "name": "Get Banner By ID",
+          "id": "fed95b89-169d-476f-942f-960bc22f3eab",
+          "name": "Get Banner By Id",
           "request": {
-            "method": "GET",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": {
+              "content": "Controller: getBannerById\nSchema: getBannerByIdSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| id | string | Required |\n",
+              "type": "text/markdown"
+            },
             "url": {
-              "raw": "{{baseUrl}}/banner/get/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["banner", "get", ":id"],
-              "variable": [{ "key": "id", "value": "BANNER_ID_HERE" }]
-            }
-          }
+              "path": [
+                "banner",
+                "get",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
         },
         {
+          "id": "20ff504c-17fc-4ae0-90da-8728ca7a350b",
           "name": "Update Banner",
           "request": {
-            "method": "PUT",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{token}}" }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/banner/update",
-              "host": ["{{baseUrl}}"],
-              "path": ["banner", "update"]
+            "description": {
+              "content": "Controller: updateBanner\nSchema: updateBannerSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| id | string | Required |\n| image | string | Optional |\n| title | string | Optional |\n| subtitle | string | Optional |\n| link | string | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
             },
+            "url": {
+              "path": [
+                "banner",
+                "update"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id\": \"BANNER_ID_HERE\",\n  \"title\": \"Updated Title\"\n}"
+              "raw": "{\n  \"id\": \"BANNER_ID_HERE\",\n  \"image\": \"sample_image\",\n  \"title\": \"Updated Title\",\n  \"subtitle\": \"sample_subtitle\",\n  \"link\": \"sample_link\",\n  \"isActive\": true\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
         },
         {
-          "name": "Delete Banner",
+          "id": "c3be8145-5d80-43a1-9119-ed8d524f4dbc",
+          "name": "Get Banner By Id",
           "request": {
-            "method": "DELETE",
-            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "description": {
+              "content": "Controller: deleteBanner\nSchema: getBannerByIdSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| id | string | Required |\n",
+              "type": "text/markdown"
+            },
             "url": {
-              "raw": "{{baseUrl}}/banner/delete/:id",
-              "host": ["{{baseUrl}}"],
-              "path": ["banner", "delete", ":id"],
-              "variable": [{ "key": "id", "value": "BANNER_ID_HERE" }]
+              "path": [
+                "banner",
+                "delete",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"sample_id\"\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
         }
-      ]
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
     },
     {
-      "name": "Health Check",
+      "id": "5789c38a-5a07-4c66-a89e-8f36c12df0f2",
+      "name": "SURVEY",
+      "description": {
+        "content": "Routes for survey",
+        "type": "text/plain"
+      },
       "item": [
         {
-          "name": "Health",
+          "id": "0d8665ea-f51b-4835-9d37-b55539145662",
+          "name": "Create Survey",
           "request": {
-            "method": "GET",
-            "header": [],
+            "description": {
+              "content": "Controller: createSurvey\nSchema: createSurveySchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| title | string | Required |\n| description | string | Optional |\n| scope | string | Required |\n| groupId | any | Optional |\n| batchId | any | Optional |\n| questions | array | Required |\n| questions[].questionText | string | Required |\n| questions[].questionType | string | Optional |\n| questions[].options | array | Optional |\n| questions[].isRequired | boolean | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
             "url": {
-              "raw": "{{baseUrl}}/health",
-              "host": ["{{baseUrl}}"],
-              "path": ["health"]
+              "path": [
+                "survey",
+                "create"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"sample_title\",\n  \"description\": \"sample_description\",\n  \"scope\": \"sample_scope\",\n  \"groupId\": \"sample_any\",\n  \"batchId\": \"sample_any\",\n  \"questions\": [\n    {\n      \"questionText\": \"sample_questionText\",\n      \"questionType\": \"sample_questionType\",\n      \"options\": [\n        \"sample_string\"\n      ],\n      \"isRequired\": true\n    }\n  ],\n  \"isActive\": true\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
         },
         {
-          "name": "Is Server Up",
+          "id": "bfc1fcb1-55f4-468a-9f09-6836a4507305",
+          "name": "Update Survey",
           "request": {
-            "method": "GET",
-            "header": [],
+            "description": {
+              "content": "Controller: updateSurvey\nSchema: updateSurveySchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| surveyId | string | Required |\n| title | string | Optional |\n| description | string | Optional |\n| scope | string | Optional |\n| groupId | string | Optional |\n| batchId | string | Optional |\n| questions | array | Optional |\n| questions[].questionText | string | Required |\n| questions[].questionType | string | Optional |\n| questions[].options | array | Optional |\n| questions[].isRequired | boolean | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
             "url": {
-              "raw": "{{baseUrl}}/isServerUp",
-              "host": ["{{baseUrl}}"],
-              "path": ["isServerUp"]
+              "path": [
+                "survey",
+                "update"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"surveyId\": \"sample_surveyId\",\n  \"title\": \"sample_title\",\n  \"description\": \"sample_description\",\n  \"scope\": \"sample_scope\",\n  \"groupId\": \"sample_groupId\",\n  \"batchId\": \"sample_batchId\",\n  \"questions\": [\n    {\n      \"questionText\": \"sample_questionText\",\n      \"questionType\": \"sample_questionType\",\n      \"options\": [\n        \"sample_string\"\n      ],\n      \"isRequired\": true\n    }\n  ],\n  \"isActive\": true\n}"
             }
-          }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "d839cf45-aace-4822-a413-4b2b4afa2692",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: deleteSurvey\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "survey",
+                "delete",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "15d0a13b-ee65-448f-8a57-a02a96f5f24b",
+          "name": "Get Surveys",
+          "request": {
+            "description": {
+              "content": "Controller: getSurveys\nSchema: getSurveysSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| page | number | Optional |\n| limit | number | Optional |\n| search | string | Optional |\n| scope | string | Optional |\n| groupFilter | string | Optional |\n| batchFilter | string | Optional |\n| isActive | boolean | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "survey",
+                "get"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "sample_search"
+                },
+                {
+                  "key": "scope",
+                  "value": "sample_scope"
+                },
+                {
+                  "key": "groupFilter",
+                  "value": "sample_groupFilter"
+                },
+                {
+                  "key": "batchFilter",
+                  "value": "sample_batchFilter"
+                },
+                {
+                  "key": "isActive",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "b05613a2-5d7e-4b9b-ac5f-46d69b97e69c",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getSurveyById\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "survey",
+                "get",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "dda34626-6ca2-4ae2-9af1-743ee5602fe4",
+          "name": "Submit Survey Response",
+          "request": {
+            "description": {
+              "content": "Controller: submitSurveyResponse\nSchema: submitSurveyResponseSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| surveyId | string | Required |\n| answers | array | Required |\n| answers[].questionId | string | Required |\n| answers[].answer | alternatives | Required |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "survey",
+                "response"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"surveyId\": \"sample_surveyId\",\n  \"answers\": [\n    {\n      \"questionId\": \"sample_questionId\",\n      \"answer\": \"sample_string\"\n    }\n  ]\n}"
+            }
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "b8c7a790-de37-4b30-95ce-31305d89967d",
+          "name": "Get Survey Responses",
+          "request": {
+            "description": {
+              "content": "Controller: getSurveyResponses\nSchema: getSurveyResponsesSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| surveyId | string | Required |\n| page | number | Optional |\n| limit | number | Optional |\n",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "survey",
+                "responses"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [
+                {
+                  "key": "surveyId",
+                  "value": "sample_surveyId"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
+        },
+        {
+          "id": "ad55d97e-3b09-453d-a477-58993e131958",
+          "name": "Common Id",
+          "request": {
+            "description": {
+              "content": "Controller: getSurveyResponseById\nSchema: commonIdSchema",
+              "type": "text/markdown"
+            },
+            "url": {
+              "path": [
+                "survey",
+                "response",
+                ":id"
+              ],
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "key": "id"
+                },
+                {
+                  "type": "any",
+                  "value": "sample_id",
+                  "key": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": []
         }
-      ]
+      ],
+      "event": [],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "TOKEN",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      }
     }
   ],
-  "auth": {
-    "type": "bearer",
-    "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+  "event": [],
+  "variable": [
+    {
+      "type": "any",
+      "value": "http://localhost:5000",
+      "key": "BASE_URL"
+    },
+    {
+      "type": "any",
+      "value": "",
+      "key": "TOKEN"
+    }
+  ],
+  "info": {
+    "_postman_id": "daf236e6-70e6-42d1-9630-3c2c55506155",
+    "name": "Bhutpurva API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Auto generated API collection",
+      "type": "text/plain"
+    }
   }
 }

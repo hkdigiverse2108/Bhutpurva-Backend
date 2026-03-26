@@ -16,5 +16,4 @@ export * as uploadController from "./upload";
 export * as bannerController from "./banner";
 export * as locationController from "./location";
 export * as branchController from "./branch";
-
-
+export * as surveyController from "./survey";

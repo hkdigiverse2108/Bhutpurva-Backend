@@ -14,6 +14,8 @@ const settingSchema = new mongoose.Schema({
     playStoreUrl: { type: String, default: "" },
     appStoreUrl: { type: String, default: "" },
     sgsiPdf: { type: String, default: "" },
+    anubhutiImage: { type: String, default: "" },
+    lifeLightImage: { type: String, default: "" },
     // socials
     socialLinks: {
         type: {
