@@ -11,7 +11,6 @@ export const getDeleteRequest = async (req, res) => {
 
         const query = {
             status: value.status,
-
         }
 
         const skip = (value.page - 1) * value.limit;

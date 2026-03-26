@@ -2,6 +2,7 @@ import joi from "joi";
 import { SURVEY_SCOPE, SURVEY_QUESTION_TYPE } from "../common";
 
 const questionSchema = joi.object({
+    _id: joi.string().optional(),
     questionText: joi.string().required(),
     questionType: joi.string().valid(...Object.values(SURVEY_QUESTION_TYPE)).default(SURVEY_QUESTION_TYPE.TEXT),
     options: joi.array().items(joi.string()).when("questionType", {
