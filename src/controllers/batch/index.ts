@@ -529,3 +529,33 @@ export const getMonitorById = async (req, res) => {
         return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error getting monitor", {}, error.message));
     }
 };
+
+export const getBatchesByGroupId = async (req, res) => {
+    reqInfo(req)
+    try {
+        const { error, value } = commonIdSchema.validate(req.params);
+        if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
+
+        const batches = await findAllWithPopulate(batchModel, { groupId: value.id, isDeleted: false }, {}, {}, [{ path: 'groupId', select: "name isActive" }]);
+
+        return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Batches fetched successfully", batches, {}));
+    } catch (error) {
+        console.error(error);
+        return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error getting batches", {}, error.message));
+    }
+};
+
+export const getBatchesByMonitorId = async (req, res) => {
+    reqInfo(req)
+    try {
+        const { error, value } = commonIdSchema.validate(req.params);
+        if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
+
+        const batches = await findAllWithPopulate(batchModel, { monitorIds: value.id, isDeleted: false }, {}, {}, [{ path: 'monitorIds', select: "name isActive" }]);
+
+        return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Batches fetched successfully", batches, {}));
+    } catch (error) {
+        console.error(error);
+        return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error getting batches", {}, error.message));
+    }
+};

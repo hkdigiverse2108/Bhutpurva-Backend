@@ -10,7 +10,9 @@ router.get("/get", roleCheck([ROLES.ADMIN, ROLES.MONITOR, ROLES.LEADER, ROLES.US
 router.get("/dropdown", roleCheck([ROLES.ADMIN, ROLES.MONITOR, ROLES.LEADER, ROLES.USER]), batchController.getBatchesDropdown);
 router.put("/update", roleCheck([ROLES.ADMIN]), batchController.updateBatch);
 router.delete("/delete/:id", roleCheck([ROLES.ADMIN]), batchController.deleteBatch);
-router.get("/get/:id", roleCheck([ROLES.ADMIN, ROLES.MONITOR, ROLES.USER]), batchController.getBatchById);
+router.get("/get/:id", roleCheck([ROLES.ADMIN, ROLES.MONITOR, ROLES.LEADER, ROLES.USER]), batchController.getBatchById);
+router.get("/group/:id", roleCheck([ROLES.ADMIN, ROLES.MONITOR, ROLES.LEADER, ROLES.USER]), batchController.getBatchesByGroupId);
+router.get("/monitor/:id", roleCheck([ROLES.ADMIN, ROLES.MONITOR, ROLES.LEADER, ROLES.USER]), batchController.getBatchesByMonitorId);
 router.post("/add-devotee", roleCheck([ROLES.ADMIN]), batchController.addDevoteeToBatch);
 router.post("/remove-devotee", roleCheck([ROLES.ADMIN]), batchController.removeDevoteeFromBatch);
 router.post("/add-monitor", roleCheck([ROLES.ADMIN]), batchController.createMonitor);
