@@ -9,6 +9,14 @@ export const addLocation = async (req, res) => {
         const { error, value } = createLocationSchema.validate(req.body);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
+        if (value.parentId) {
+            const parentLocation = await findOneAndPopulate(locationModel, { _id: value.parentId, isDeleted: false }, {}, {}, []);
+            if (!parentLocation) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Parent location not found", {}, {}));
+
+            const existingName = await locationModel.findOne({ name: value.name, parentId: value.parentId, isDeleted: false });
+            if (existingName) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Location name already exists in this parent", {}, {}));
+        }
+
         const location = await createData(locationModel, value);
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Location item created successfully", location, {}));
     } catch (error) {
@@ -22,6 +30,14 @@ export const updateLocation = async (req, res) => {
     try {
         const { error, value } = updateLocationSchema.validate(req.body);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
+
+        if (value.parentId) {
+            const parentLocation = await findOneAndPopulate(locationModel, { _id: value.parentId, isDeleted: false }, {}, {}, []);
+            if (!parentLocation) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Parent location not found", {}, {}));
+
+            const existingName = await locationModel.findOne({ name: value.name, parentId: value.parentId, isDeleted: false, _id: { $ne: value.locationId } });
+            if (existingName) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Location name already exists in this parent", {}, {}));
+        }
 
         const updatedLocation = await updateData(locationModel, { _id: value.locationId, isDeleted: false }, value, { new: true });
         if (!updatedLocation) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Location item not found", {}, {}));
