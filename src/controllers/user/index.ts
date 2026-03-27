@@ -229,13 +229,6 @@ export const deleteUser = async (req, res) => {
         const existingUser = await getFirstMatch(userModel, { _id: value.userId, isDeleted: false }, {}, {});
         if (!existingUser) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User not found", {}, {}));
 
-        if (existingUser.email !== value.email)
-            return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Invalid email", {}, {}));
-
-        const isPasswordValid = await bcrypt.compare(value.password, existingUser.password);
-        if (!isPasswordValid)
-            return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Invalid password", {}, {}));
-
         const isDeleteRequestExist = await getFirstMatch(deleteRequestModel, { userId: value.userId, status: DELETE_REQUEST_STATUS.PENDING }, {}, {});
         if (isDeleteRequestExist)
             return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Delete request already exists", {}, {}));

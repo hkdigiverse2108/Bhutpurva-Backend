@@ -55,8 +55,6 @@ export const updateImageSchema = joi.object({
 
 export const deleteUserSchema = joi.object({
     userId: objectId().required(),
-    email: joi.string().email().required(),
-    password: joi.string().required(),
 });
 
 export const getUserByIdSchema = commonIdSchema;

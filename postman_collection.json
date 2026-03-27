@@ -1,7 +1,7 @@
 {
   "item": [
     {
-      "id": "9fbb2222-6b50-40c5-8b83-134f7fe6b08f",
+      "id": "be577546-c51e-40b5-b26d-3861aa864ae5",
       "name": "AUTH",
       "description": {
         "content": "Routes for auth",
@@ -9,7 +9,7 @@
       },
       "item": [
         {
-          "id": "eefabd19-92f1-4d8e-9338-a250227612ba",
+          "id": "dfd2fda8-fcf4-4385-86d2-d65e7c71d535",
           "name": "Register",
           "request": {
             "description": {
@@ -43,7 +43,7 @@
           "event": []
         },
         {
-          "id": "1bd2bec0-c5ae-440e-9414-82205723664c",
+          "id": "f623c784-24cf-4bd2-b316-c77cbd6ba480",
           "name": "Register Admin",
           "request": {
             "description": {
@@ -77,7 +77,7 @@
           "event": []
         },
         {
-          "id": "5242a72e-bd10-45af-becc-687aa2614a48",
+          "id": "5eac0180-e206-4515-ad86-0881875efc11",
           "name": "Login",
           "request": {
             "description": {
@@ -111,7 +111,7 @@
           "event": []
         },
         {
-          "id": "dd83ad7d-db2b-4bfc-ade8-d2a9cb3cb60a",
+          "id": "1bcbcf60-4d4a-42e9-88df-5d3cc82df5a8",
           "name": "Forgot Password",
           "request": {
             "description": {
@@ -145,7 +145,7 @@
           "event": []
         },
         {
-          "id": "0870dd8e-cbc7-4e81-9454-95b9e2b69ef8",
+          "id": "bffff646-f322-49a4-8630-dedd2ae4e595",
           "name": "Send Otp",
           "request": {
             "description": {
@@ -179,7 +179,7 @@
           "event": []
         },
         {
-          "id": "bbb240ac-7db1-4a91-8f00-e16f115c05f5",
+          "id": "9dffc637-9349-421f-9142-2273c5cfdf5a",
           "name": "Verify Otp",
           "request": {
             "description": {
@@ -213,7 +213,7 @@
           "event": []
         },
         {
-          "id": "bab1823a-1934-4822-9bb4-4ef390879235",
+          "id": "10c1e133-8847-4ec1-939e-6a8eb8fee2d3",
           "name": "Reset Password",
           "request": {
             "description": {
@@ -247,7 +247,7 @@
           "event": []
         },
         {
-          "id": "842fb9f3-8deb-4e58-9ebc-fb1dd1a5b44c",
+          "id": "358d6ee1-1951-4677-b033-62b6ccb1dcb6",
           "name": "Create Logout",
           "request": {
             "description": {
@@ -272,7 +272,7 @@
           "event": []
         },
         {
-          "id": "5dfd60e3-94a7-48fb-b900-0434302674cc",
+          "id": "0588d5a5-8720-497d-9728-7f7ca55a08df",
           "name": "Change Password",
           "request": {
             "description": {
@@ -309,7 +309,7 @@
       "event": []
     },
     {
-      "id": "bfad252f-6a0a-4c8b-bbd5-0f52a3704f4c",
+      "id": "205d1048-bd6a-41d3-9a82-ece7a299a672",
       "name": "UPLOAD",
       "description": {
         "content": "Routes for upload",
@@ -317,7 +317,7 @@
       },
       "item": [
         {
-          "id": "6a79f09b-6bf9-48ef-903d-df49194d5cf6",
+          "id": "909aa0ea-1ad5-4fe3-a122-20fa35c94204",
           "name": "Create Item",
           "request": {
             "description": {
@@ -341,7 +341,7 @@
           "event": []
         },
         {
-          "id": "bd03cf08-a648-4a88-b8c4-110bcb83f77b",
+          "id": "4174e33c-3096-4fe7-b256-720ce8eb0b08",
           "name": "Get Item",
           "request": {
             "description": {
@@ -365,7 +365,7 @@
           "event": []
         },
         {
-          "id": "a49dbfe0-c6d9-472d-a2c3-e41b84108327",
+          "id": "9b355ce7-1063-47bc-b7c2-229150bccade",
           "name": "Delete Delete",
           "request": {
             "description": {
@@ -403,7 +403,7 @@
       }
     },
     {
-      "id": "83632226-180e-4c8e-b9e2-29a66e08f37a",
+      "id": "3eeaeba4-2b0e-4db1-be17-15c143d2bf17",
       "name": "LOCATION",
       "description": {
         "content": "Routes for location",
@@ -411,7 +411,7 @@
       },
       "item": [
         {
-          "id": "8455c4b1-b574-47a0-b034-b6d41ddbb5d9",
+          "id": "874039fe-d05b-442d-a33d-577741b4550e",
           "name": "Get Locations",
           "request": {
             "description": {
@@ -461,7 +461,7 @@
           "event": []
         },
         {
-          "id": "ad0b2079-1a7d-4459-9eaf-7980925377b8",
+          "id": "a91d924c-8433-4f04-9da2-a7659fb8d771",
           "name": "Get Locations Dropdown",
           "request": {
             "description": {
@@ -503,7 +503,7 @@
           "event": []
         },
         {
-          "id": "9b7bc018-0417-4abe-bc10-a5b14be8729e",
+          "id": "63745a9f-570d-4cfa-b026-b51132a68c16",
           "name": "Common Id",
           "request": {
             "description": {
@@ -539,7 +539,7 @@
           "event": []
         },
         {
-          "id": "0188e789-91e7-4476-b87c-18d5eaaed85c",
+          "id": "0e89c764-65a5-4b70-a797-c4b1fdad9a90",
           "name": "Create Location",
           "request": {
             "description": {
@@ -573,7 +573,7 @@
           "event": []
         },
         {
-          "id": "526c9c5c-4911-42cb-86c9-b6b642cd7c35",
+          "id": "f3d1d029-af37-464f-900f-12def71116c1",
           "name": "Update Location",
           "request": {
             "description": {
@@ -607,7 +607,7 @@
           "event": []
         },
         {
-          "id": "a0ddcfe3-738b-49ee-8748-a776f6e39a3e",
+          "id": "5421c474-7a86-4d4a-bbd7-651038525665",
           "name": "Common Id",
           "request": {
             "description": {
@@ -656,7 +656,7 @@
       }
     },
     {
-      "id": "fa10cff2-0cbe-4fde-a796-913e3caa682b",
+      "id": "9361d254-6e26-4e57-a1e1-9a8313af8996",
       "name": "BRANCH",
       "description": {
         "content": "Routes for branch",
@@ -664,7 +664,7 @@
       },
       "item": [
         {
-          "id": "d4f1044f-ebda-4aaf-9b53-39ae6d361fa0",
+          "id": "c2ba55d8-9509-4703-aef5-e96e07445837",
           "name": "Get Branches",
           "request": {
             "description": {
@@ -706,7 +706,7 @@
           "event": []
         },
         {
-          "id": "e8d697f4-d903-4d4d-a46a-f94730ff9d32",
+          "id": "a556a4d9-ef8d-4f8d-b0d9-f6a05c4865ea",
           "name": "Get Branches Dropdown",
           "request": {
             "description": {
@@ -740,7 +740,7 @@
           "event": []
         },
         {
-          "id": "d42c78cc-0d0a-44af-a595-6cfea3b2fac2",
+          "id": "135110b9-56e4-4e6d-83bc-bfe07392eb0f",
           "name": "Common Id",
           "request": {
             "description": {
@@ -776,7 +776,7 @@
           "event": []
         },
         {
-          "id": "d91cdfbc-58ed-426e-a080-a78c541e1a36",
+          "id": "87a40da0-1ff5-4185-8519-aeca5e3631ce",
           "name": "Create Branch",
           "request": {
             "description": {
@@ -810,7 +810,7 @@
           "event": []
         },
         {
-          "id": "f6618271-7f38-44ae-bb56-8f330da34d38",
+          "id": "30fa5dbb-6960-46dd-a613-75161a7c7f08",
           "name": "Update Branch",
           "request": {
             "description": {
@@ -844,7 +844,7 @@
           "event": []
         },
         {
-          "id": "19ed73fc-f3ae-44c7-a877-f59012fd017b",
+          "id": "a5c52d8d-6784-48b3-9da1-39bd74ef3b75",
           "name": "Common Id",
           "request": {
             "description": {
@@ -893,7 +893,7 @@
       }
     },
     {
-      "id": "12afb35b-0ac9-4a2b-8be2-0e5e6a50c7b6",
+      "id": "a0e0103d-f2d9-4cd8-a48f-e74f487c381a",
       "name": "USER",
       "description": {
         "content": "Routes for user",
@@ -901,7 +901,7 @@
       },
       "item": [
         {
-          "id": "f52b50c7-33ff-4f1e-a758-9d87d0ccb054",
+          "id": "06ca6335-6faf-442a-b272-704d29d87c01",
           "name": "Get All Users",
           "request": {
             "description": {
@@ -951,7 +951,7 @@
           "event": []
         },
         {
-          "id": "cd5c0b23-0998-4a17-a8b1-8a86ddacd392",
+          "id": "6654516c-95de-4927-9e98-e4e963dc28ce",
           "name": "Get Users Dropdown",
           "request": {
             "description": {
@@ -989,7 +989,7 @@
           "event": []
         },
         {
-          "id": "226b138c-1f78-4194-8964-3ae61276e25a",
+          "id": "9b3ae591-5bcc-4261-8a78-1f8c1cd2ff01",
           "name": "Update User",
           "request": {
             "description": {
@@ -1023,7 +1023,7 @@
           "event": []
         },
         {
-          "id": "0bfd3813-29a1-46b8-8b74-a6405a34d3fd",
+          "id": "eed30996-d65c-4c64-aabe-a7b1b6ae4035",
           "name": "Update Image",
           "request": {
             "description": {
@@ -1057,11 +1057,11 @@
           "event": []
         },
         {
-          "id": "f1598f91-0a0f-4519-a6b4-048926ea0d77",
+          "id": "b58d707c-ae6d-4409-abd6-c183e11ab4f5",
           "name": "Delete User",
           "request": {
             "description": {
-              "content": "Controller: deleteUser\nSchema: deleteUserSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| userId | string | Required |\n| email | string | Required |\n| password | string | Required |\n",
+              "content": "Controller: deleteUser\nSchema: deleteUserSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| userId | string | Required |\n",
               "type": "text/markdown"
             },
             "url": {
@@ -1076,14 +1076,6 @@
                 {
                   "key": "userId",
                   "value": "sample_userId"
-                },
-                {
-                  "key": "email",
-                  "value": "test@example.com"
-                },
-                {
-                  "key": "password",
-                  "value": "Password123!"
                 }
               ],
               "variable": []
@@ -1104,7 +1096,7 @@
           "event": []
         },
         {
-          "id": "55df403f-ea9b-4a6a-89f2-f9fcf69bd9d1",
+          "id": "3e8bfdb5-572d-4588-8ec6-7d371beba713",
           "name": "Get User By Id",
           "request": {
             "description": {
@@ -1153,7 +1145,7 @@
       }
     },
     {
-      "id": "b4f5e796-a586-48d5-8996-e5ced15d2696",
+      "id": "521e86bb-1a43-4711-aa92-6f353154e88a",
       "name": "BATCH",
       "description": {
         "content": "Routes for batch",
@@ -1161,7 +1153,7 @@
       },
       "item": [
         {
-          "id": "fe2a5ccd-1fa1-48f4-a151-63af3d6a9690",
+          "id": "3a6ee868-7699-4ccc-a216-73441a196986",
           "name": "Create Batch",
           "request": {
             "description": {
@@ -1195,7 +1187,7 @@
           "event": []
         },
         {
-          "id": "6ce8be85-6a14-4724-b9c2-d1262dc81a8b",
+          "id": "f8297963-d764-42bf-9947-b0a02e5073d5",
           "name": "Get Batchs",
           "request": {
             "description": {
@@ -1241,7 +1233,7 @@
           "event": []
         },
         {
-          "id": "38254527-9a06-40c0-a974-4ca1e96d1771",
+          "id": "6c74f963-0e47-485d-bce1-d2901f131ec2",
           "name": "Get Batches Dropdown",
           "request": {
             "description": {
@@ -1283,7 +1275,7 @@
           "event": []
         },
         {
-          "id": "0972b525-dcd7-4074-8309-ea16603d6e17",
+          "id": "65b2019c-3760-4bdc-8f04-0c46a9e9cede",
           "name": "Update Batch",
           "request": {
             "description": {
@@ -1317,7 +1309,7 @@
           "event": []
         },
         {
-          "id": "10e9856c-2557-47ec-8b03-c7f8e31fad2d",
+          "id": "e0ba7b6c-d83a-4e1e-a420-8345d3c6d4c5",
           "name": "Common Id",
           "request": {
             "description": {
@@ -1353,7 +1345,7 @@
           "event": []
         },
         {
-          "id": "f07fd6a4-604d-4dd6-9c7e-d8f7e011ad4d",
+          "id": "908ef0b8-483c-454e-9e0a-84796879a9c5",
           "name": "Common Id",
           "request": {
             "description": {
@@ -1389,7 +1381,7 @@
           "event": []
         },
         {
-          "id": "6ea0d4b3-641c-4dd5-a97e-bda62dd4d366",
+          "id": "947204dd-6e15-4297-9fe3-96ddec722fa4",
           "name": "Common Id",
           "request": {
             "description": {
@@ -1425,7 +1417,7 @@
           "event": []
         },
         {
-          "id": "91290207-56c3-43c8-9034-48dc4191ccd7",
+          "id": "22c6231b-c6b5-4942-ae11-be299a0cc321",
           "name": "Common Id",
           "request": {
             "description": {
@@ -1461,7 +1453,7 @@
           "event": []
         },
         {
-          "id": "34f0f83a-33c2-43be-8b95-383a7eb2281f",
+          "id": "c2c55a1b-607c-4db5-bdb6-7c5ed1c941f5",
           "name": "Add Devotee",
           "request": {
             "description": {
@@ -1495,7 +1487,7 @@
           "event": []
         },
         {
-          "id": "50f82615-5b03-4301-87e3-31d0265a45f6",
+          "id": "b5d8b2e7-6efb-41b0-a460-05c93f076245",
           "name": "Remove Devotee",
           "request": {
             "description": {
@@ -1529,7 +1521,7 @@
           "event": []
         },
         {
-          "id": "ece5d2b4-0ab1-4673-a28a-8b2659ac385b",
+          "id": "c2b4dbeb-33a1-4b73-a23b-42d9a9b15d00",
           "name": "Create Monitor",
           "request": {
             "description": {
@@ -1563,7 +1555,7 @@
           "event": []
         },
         {
-          "id": "736e3362-3628-48dc-ab71-611bb92d2767",
+          "id": "d2ee8213-5983-453a-bee4-61fb536007e1",
           "name": "Common Id",
           "request": {
             "description": {
@@ -1588,7 +1580,7 @@
           "event": []
         },
         {
-          "id": "275da5f8-8010-4848-994a-00450c21160a",
+          "id": "5cc141b5-5518-4d60-ae35-cc1eebfa25bc",
           "name": "Assign Devotee",
           "request": {
             "description": {
@@ -1622,7 +1614,7 @@
           "event": []
         },
         {
-          "id": "1cdc4539-4281-440c-b522-d3dfa8e4b54b",
+          "id": "ed0c156e-4fa4-4897-a1a9-215c2bd5da5a",
           "name": "Unassign Devotee",
           "request": {
             "description": {
@@ -1656,7 +1648,7 @@
           "event": []
         },
         {
-          "id": "a8b5201a-8a03-487e-bd10-e817b00053c4",
+          "id": "890562cb-c484-459d-88f5-67e2303fb03b",
           "name": "Get Monitor",
           "request": {
             "description": {
@@ -1694,7 +1686,7 @@
           "event": []
         },
         {
-          "id": "bb39ad9c-007e-4820-826c-2af2aef89467",
+          "id": "ce65c950-7b67-407c-a5c8-121e03213436",
           "name": "Common Id",
           "request": {
             "description": {
@@ -1743,7 +1735,7 @@
       }
     },
     {
-      "id": "554d87dc-cfc5-484e-9dfb-13c204a09b76",
+      "id": "05ff85d2-2018-477e-8d24-ef64a0eb45ba",
       "name": "GROUP",
       "description": {
         "content": "Routes for group",
@@ -1751,7 +1743,7 @@
       },
       "item": [
         {
-          "id": "d62743c5-10ec-4e30-948d-3308e6e7e19b",
+          "id": "9240dc6e-71db-4c80-ab15-916824539d28",
           "name": "Create Group",
           "request": {
             "description": {
@@ -1785,7 +1777,7 @@
           "event": []
         },
         {
-          "id": "2f63c115-a278-4978-a7d7-00322b5628c5",
+          "id": "d0980e79-f3df-4fdd-b325-ad2d6a6404f8",
           "name": "Get Groups",
           "request": {
             "description": {
@@ -1827,7 +1819,7 @@
           "event": []
         },
         {
-          "id": "34fba38f-f0af-4a43-a962-51d1a2685cf8",
+          "id": "be13b310-abf0-43ad-9797-dc0ed173f6ba",
           "name": "Get Groups Dropdown",
           "request": {
             "description": {
@@ -1861,7 +1853,7 @@
           "event": []
         },
         {
-          "id": "4f64bb73-a172-487a-a5fe-b1faecc968dd",
+          "id": "4217327d-81a3-4e2c-b118-55a661fc6295",
           "name": "Common Id",
           "request": {
             "description": {
@@ -1897,7 +1889,7 @@
           "event": []
         },
         {
-          "id": "5cabb4a3-eb2e-4224-b9e5-1d90ea16e078",
+          "id": "6fbe6d75-7398-4fc5-9a56-017c73f78d0f",
           "name": "Update Group",
           "request": {
             "description": {
@@ -1931,7 +1923,7 @@
           "event": []
         },
         {
-          "id": "09f2cdee-3818-429c-bdb7-57677f32a464",
+          "id": "7f71c738-5fda-45c6-89c1-5dffe80fa278",
           "name": "Common Id",
           "request": {
             "description": {
@@ -1967,7 +1959,7 @@
           "event": []
         },
         {
-          "id": "ed4fef4d-3d7f-4311-b8e7-951bab2bfc34",
+          "id": "02373f3f-32c1-410f-97ea-797ad47e95b7",
           "name": "Common Id",
           "request": {
             "description": {
@@ -2016,7 +2008,7 @@
       }
     },
     {
-      "id": "cfe3445b-7eb3-4dce-b0ad-aba996cb01f6",
+      "id": "77b138a2-05be-4116-b4e1-c779965d4f9a",
       "name": "PROGRAM",
       "description": {
         "content": "Routes for program",
@@ -2024,7 +2016,7 @@
       },
       "item": [
         {
-          "id": "dab5a19f-2fb4-40f5-8974-bd7e0375e3ab",
+          "id": "39bc76e4-d859-47d3-9ab8-9f7acf8b9e88",
           "name": "Create Program",
           "request": {
             "description": {
@@ -2058,7 +2050,7 @@
           "event": []
         },
         {
-          "id": "00270b5f-6eca-4b67-bf17-9cb76c659246",
+          "id": "0fb7912f-8ddf-4082-be15-39e5a2f027f6",
           "name": "Update Program",
           "request": {
             "description": {
@@ -2092,7 +2084,7 @@
           "event": []
         },
         {
-          "id": "563a05a2-b9da-4087-a9cf-7e8a52bf1cfe",
+          "id": "da880c73-e7ec-43a8-987c-d3c3a11f20ba",
           "name": "Get Programs",
           "request": {
             "description": {
@@ -2134,7 +2126,7 @@
           "event": []
         },
         {
-          "id": "270829c2-f6f0-42a9-949b-e7ac364621a1",
+          "id": "f3ecd3f3-9a46-48ab-b197-e9bcb11172f4",
           "name": "Common Id",
           "request": {
             "description": {
@@ -2169,7 +2161,7 @@
           "event": []
         },
         {
-          "id": "2d63f7c5-a2cf-4eed-b0ec-9070113ace96",
+          "id": "750bcf08-cde2-4a1e-9fcf-1b390a413bd8",
           "name": "Common Id",
           "request": {
             "description": {
@@ -2217,7 +2209,7 @@
       }
     },
     {
-      "id": "54670087-d204-4af8-860c-7b29a416c5dc",
+      "id": "69d156e6-d36b-4b1b-b4e4-b4e86def5fe5",
       "name": "ATTENDANCE",
       "description": {
         "content": "Routes for attendance",
@@ -2225,7 +2217,7 @@
       },
       "item": [
         {
-          "id": "396f93c0-ba6e-4aa1-aaca-da06a37d0e5f",
+          "id": "c4e42984-ec2b-4bc7-9c6e-449962061819",
           "name": "Get Attendance",
           "request": {
             "description": {
@@ -2271,7 +2263,7 @@
           "event": []
         },
         {
-          "id": "580b9138-ca45-4862-bcb5-6a11496e0153",
+          "id": "f5548251-f82c-474d-9329-86943e607310",
           "name": "Common Id",
           "request": {
             "description": {
@@ -2307,7 +2299,7 @@
           "event": []
         },
         {
-          "id": "8195e07c-68c7-4f41-a670-188a04d8e269",
+          "id": "cca99b78-7a05-464c-b3fa-e08331374257",
           "name": "Update Attendance",
           "request": {
             "description": {
@@ -2352,7 +2344,7 @@
           "event": []
         },
         {
-          "id": "4662ebe4-f368-463e-9608-0a3ce8e1c13b",
+          "id": "7e5cbdc9-2872-43c4-a54c-026559a05df8",
           "name": "Common Id",
           "request": {
             "description": {
@@ -2388,7 +2380,7 @@
           "event": []
         },
         {
-          "id": "1aad2bf7-4f08-4650-be27-3a0abb1bb948",
+          "id": "f3d1c7ee-cf2b-467e-a890-05f44e94432f",
           "name": "Common Id",
           "request": {
             "description": {
@@ -2436,7 +2428,7 @@
       }
     },
     {
-      "id": "631a4639-326e-4b42-ac2d-c1e9bbd948a9",
+      "id": "202d15ef-d6f4-4388-971c-932e950c6ddc",
       "name": "ANUBHUTI",
       "description": {
         "content": "Routes for anubhuti",
@@ -2444,7 +2436,7 @@
       },
       "item": [
         {
-          "id": "c9529ebf-e554-40b3-94b4-edfd1f5c8aa7",
+          "id": "1ae693d3-6e30-422f-9e52-a32a903f78b0",
           "name": "Add Anubhuti",
           "request": {
             "description": {
@@ -2478,7 +2470,7 @@
           "event": []
         },
         {
-          "id": "0c6a01e9-4d60-4aae-accc-600ef8cbef05",
+          "id": "88182285-d2be-46f1-a3ad-b00b29ef0026",
           "name": "Update Anubhuti",
           "request": {
             "description": {
@@ -2512,7 +2504,7 @@
           "event": []
         },
         {
-          "id": "24360e78-333b-433a-a091-8de583c577d5",
+          "id": "b18c4d37-6347-483e-9b88-ef0f2238688f",
           "name": "Common Id",
           "request": {
             "description": {
@@ -2547,7 +2539,7 @@
           "event": []
         },
         {
-          "id": "cc6460d6-54d6-43e6-a447-b22e4c68a618",
+          "id": "97e10b65-f0a2-4abe-8623-8d9d416fe8e1",
           "name": "Get Anubhuti",
           "request": {
             "description": {
@@ -2598,7 +2590,7 @@
       }
     },
     {
-      "id": "2d05f61e-4809-4c12-a0cd-6e00a99535b9",
+      "id": "5e714f6e-e1fc-4fb7-aedb-d63c5063c07b",
       "name": "DELETEREQUEST",
       "description": {
         "content": "Routes for deleteRequest",
@@ -2606,7 +2598,7 @@
       },
       "item": [
         {
-          "id": "688f2fb6-9d6a-4378-9321-c2eead113559",
+          "id": "9e3ec46a-f36b-43b9-8414-e2a5d53fe110",
           "name": "Update Delete Request",
           "request": {
             "description": {
@@ -2640,11 +2632,11 @@
           "event": []
         },
         {
-          "id": "05aefd01-d054-46f3-ae4b-0093579b93bd",
+          "id": "337030a8-dd35-4f55-9eef-be23cac9b1b2",
           "name": "Get Delete Request",
           "request": {
             "description": {
-              "content": "Controller: getDeleteRequest\nSchema: getDeleteRequestSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| page | number | Optional |\n| limit | number | Optional |\n| status | string | Optional |\n",
+              "content": "Controller: getDeleteRequest\nSchema: getDeleteRequestSchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| page | number | Optional |\n| limit | number | Optional |\n| search | string | Optional |\n| status | string | Optional |\n",
               "type": "text/markdown"
             },
             "url": {
@@ -2655,20 +2647,28 @@
               "host": [
                 "{{BASE_URL}}"
               ],
-              "query": [],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "sample_search"
+                },
+                {
+                  "key": "status",
+                  "value": "sample_status"
+                }
+              ],
               "variable": []
             },
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "method": "POST",
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"page\": 1,\n  \"limit\": 10,\n  \"status\": \"pending\"\n}"
-            }
+            "method": "GET",
+            "body": {}
           },
           "response": [],
           "event": []
@@ -2687,7 +2687,7 @@
       }
     },
     {
-      "id": "8ad56012-3616-443b-be2e-9925eaa45cf1",
+      "id": "cbb29eae-d6f6-4505-bb4c-783a0165560c",
       "name": "FAMILY",
       "description": {
         "content": "Routes for family",
@@ -2695,7 +2695,7 @@
       },
       "item": [
         {
-          "id": "ab32ff10-115f-4e2f-a93c-ed8257074c82",
+          "id": "00d64e01-2d9c-4ac9-bbe3-4ba6d6512575",
           "name": "Get Get",
           "request": {
             "description": {
@@ -2720,7 +2720,7 @@
           "event": []
         },
         {
-          "id": "976624e0-d75a-4690-93ae-2f6c236cde48",
+          "id": "81f46447-8f8b-4143-9f73-76fd368e5416",
           "name": "Add Family",
           "request": {
             "description": {
@@ -2754,7 +2754,7 @@
           "event": []
         },
         {
-          "id": "fdaf05bf-f6e6-466d-92ee-e759a8bf8795",
+          "id": "c20b5476-af6e-4380-ba27-3a953bcef271",
           "name": "Update Family",
           "request": {
             "description": {
@@ -2801,7 +2801,7 @@
       }
     },
     {
-      "id": "56563bd4-3461-43d0-9782-844acb946ef1",
+      "id": "be612230-da85-4028-9888-818bbdba7004",
       "name": "FEEDBACK",
       "description": {
         "content": "Routes for feedback",
@@ -2809,7 +2809,7 @@
       },
       "item": [
         {
-          "id": "46f6ebbc-d2a0-4c0c-8fbc-9f27e700dd25",
+          "id": "88c971e3-90e6-4a9c-aea5-745a2053fa34",
           "name": "Feedback",
           "request": {
             "description": {
@@ -2843,7 +2843,7 @@
           "event": []
         },
         {
-          "id": "49bbc7fd-39b2-444a-bd0e-47d7bc760ebe",
+          "id": "a4a1c31e-0df9-4059-a40d-e737e0e943c5",
           "name": "Get Feedback",
           "request": {
             "description": {
@@ -2885,7 +2885,7 @@
           "event": []
         },
         {
-          "id": "f34726ed-cb29-42e8-b18d-1e98f5646583",
+          "id": "38a23d06-c6a0-4935-a476-7f012928d3ee",
           "name": "Common Id",
           "request": {
             "description": {
@@ -2933,7 +2933,7 @@
       }
     },
     {
-      "id": "5efc47ec-d2da-4aca-8b97-ee366d16a5dc",
+      "id": "cc0ed605-c80d-4a72-b4b0-3e4779c47130",
       "name": "LEGALITY",
       "description": {
         "content": "Routes for legality",
@@ -2941,7 +2941,7 @@
       },
       "item": [
         {
-          "id": "f312e97e-c76d-4198-8a23-1c2c9f5c3c82",
+          "id": "2cd0ddc7-ed54-4459-83d4-b66bc313c0a6",
           "name": "Add Update Legality",
           "request": {
             "description": {
@@ -2975,7 +2975,7 @@
           "event": []
         },
         {
-          "id": "f50b1802-f109-4179-9691-5201ef1b11ad",
+          "id": "de94b3a9-f906-45c9-a1a5-95493d22efc3",
           "name": "Get Legality",
           "request": {
             "description": {
@@ -3018,7 +3018,7 @@
       }
     },
     {
-      "id": "94719532-5192-43f7-b94e-abb82a6ec467",
+      "id": "be566a7e-1c4a-426f-95eb-0de40e392f74",
       "name": "LIFELIGHT",
       "description": {
         "content": "Routes for lifeLight",
@@ -3026,7 +3026,7 @@
       },
       "item": [
         {
-          "id": "18581a71-5bfe-4616-a357-d235c16437cd",
+          "id": "bd15f5b2-358b-4c56-b349-37332eb8195e",
           "name": "Add Life Light",
           "request": {
             "description": {
@@ -3060,7 +3060,7 @@
           "event": []
         },
         {
-          "id": "d6b076bc-42ff-440a-80b2-5ed092e86418",
+          "id": "dc9edebd-c9b1-4b34-b1df-d1b29de2cfa5",
           "name": "Update Life Light",
           "request": {
             "description": {
@@ -3094,7 +3094,7 @@
           "event": []
         },
         {
-          "id": "c14c0422-c166-4f82-b48e-41fb4be7b0e7",
+          "id": "c4c18688-ecdc-462c-b3a1-c353c6a3667a",
           "name": "Get Life Light",
           "request": {
             "description": {
@@ -3136,7 +3136,7 @@
           "event": []
         },
         {
-          "id": "334e797f-cfd9-4579-90a8-40889a642e0e",
+          "id": "34c2e079-ab42-4964-aa06-24a394ac2ae9",
           "name": "Common Id",
           "request": {
             "description": {
@@ -3172,7 +3172,7 @@
           "event": []
         },
         {
-          "id": "a9e73f81-ba87-45e8-ab89-8a8b89c21f67",
+          "id": "324f41f3-9d83-4b7b-8e67-63b8721e7c71",
           "name": "Common Id",
           "request": {
             "description": {
@@ -3208,7 +3208,7 @@
           "event": []
         },
         {
-          "id": "768f5c5c-2a14-49b4-a154-ef508b8a5db2",
+          "id": "0b68fd1d-2a79-4dda-9e18-e2d961e20fd0",
           "name": "Common Id",
           "request": {
             "description": {
@@ -3257,7 +3257,7 @@
       }
     },
     {
-      "id": "911738b5-0145-4747-8d97-7a78e6d32581",
+      "id": "9a5f6366-04b2-49db-9e2b-5ef58f607bef",
       "name": "SETTING",
       "description": {
         "content": "Routes for setting",
@@ -3265,7 +3265,7 @@
       },
       "item": [
         {
-          "id": "95806265-a6c9-4505-9ad4-1ba47ca458a4",
+          "id": "6590e205-f16f-4dcc-9a68-7a66d57f0b00",
           "name": "Setting",
           "request": {
             "description": {
@@ -3299,7 +3299,7 @@
           "event": []
         },
         {
-          "id": "3ef6befd-7c4c-49ea-9a32-9d28ac6cff0c",
+          "id": "999fd080-27be-48f4-b475-c99bb752eb7a",
           "name": "Get Get",
           "request": {
             "description": {
@@ -3324,7 +3324,7 @@
           "event": []
         },
         {
-          "id": "d3d3f4d4-8576-4054-83d1-62d2572ba0ab",
+          "id": "8f2286db-2017-486d-861e-215a0a2dd16a",
           "name": "Get Get-sgis-pdf",
           "request": {
             "description": {
@@ -3362,7 +3362,7 @@
       }
     },
     {
-      "id": "bb65c7ed-7edf-487d-b8e7-ff4c2ec8cbd0",
+      "id": "d7b63655-da1e-4b56-b5ed-873ed7d2339b",
       "name": "TITHICALENDER",
       "description": {
         "content": "Routes for tithiCalender",
@@ -3370,7 +3370,7 @@
       },
       "item": [
         {
-          "id": "faaa1e1e-4cdf-4e75-8f3e-8e2f26ac8cbf",
+          "id": "5ece9d1d-21af-4a50-990c-373a16df2dab",
           "name": "Tithi Calender",
           "request": {
             "description": {
@@ -3404,7 +3404,7 @@
           "event": []
         },
         {
-          "id": "36907479-fbd3-437b-80f2-b8d50931d4b7",
+          "id": "9f931450-52c4-43fb-aa0e-3714605cef14",
           "name": "Add Update Month",
           "request": {
             "description": {
@@ -3438,7 +3438,7 @@
           "event": []
         },
         {
-          "id": "174fad8c-4d7a-48ec-99c1-8f1416382a51",
+          "id": "07a629e1-b170-486d-b6d3-19513da9dc38",
           "name": "Get Tithi Calender",
           "request": {
             "description": {
@@ -3480,7 +3480,7 @@
       }
     },
     {
-      "id": "a8227f25-96ec-45ab-a162-9d48e8a8e3af",
+      "id": "856fdbbd-7be6-446e-93c5-71cfb9d74d24",
       "name": "BANNER",
       "description": {
         "content": "Routes for banner",
@@ -3488,7 +3488,7 @@
       },
       "item": [
         {
-          "id": "62b445ab-b1a7-45a8-a629-90339d8d5fe3",
+          "id": "c29572c8-ba41-45ed-b372-9e7219b0ab19",
           "name": "Create Banner",
           "request": {
             "description": {
@@ -3522,7 +3522,7 @@
           "event": []
         },
         {
-          "id": "045879e3-3cde-49d0-a414-1bc5b47c2141",
+          "id": "102b6dd1-2ed9-4754-bba3-17a1f727cecc",
           "name": "Get Get",
           "request": {
             "description": {
@@ -3547,7 +3547,7 @@
           "event": []
         },
         {
-          "id": "fed95b89-169d-476f-942f-960bc22f3eab",
+          "id": "547c1f4b-1d1b-40d3-bb8f-c83d841b562a",
           "name": "Get Banner By Id",
           "request": {
             "description": {
@@ -3583,7 +3583,7 @@
           "event": []
         },
         {
-          "id": "20ff504c-17fc-4ae0-90da-8728ca7a350b",
+          "id": "3bf794b4-9634-4b77-a890-780a52358ea7",
           "name": "Update Banner",
           "request": {
             "description": {
@@ -3617,7 +3617,7 @@
           "event": []
         },
         {
-          "id": "c3be8145-5d80-43a1-9119-ed8d524f4dbc",
+          "id": "ebf5e0c0-f48e-4b8d-90a2-2be8a0274498",
           "name": "Get Banner By Id",
           "request": {
             "description": {
@@ -3675,7 +3675,7 @@
       }
     },
     {
-      "id": "5789c38a-5a07-4c66-a89e-8f36c12df0f2",
+      "id": "7ed9b360-ff1b-4625-80a6-0240b61109a0",
       "name": "SURVEY",
       "description": {
         "content": "Routes for survey",
@@ -3683,11 +3683,11 @@
       },
       "item": [
         {
-          "id": "0d8665ea-f51b-4835-9d37-b55539145662",
+          "id": "96b21591-4f3f-4740-a864-06698cde1869",
           "name": "Create Survey",
           "request": {
             "description": {
-              "content": "Controller: createSurvey\nSchema: createSurveySchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| title | string | Required |\n| description | string | Optional |\n| scope | string | Required |\n| groupId | any | Optional |\n| batchId | any | Optional |\n| questions | array | Required |\n| questions[].questionText | string | Required |\n| questions[].questionType | string | Optional |\n| questions[].options | array | Optional |\n| questions[].isRequired | boolean | Optional |\n| isActive | boolean | Optional |\n",
+              "content": "Controller: createSurvey\nSchema: createSurveySchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| title | string | Required |\n| description | string | Optional |\n| scope | string | Required |\n| groupId | any | Optional |\n| batchId | any | Optional |\n| questions | array | Required |\n| questions[]._id | string | Optional |\n| questions[].questionText | string | Required |\n| questions[].questionType | string | Optional |\n| questions[].options | array | Optional |\n| questions[].isRequired | boolean | Optional |\n| isActive | boolean | Optional |\n",
               "type": "text/markdown"
             },
             "url": {
@@ -3717,11 +3717,11 @@
           "event": []
         },
         {
-          "id": "bfc1fcb1-55f4-468a-9f09-6836a4507305",
+          "id": "0d25e9b3-f0ee-492e-9263-c1eeb47ddb69",
           "name": "Update Survey",
           "request": {
             "description": {
-              "content": "Controller: updateSurvey\nSchema: updateSurveySchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| surveyId | string | Required |\n| title | string | Optional |\n| description | string | Optional |\n| scope | string | Optional |\n| groupId | string | Optional |\n| batchId | string | Optional |\n| questions | array | Optional |\n| questions[].questionText | string | Required |\n| questions[].questionType | string | Optional |\n| questions[].options | array | Optional |\n| questions[].isRequired | boolean | Optional |\n| isActive | boolean | Optional |\n",
+              "content": "Controller: updateSurvey\nSchema: updateSurveySchema\n\n### Validation Rules\n| Field | Type | Requirement |\n|---|---|---|\n| surveyId | string | Required |\n| title | string | Optional |\n| description | string | Optional |\n| scope | string | Optional |\n| groupId | string | Optional |\n| batchId | string | Optional |\n| questions | array | Optional |\n| questions[]._id | string | Optional |\n| questions[].questionText | string | Required |\n| questions[].questionType | string | Optional |\n| questions[].options | array | Optional |\n| questions[].isRequired | boolean | Optional |\n| isActive | boolean | Optional |\n",
               "type": "text/markdown"
             },
             "url": {
@@ -3751,7 +3751,7 @@
           "event": []
         },
         {
-          "id": "d839cf45-aace-4822-a413-4b2b4afa2692",
+          "id": "b482b67d-357d-41fe-9cf9-42dd689c4ad7",
           "name": "Common Id",
           "request": {
             "description": {
@@ -3787,7 +3787,7 @@
           "event": []
         },
         {
-          "id": "15d0a13b-ee65-448f-8a57-a02a96f5f24b",
+          "id": "b98f1850-dead-46b7-840b-ef5617090129",
           "name": "Get Surveys",
           "request": {
             "description": {
@@ -3841,7 +3841,7 @@
           "event": []
         },
         {
-          "id": "b05613a2-5d7e-4b9b-ac5f-46d69b97e69c",
+          "id": "046dfb85-4076-4010-b2d8-b0186d2289fe",
           "name": "Common Id",
           "request": {
             "description": {
@@ -3877,7 +3877,7 @@
           "event": []
         },
         {
-          "id": "dda34626-6ca2-4ae2-9af1-743ee5602fe4",
+          "id": "af09be89-5d14-4619-a237-2df6c3d0c1fa",
           "name": "Submit Survey Response",
           "request": {
             "description": {
@@ -3911,7 +3911,7 @@
           "event": []
         },
         {
-          "id": "b8c7a790-de37-4b30-95ce-31305d89967d",
+          "id": "12172972-8bf2-4b98-ad53-7bca5b0249b7",
           "name": "Get Survey Responses",
           "request": {
             "description": {
@@ -3949,7 +3949,7 @@
           "event": []
         },
         {
-          "id": "ad55d97e-3b09-453d-a477-58993e131958",
+          "id": "a6490c13-127f-4655-ae71-770eb8e47310",
           "name": "Common Id",
           "request": {
             "description": {
@@ -4012,7 +4012,7 @@
     }
   ],
   "info": {
-    "_postman_id": "daf236e6-70e6-42d1-9630-3c2c55506155",
+    "_postman_id": "b1ebc8d6-6503-4122-8f49-84a7a4bfa56c",
     "name": "Bhutpurva API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {

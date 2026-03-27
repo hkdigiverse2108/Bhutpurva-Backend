@@ -4,7 +4,8 @@ import { DELETE_REQUEST_STATUS, objectId } from "../common";
 export const getDeleteRequestSchema = joi.object({
     page: joi.number().optional().default(1),
     limit: joi.number().optional(),
-    status: joi.string().optional().default(DELETE_REQUEST_STATUS.PENDING),
+    search: joi.string().optional(),
+    statusFilter: joi.string().optional().default(DELETE_REQUEST_STATUS.PENDING),
 });
 
 export const updateDeleteRequestSchema = joi.object({

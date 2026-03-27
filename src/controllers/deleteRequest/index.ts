@@ -9,8 +9,15 @@ export const getDeleteRequest = async (req, res) => {
         const { error, value } = getDeleteRequestSchema.validate(req.query);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const query = {
-            status: value.status,
+        const query: any = {
+            status: value.statusFilter,
+        }
+
+        if (value.search) {
+            query.$or = [
+                { name: { $regex: value.search, $options: "si" } },
+                { email: { $regex: value.search, $options: "si" } },
+            ];
         }
 
         const skip = (value.page - 1) * value.limit;

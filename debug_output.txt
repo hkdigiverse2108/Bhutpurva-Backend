@@ -172,7 +172,7 @@ Processing router: deleteRequest at /deleteRequest
 Found 2 routes in deleteRequest
   Processing route: POST /update
     Found schema: updateDeleteRequestSchema for controller: updateDeleteRequest
-  Processing route: POST /get
+  Processing route: GET /get
     Found schema: getDeleteRequestSchema for controller: getDeleteRequest
 Processing router: family at /family
 Found 3 routes in family
