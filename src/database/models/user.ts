@@ -52,6 +52,36 @@ const userSchema = new mongoose.Schema({
     isVerified: { type: Boolean, default: false },
     batchId: { type: mongoose.Schema.Types.ObjectId, ref: batchModelName },
     activeSessions: [{ token: { type: String }, createdAt: { type: Date, default: Date.now } }],
-}, { timestamps: true, versionKey: false })
+}, {
+    timestamps: true,
+    versionKey: false,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+})
+
+userSchema.virtual("profileCompletion").get(function () {
+    const fields = [
+        "name", "fatherName", "surname", "phoneNumber", "whatsappNumber",
+        "birthDate", "gender", "hrNo", "currentCity", "image",
+        "occupation", "maritalStatus", "bloodGroup", "class10", "class12",
+        "studyId", "skill", "hobbies", "batchId", "email"
+    ];
+    let completed = 0;
+    fields.forEach(field => {
+        if (this[field]) completed++;
+    });
+
+    // Array fields
+    if (this.professions && this.professions.length > 0) completed++;
+    if (this.educations && this.educations.length > 0) completed++;
+    if (this.addressIds && this.addressIds.length > 0) completed++;
+    if (this.talents && this.talents.length > 0) completed++;
+    if (this.awards && this.awards.length > 0) completed++;
+
+    // Boolean field
+    if (this.isVerified) completed++;
+
+    return Math.round((completed / 26) * 100);
+});
 
 export const userModel = mongoose.model(userModelName, userSchema);

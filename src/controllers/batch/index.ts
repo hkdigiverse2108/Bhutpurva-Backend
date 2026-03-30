@@ -119,6 +119,10 @@ export const getBatches = async (req, res) => {
         const { error, value } = getBatchsSchema.validate(req.query);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
+        const user = req.headers.user;
+
+        console.log(user);
+
         const query: any = {
             isDeleted: false
         }
@@ -154,7 +158,56 @@ export const getBatches = async (req, res) => {
                     foreignField: "batchId",
                     pipeline: [
                         { $match: { isDeleted: false } },
-                        { $project: { _id: 1, name: 1, surname: 1, email: 1, phoneNumber: 1, currentCity: 1, isVerified: 1 } }
+                        {
+                            $addFields: {
+                                profileCompletion: {
+                                    $round: [
+                                        {
+                                            $multiply: [
+                                                {
+                                                    $divide: [
+                                                        {
+                                                            $add: [
+                                                                { $cond: [{ $ifNull: ["$name", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$fatherName", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$surname", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$phoneNumber", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$whatsappNumber", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$birthDate", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$gender", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$hrNo", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$currentCity", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$image", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$occupation", false] }, 1, 0] },
+                                                                { $cond: [{ $gt: [{ $size: { $ifNull: ["$professions", []] } }, 0] }, 1, 0] },
+                                                                { $cond: [{ $gt: [{ $size: { $ifNull: ["$educations", []] } }, 0] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$maritalStatus", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$bloodGroup", false] }, 1, 0] },
+                                                                { $cond: [{ $gt: [{ $size: { $ifNull: ["$addressIds", []] } }, 0] }, 1, 0] },
+                                                                { $cond: ["$isVerified", 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$class10", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$class12", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$studyId", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$skill", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$hobbies", false] }, 1, 0] },
+                                                                { $cond: [{ $gt: [{ $size: { $ifNull: ["$talents", []] } }, 0] }, 1, 0] },
+                                                                { $cond: [{ $gt: [{ $size: { $ifNull: ["$awards", []] } }, 0] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$batchId", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$email", false] }, 1, 0] }
+                                                            ]
+                                                        },
+                                                        26
+                                                    ]
+                                                },
+                                                100
+                                            ]
+                                        },
+                                        0
+                                    ]
+                                }
+                            }
+                        },
+                        { $project: { _id: 1, name: 1, surname: 1, email: 1, phoneNumber: 1, currentCity: 1, isVerified: 1, profileCompletion: 1 } }
                     ],
                     as: "students"
                 }
@@ -189,7 +242,7 @@ export const getBatches = async (req, res) => {
         const batch = await batchModel.populate(batchData, [
             {
                 path: "monitorIds",
-                populate: { path: "userId", select: "name email surname phoneNumber currentCity isVerified" }
+                populate: { path: "userId", select: "name email surname phoneNumber currentCity isVerified profileCompletion" }
             }
         ]);
 
@@ -280,7 +333,56 @@ export const getBatchById = async (req, res) => {
                     foreignField: "batchId",
                     pipeline: [
                         { $match: { isDeleted: false } },
-                        { $project: { _id: 1, name: 1, surname: 1, email: 1, phoneNumber: 1, currentCity: 1, isVerified: 1 } }
+                        {
+                            $addFields: {
+                                profileCompletion: {
+                                    $round: [
+                                        {
+                                            $multiply: [
+                                                {
+                                                    $divide: [
+                                                        {
+                                                            $add: [
+                                                                { $cond: [{ $ifNull: ["$name", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$fatherName", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$surname", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$phoneNumber", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$whatsappNumber", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$birthDate", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$gender", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$hrNo", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$currentCity", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$image", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$occupation", false] }, 1, 0] },
+                                                                { $cond: [{ $gt: [{ $size: { $ifNull: ["$professions", []] } }, 0] }, 1, 0] },
+                                                                { $cond: [{ $gt: [{ $size: { $ifNull: ["$educations", []] } }, 0] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$maritalStatus", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$bloodGroup", false] }, 1, 0] },
+                                                                { $cond: [{ $gt: [{ $size: { $ifNull: ["$addressIds", []] } }, 0] }, 1, 0] },
+                                                                { $cond: ["$isVerified", 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$class10", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$class12", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$studyId", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$skill", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$hobbies", false] }, 1, 0] },
+                                                                { $cond: [{ $gt: [{ $size: { $ifNull: ["$talents", []] } }, 0] }, 1, 0] },
+                                                                { $cond: [{ $gt: [{ $size: { $ifNull: ["$awards", []] } }, 0] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$batchId", false] }, 1, 0] },
+                                                                { $cond: [{ $ifNull: ["$email", false] }, 1, 0] }
+                                                            ]
+                                                        },
+                                                        26
+                                                    ]
+                                                },
+                                                100
+                                            ]
+                                        },
+                                        0
+                                    ]
+                                }
+                            }
+                        },
+                        { $project: { _id: 1, name: 1, surname: 1, email: 1, phoneNumber: 1, currentCity: 1, isVerified: 1, profileCompletion: 1 } }
                     ],
                     as: "students"
                 }
@@ -297,7 +399,7 @@ export const getBatchById = async (req, res) => {
         const batch = await batchModel.populate(result[0], [
             {
                 path: "monitorIds",
-                populate: { path: "userId", select: "name email surname phoneNumber currentCity isVerified" }
+                populate: { path: "userId", select: "name email surname phoneNumber currentCity isVerified profileCompletion" }
             }
         ]);
 
