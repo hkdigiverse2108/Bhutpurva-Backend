@@ -1,7 +1,7 @@
 import { apiResponse, DELETE_REQUEST_STATUS, STATUS_CODE } from "../../common";
 import { userModel } from "../../database";
 import { deleteRequestModel } from "../../database/models/deleteRequest";
-import { countData, findAllWithPopulate, updateData } from "../../helper";
+import { countData, findAllWithPopulate, getData, updateData } from "../../helper";
 import { getDeleteRequestSchema, updateDeleteRequestSchema } from "../../validation";
 
 export const getDeleteRequest = async (req, res) => {
@@ -14,10 +14,14 @@ export const getDeleteRequest = async (req, res) => {
         }
 
         if (value.search) {
-            query.$or = [
-                { name: { $regex: value.search, $options: "si" } },
-                { email: { $regex: value.search, $options: "si" } },
-            ];
+            const users = await getData(userModel, {
+                $or: [
+                    { name: { $regex: value.search, $options: "si" } },
+                    { email: { $regex: value.search, $options: "si" } },
+                ]
+            }, { _id: 1 }, {});
+            const userIds = users.map(u => u._id);
+            query.userId = { $in: userIds };
         }
 
         const skip = (value.page - 1) * value.limit;
