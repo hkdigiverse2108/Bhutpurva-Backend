@@ -14,6 +14,8 @@ const userSchema = new mongoose.Schema({
     // login info
     email: { type: String },
     password: { type: String },
+    googleId: { type: String },
+    authProvider: { type: String, enum: ["local", "google"], default: "local" },
 
     // basic info
     name: { type: String },
@@ -80,8 +82,9 @@ userSchema.virtual("profileCompletion").get(function () {
 
     // Boolean field
     if (this.isVerified) completed++;
+    if (this.googleId) completed++;
 
-    return Math.round((completed / 26) * 100);
+    return Math.round((completed / 27) * 100);
 });
 
 export const userModel = mongoose.model(userModelName, userSchema);

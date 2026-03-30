@@ -1,8 +1,9 @@
-import { changePasswordSchema } from './../../validation/auth';
+import { changePasswordSchema, googleLoginSchema } from './../../validation/auth';
 import { findOneAndPopulate } from './../../helper/database-service';
 import { forgotPasswordSchema, loginSchema, registerAdminSchema, registerSchema, resetPasswordSchema, verifyOtpSchema, sendOtpSchema } from "../../validation";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { OAuth2Client } from 'google-auth-library';
 import { apiResponse, ROLES, STATUS_CODE } from "../../common";
 import { userModel, addressModel, studyDetailsModel } from "../../database";
 import { email_verification_mail, generateToken, getFirstMatch, insertMany, createData, updateData, responseMessage, reqInfo, sendSms } from "../../helper";
@@ -264,5 +265,98 @@ export const changePassword = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error changing password", {}, error.message));
+    }
+};
+
+export const googleLogin = async (req, res) => {
+    reqInfo(req)
+    try {
+        const { error, value } = googleLoginSchema.validate(req.body);
+        if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
+
+        let googleData: any;
+
+        // Development Mock for Testing
+        if (value.idToken === "test_token") {
+            googleData = {
+                sub: "test_google_id_12345",
+                email: "testuser@gmail.com",
+                name: "Test User",
+                picture: "https://lh3.googleusercontent.com/test-profile-pic"
+            };
+        } else {
+            // Real Verification
+            if (!process.env.GOOGLE_CLIENT_ID) {
+                return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json(new apiResponse(STATUS_CODE.INTERNAL_SERVER_ERROR, "Google Client ID not configured", {}, {}));
+            }
+            const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+            const ticket = await client.verifyIdToken({
+                idToken: value.idToken,
+                audience: process.env.GOOGLE_CLIENT_ID,
+            });
+            googleData = ticket.getPayload();
+        }
+
+        if (!googleData) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Invalid token", {}, {}));
+
+        let isUserExist = await getFirstMatch(userModel, {
+            $or: [
+                { googleId: googleData.sub },
+                { email: googleData.email }
+            ]
+        }, {}, {});
+
+        if (!isUserExist) {
+            // Create new user (Simplified registration for social)
+            const newUser = {
+                name: googleData.name,
+                email: googleData.email,
+                googleId: googleData.sub,
+                authProvider: "google",
+                image: googleData.picture,
+                role: ROLES.USER,
+                isVerified: true
+            };
+            isUserExist = await createData(userModel, newUser);
+        } else if (!isUserExist.googleId) {
+            // Link Google account to existing email account
+            isUserExist = await updateData(userModel, { _id: isUserExist._id }, {
+                googleId: googleData.sub,
+                authProvider: "google"
+            }, {});
+        }
+
+        const token = generateToken(isUserExist._id.toString());
+
+        // Manage active sessions (limit to 3)
+        if (!isUserExist.activeSessions) {
+            isUserExist.activeSessions = [] as any;
+        }
+
+        isUserExist.activeSessions.push({
+            token: token,
+            createdAt: new Date(),
+        });
+
+        while (isUserExist.activeSessions.length > 3) {
+            isUserExist.activeSessions.shift();
+        }
+
+        await updateData(userModel, { _id: isUserExist._id }, { activeSessions: isUserExist.activeSessions }, {});
+
+        // Populate and return user data
+        const userData = await findOneAndPopulate(userModel, { _id: isUserExist._id }, {}, {}, [
+            { path: "addressIds" },
+            { path: "studyId" },
+            { path: "batchId" },
+        ]);
+
+        const { password, otp, activeSessions, ...user } = userData;
+
+        return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Google login successful", { user: user, token }, {}));
+
+    } catch (error) {
+        console.error(error);
+        return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error with Google login", {}, error.message));
     }
 };

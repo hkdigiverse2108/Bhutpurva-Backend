@@ -145,9 +145,46 @@ export const getSurveys = async (req, res) => {
             },
             { $unwind: { path: "$createdBy", preserveNullAndEmptyArrays: true } },
             { $sort: { createdAt: -1 } },
+            { $sort: { createdAt: -1 } },
             {
                 $facet: {
-                    data: hasPagination ? [{ $skip: skip }, { $limit: value.limit }] : [{ $skip: 0 }],
+                    data: [
+                        ...(hasPagination ? [{ $skip: skip }, { $limit: value.limit }] : [{ $skip: 0 }]),
+                        {
+                            $addFields: {
+                                isCompleted: false, // Default
+                                debugStatus: "Pipeline Executed" // Debug flag
+                            }
+                        },
+                        {
+                            $lookup: {
+                                from: "surveyresponses",
+                                let: { surveyId: "$_id" },
+                                pipeline: [
+                                    {
+                                        $match: {
+                                            $expr: {
+                                                $and: [
+                                                    { $eq: ["$surveyId", "$$surveyId"] },
+                                                    { $eq: ["$userId", new mongoose.Types.ObjectId(req.headers.user._id)] },
+                                                    { $eq: ["$isDeleted", false] }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    { $project: { _id: 1 } },
+                                    { $limit: 1 }
+                                ],
+                                as: "userResponses",
+                            }
+                        },
+                        {
+                            $addFields: {
+                                isCompleted: { $gt: [{ $size: "$userResponses" }, 0] }
+                            }
+                        },
+                        { $project: { userResponses: 0 } }
+                    ],
                     totalCount: [{ $count: "count" }],
                 }
             }
@@ -210,6 +247,34 @@ export const getSurveyById = async (req, res) => {
                 }
             },
             { $unwind: { path: "$createdBy", preserveNullAndEmptyArrays: true } },
+            {
+                $lookup: {
+                    from: "surveyresponses",
+                    let: { surveyId: "$_id" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $eq: ["$surveyId", "$$surveyId"] },
+                                        { $eq: ["$userId", new mongoose.Types.ObjectId(req.headers.user._id)] },
+                                        { $eq: ["$isDeleted", false] }
+                                    ]
+                                }
+                            }
+                        },
+                        { $project: { _id: 1 } },
+                        { $limit: 1 }
+                    ],
+                    as: "userResponses",
+                }
+            },
+            {
+                $addFields: {
+                    isCompleted: { $gt: [{ $size: "$userResponses" }, 0] }
+                }
+            },
+            { $project: { userResponses: 0 } },
         ]);
 
         if (!survey || survey.length === 0)

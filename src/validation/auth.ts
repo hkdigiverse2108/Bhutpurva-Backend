@@ -116,3 +116,7 @@ export const changePasswordSchema = joi.object({
         "any.only": "Passwords do not match",
     }),
 });
+
+export const googleLoginSchema = joi.object({
+    idToken: joi.string().required(),
+});
