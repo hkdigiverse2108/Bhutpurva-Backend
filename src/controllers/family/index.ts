@@ -1,4 +1,4 @@
-import { createData, getFirstMatch, updateData } from "../../helper";
+import { createData, getFirstMatch, updateData, findOneAndPopulate } from "../../helper";
 import { addFamilySchema, updateFamilySchema } from "../../validation";
 import { familyModel, userModel } from "../../database";
 import { apiResponse, ROLES, STATUS_CODE } from "../../common";
@@ -8,7 +8,9 @@ export const getFamily = async (req, res) => {
         const user = req.headers.user;
 
 
-        const familyData = await getFirstMatch(familyModel, { userId: user._id }, {}, {});
+        const familyData = await findOneAndPopulate(familyModel, { userId: user._id }, {}, {}, [
+            { path: "members.memberId", select: "name email phoneNumber image" }
+        ]);
         if (!familyData) {
             return res.status(STATUS_CODE.NOT_FOUND).json(new apiResponse(STATUS_CODE.NOT_FOUND, "Family not found", {}, "Family not found"));
         }

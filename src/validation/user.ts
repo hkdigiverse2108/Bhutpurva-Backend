@@ -58,3 +58,7 @@ export const deleteUserSchema = joi.object({
 });
 
 export const getUserByIdSchema = commonIdSchema;
+
+export const searchUserByPhoneSchema = joi.object({
+    phone: joi.string().required().min(10).max(15),
+});

@@ -1,7 +1,7 @@
 import { apiResponse, DELETE_REQUEST_STATUS, ROLES, STATUS_CODE } from "../../common";
 import { addressModel, studyDetailsModel, userModel, deleteRequestModel, groupModel, batchModel } from "../../database";
 import { countData, createData, findAllWithPopulate, findOneAndPopulate, getFirstMatch, reqInfo, responseMessage, updateData, deleteFile } from "../../helper";
-import { deleteUserSchema, getAllUsersSchema, getUserByIdSchema, updateImageSchema, updateUserSchema, getUsersDropdownSchema } from "../../validation";
+import { deleteUserSchema, getAllUsersSchema, getUserByIdSchema, updateImageSchema, updateUserSchema, getUsersDropdownSchema, searchUserByPhoneSchema } from "../../validation";
 import bcrypt from "bcryptjs";
 
 export const getAllUsers = async (req, res) => {
@@ -259,3 +259,25 @@ export const getUserById = async (req, res) => {
         return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error fetching user", {}, error.message));
     }
 };
+
+export const searchUserByPhone = async (req, res) => {
+    reqInfo(req)
+    try {
+        const { error, value } = searchUserByPhoneSchema.validate(req.query);
+        if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
+
+        const user = await userModel.findOne({ phoneNumber: value.phone, isDeleted: false }, { _id: 1, name: 1, phoneNumber: 1 });
+        if (!user) return res.status(STATUS_CODE.NOT_FOUND).json(new apiResponse(STATUS_CODE.NOT_FOUND, "User not found", {}, {}));
+
+        if (user._id.toString() === req.headers.user._id.toString()) {
+            return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "You cannot add yourself as a family member", {}, {}));
+        }
+
+        return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "User fetched successfully", user, {}));
+    } catch (error) {
+        console.error(error);
+        return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error searching user", {}, error.message));
+    }
+}
+
+
