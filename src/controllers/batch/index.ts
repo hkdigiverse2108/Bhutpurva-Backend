@@ -673,7 +673,7 @@ export const unassignDevotee = async (req, res) => {
         const { error, value } = unassignDevoteeSchema.validate(req.body);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const monitor = await updateData(monitorModel, { _id: value.monitorId }, { $pull: { devoteeIds: { $each: value.devoteeIds } } }, { new: true });
+        const monitor = await updateData(monitorModel, { _id: value.monitorId }, { $pull: { devoteeIds: { $in: value.devoteeIds } } }, { new: true });
         if (!monitor) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Monitor not found", {}, {}));
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Devotee unassigned from batch successfully", monitor, {}));

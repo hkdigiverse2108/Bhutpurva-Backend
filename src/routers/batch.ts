@@ -16,12 +16,11 @@ router.get("/monitor/:id", roleCheck([ROLES.ADMIN, ROLES.MONITOR, ROLES.LEADER, 
 router.post("/add-devotee", roleCheck([ROLES.ADMIN]), batchController.addDevoteeToBatch);
 router.post("/remove-devotee", roleCheck([ROLES.ADMIN]), batchController.removeDevoteeFromBatch);
 router.post("/add-monitor", roleCheck([ROLES.ADMIN]), batchController.createMonitor);
-router.post("/remove-monitor", roleCheck([ROLES.ADMIN]), batchController.removeMonitor);
+router.post("/remove-monitor/:id", roleCheck([ROLES.ADMIN]), batchController.removeMonitor);
 router.post("/assign-devotee", roleCheck([ROLES.ADMIN]), batchController.assignDevotee);
 router.post("/unassign-devotee", roleCheck([ROLES.ADMIN]), batchController.unassignDevotee);
-router.get("/get-monitors", roleCheck([ROLES.ADMIN]), batchController.getMonitors);
-router.get("/get-monitor/:id", roleCheck([ROLES.ADMIN]), batchController.getMonitorById);
-router.get("/get-unassigned-devotees", roleCheck([ROLES.ADMIN]), batchController.getUnassignedDevotees);
-
+router.get("/get-monitors", roleCheck([ROLES.ADMIN, ROLES.MONITOR, ROLES.LEADER, ROLES.USER]), batchController.getMonitors);
+router.get("/get-monitor/:id", roleCheck([ROLES.ADMIN, ROLES.MONITOR, ROLES.LEADER, ROLES.USER]), batchController.getMonitorById);
+router.get("/get-unassigned-devotees", roleCheck([ROLES.ADMIN, ROLES.MONITOR]), batchController.getUnassignedDevotees);
 
 export default router;
