@@ -21,5 +21,7 @@ router.post("/assign-devotee", roleCheck([ROLES.ADMIN]), batchController.assignD
 router.post("/unassign-devotee", roleCheck([ROLES.ADMIN]), batchController.unassignDevotee);
 router.get("/get-monitors", roleCheck([ROLES.ADMIN]), batchController.getMonitors);
 router.get("/get-monitor/:id", roleCheck([ROLES.ADMIN]), batchController.getMonitorById);
+router.get("/get-unassigned-devotees", roleCheck([ROLES.ADMIN]), batchController.getUnassignedDevotees);
+
 
 export default router;

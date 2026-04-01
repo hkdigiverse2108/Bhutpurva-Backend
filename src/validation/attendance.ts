@@ -3,7 +3,7 @@ import { objectId } from "../common";
 
 const studentItemsSchema = joi.object({
     studentId: objectId().required(),
-    isPresent: joi.boolean().required(),
+    isPresent: joi.boolean().required().allow(null),
 });
 
 export const getAttendanceSchema = joi.object({

@@ -62,7 +62,7 @@ export const getUserAttendance = async (req, res) => {
         const { error, value } = commonIdSchema.validate(req.params);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const attendance = await findAllWithPopulate(attendanceModel, { "students.studentId": value.id }, {}, {}, [{ path: 'batchId', select: "name" }, { path: 'programId', select: "name" }]);
+        const attendance = await findAllWithPopulate(attendanceModel, { "students.studentId": value.id }, {}, { sort: { date: -1 } }, [{ path: 'batchId', select: "name" }, { path: 'programId', select: "name" }]);
 
         if (!attendance) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Attendance not found", {}, {}));
 
@@ -90,7 +90,7 @@ export const updateAttendance = async (req, res) => {
         const { error, value } = updateAttendanceSchema.validate(req.body);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const attendance = await getFirstMatch(attendanceModel, { _id: value.id }, {}, {});
+        const attendance = await attendanceModel.findOne({ _id: value.attendanceId });
         if (!attendance) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Attendance not found", {}, {}));
 
         const currentDate = new Date().toISOString().split("T")[0];

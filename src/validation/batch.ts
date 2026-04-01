@@ -62,3 +62,7 @@ export const getMonitorSchema = joi.object({
     // search: joi.string().allow("", null).optional(),
     batchFilter: objectId().optional(),
 });
+
+export const getUnassignedDevoteesSchema = joi.object({
+    batchId: objectId().required(),
+});

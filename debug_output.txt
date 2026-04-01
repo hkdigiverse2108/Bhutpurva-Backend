@@ -1,6 +1,6 @@
 Base paths found: {"auth":{"path":"/auth","isProtected":false},"upload":{"path":"/upload","isProtected":false},"location":{"path":"/location","isProtected":false},"branch":{"path":"/branch","isProtected":false},"user":{"path":"/user","isProtected":true},"batch":{"path":"/batch","isProtected":true},"group":{"path":"/group","isProtected":true},"program":{"path":"/program","isProtected":true},"attendance":{"path":"/attendance","isProtected":true},"anubhuti":{"path":"/anubhuti","isProtected":true},"deleteRequest":{"path":"/deleteRequest","isProtected":true},"family":{"path":"/family","isProtected":true},"feedback":{"path":"/feedback","isProtected":true},"legality":{"path":"/legality","isProtected":true},"lifeLight":{"path":"/lifeLight","isProtected":true},"setting":{"path":"/setting","isProtected":true},"tithiCalender":{"path":"/tithiCalender","isProtected":true},"banner":{"path":"/banner","isProtected":true},"survey":{"path":"/survey","isProtected":true}}
 Processing router: auth at /auth
-Found 9 routes in auth
+Found 10 routes in auth
   Processing route: POST /register
     Found schema: registerSchema for controller: registerUser
   Processing route: POST /register-admin
@@ -16,6 +16,8 @@ Found 9 routes in auth
   Processing route: POST /reset-password
     Found schema: resetPasswordSchema for controller: resetPassword
   Processing route: POST /logout
+  Processing route: POST /google-login
+    Found schema: googleLoginSchema for controller: googleLogin
   Processing route: POST /change-password
     Found schema: changePasswordSchema for controller: changePassword
 Processing router: upload at /upload
@@ -70,7 +72,7 @@ Found 6 routes in user
   Processing route: GET /get/:id
     Found schema: getUserByIdSchema for controller: getUserById
 Processing router: batch at /batch
-Found 16 routes in batch
+Found 17 routes in batch
   Processing route: POST /create
     Found schema: createBatchSchema for controller: createBatch
   Processing route: GET /get
@@ -109,6 +111,8 @@ Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\batch.
   Processing route: GET /get-monitor/:id
     Found schema: commonIdSchema for controller: getMonitorById
 Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\batch.ts
+  Processing route: GET /get-unassigned-devotees
+    Found schema: getUnassignedDevoteesSchema for controller: getUnassignedDevotees
 Processing router: group at /group
 Found 7 routes in group
   Processing route: POST /create
@@ -149,7 +153,7 @@ Found 5 routes in attendance
   Processing route: GET /user/:id
     Found schema: commonIdSchema for controller: getUserAttendance
 Could not find valid schema commonIdSchema in E:\bhutpurva\src\validation\attendance.ts
-  Processing route: PUT /update/:id
+  Processing route: PUT /update
     Found schema: updateAttendanceSchema for controller: updateAttendance
   Processing route: GET /program/:id
     Found schema: commonIdSchema for controller: getAttendanceByProgramId

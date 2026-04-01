@@ -9,7 +9,7 @@ const studentSchema = new mongoose.Schema({
     },
     isPresent: {
         type: Boolean,
-        default: false,
+        default: null,
     },
 }, { _id: false })
 

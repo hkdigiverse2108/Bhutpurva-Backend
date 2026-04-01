@@ -3,7 +3,7 @@ import { apiResponse, batchModelName, commonIdSchema, monitorModelName, ROLES, S
 import { batchModel, userModel } from "../../database";
 import { monitorModel, attendanceModel } from "../../database";
 import { countData, createData, findAllWithPopulate, findOneAndPopulate, getFirstMatch, updateData, reqInfo, updateMany, getData } from "../../helper";
-import { addDevoteeSchema, assignDevoteeSchema, createBatchSchema, createMonitorSchema, getBatchsSchema, getMonitorSchema, removeDevoteeSchema, unassignDevoteeSchema, updateBatchSchema, getBatchesDropdownSchema } from "../../validation"
+import { addDevoteeSchema, assignDevoteeSchema, createBatchSchema, createMonitorSchema, getBatchsSchema, getMonitorSchema, removeDevoteeSchema, unassignDevoteeSchema, updateBatchSchema, getBatchesDropdownSchema, getUnassignedDevoteesSchema } from "../../validation"
 
 export const createBatch = async (req, res) => {
     reqInfo(req)
@@ -103,15 +103,34 @@ export const deleteBatch = async (req, res) => {
         const { error, value } = commonIdSchema.validate(req.params);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const batch = await updateData(batchModel, { _id: value.id, isDeleted: false }, { isDeleted: true }, { new: true });
+        const batch = await batchModel.findOne({ _id: value.id, isDeleted: false });
         if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
+
+        // 1. Role Revert: Fetch active monitors in this batch before deletion
+        const monitors = await monitorModel.find({ batchId: value.id, isDeleted: false });
+        const monitorUserIds = monitors.map(m => m.userId);
+
+        if (monitorUserIds.length > 0) {
+            // Revert role to USER only if it is currently MONITOR (preserve LEADER etc.)
+            await userModel.updateMany(
+                { _id: { $in: monitorUserIds }, role: ROLES.MONITOR },
+                { role: ROLES.USER }
+            );
+        }
+
+        // 2. Cascade Delete: Mark associated monitors as deleted
+        await monitorModel.updateMany({ batchId: value.id, isDeleted: false }, { isDeleted: true });
+
+        // 3. Mark Batch Deleted
+        batch.isDeleted = true;
+        await batch.save();
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Batch deleted successfully", batch, {}));
     } catch (error) {
         console.error(error);
         return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error deleting batch", {}, error.message));
     }
-}
+};
 
 export const getBatches = async (req, res) => {
     reqInfo(req)
@@ -382,7 +401,37 @@ export const getBatchById = async (req, res) => {
                                 }
                             }
                         },
-                        { $project: { _id: 1, name: 1, surname: 1, email: 1, phoneNumber: 1, currentCity: 1, isVerified: 1, profileCompletion: 1 } }
+                        { $project: { _id: 1, name: 1, surname: 1, email: 1, phoneNumber: 1, currentCity: 1, isVerified: 1, profileCompletion: 1 } },
+                        {
+                            $lookup: {
+                                from: "monitors",
+                                let: { studentId: "$_id" },
+                                pipeline: [
+                                    {
+                                        $match: {
+                                            $expr: {
+                                                $and: [
+                                                    { $in: ["$$studentId", "$devoteeIds"] },
+                                                    { $eq: ["$isDeleted", false] }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    {
+                                        $lookup: {
+                                            from: "users",
+                                            localField: "userId",
+                                            foreignField: "_id",
+                                            as: "monitorUser"
+                                        }
+                                    },
+                                    { $unwind: { path: "$monitorUser", preserveNullAndEmptyArrays: true } },
+                                    { $project: { _id: 1, name: "$monitorUser.name", surname: "$monitorUser.surname" } }
+                                ],
+                                as: "monitor"
+                            }
+                        },
+                        { $unwind: { path: "$monitor", preserveNullAndEmptyArrays: true } }
                     ],
                     as: "students"
                 }
@@ -458,26 +507,39 @@ export const removeDevoteeFromBatch = async (req, res) => {
         const { error, value } = removeDevoteeSchema.validate(req.body);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const batch = await getFirstMatch(batchModel, { _id: value.batchId, isDeleted: false }, {}, {});
+        const batch = await batchModel.findOne({ _id: value.batchId, isDeleted: false });
         if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
 
-        const user = await updateData(userModel, { _id: value.devoteeId, isDeleted: false }, { batchId: null }, { new: true });
+        const user = await userModel.findOne({ _id: value.devoteeId, isDeleted: false });
         if (!user) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User not found", {}, {}));
+
+        // Role Sync: If MONITOR, delete monitor record and reset role (preserve LEADER role)
+        if (user.role === ROLES.MONITOR) {
+            await monitorModel.updateMany({ userId: user._id, isDeleted: false }, { isDeleted: true });
+            user.role = ROLES.USER;
+        }
+
+        // Assignment Cleanup: Pull from any monitor's devoteeIds in this batch
+        await monitorModel.updateMany(
+            { batchId: value.batchId, isDeleted: false },
+            { $pull: { devoteeIds: value.devoteeId } }
+        );
 
         // Sync future attendance records
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        await updateData(
-            attendanceModel,
+        await attendanceModel.updateMany(
             { batchId: value.batchId, date: { $gte: today } },
             {
                 $pull: {
                     students: { studentId: value.devoteeId }
                 }
-            },
-            { multi: true }
+            }
         );
+
+        user.batchId = null;
+        await user.save();
 
         const payload = {
             batch: value.batchId,
@@ -500,8 +562,16 @@ export const createMonitor = async (req, res) => {
         const user = await getFirstMatch(userModel, { _id: value.userId, isDeleted: false }, {}, {});
         if (!user) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User not found", {}, {}));
 
-        if (user.role !== ROLES.MONITOR && user.role !== ROLES.LEADER) {
-            return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User does not have the required MONITOR or LEADER role.", {}, {}));
+        if (user.role !== ROLES.USER && user.role !== ROLES.MONITOR && user.role !== ROLES.LEADER) {
+            return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User does not have required role", {}, {}));
+        }
+
+        if (user.role === ROLES.USER) {
+            await updateData(userModel,
+                { _id: value.userId },
+                { role: ROLES.MONITOR },
+                { new: true }
+            );
         }
 
         if (user.batchId != value.batchId) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "User is not in this batch", {}, {}));
@@ -532,6 +602,15 @@ export const removeMonitor = async (req, res) => {
         const monitor = await getFirstMatch(monitorModel, { _id: value.id, isDeleted: false }, {}, {});
         if (!monitor) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Monitor not found", {}, {}));
 
+        const user = await getFirstMatch(userModel, { _id: monitor.userId, isDeleted: false }, {}, {});
+        if (user && user.role === ROLES.MONITOR) {
+            await updateData(userModel,
+                { _id: monitor.userId },
+                { role: ROLES.USER },
+                { new: true }
+            );
+        }
+
         const batch = await updateData(batchModel, { _id: monitor.batchId }, { $pull: { monitorIds: monitor._id } }, { new: true });
         if (!batch) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Batch not found", {}, {}));
 
@@ -552,10 +631,36 @@ export const assignDevotee = async (req, res) => {
         const { error, value } = assignDevoteeSchema.validate(req.body);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const monitor = await updateData(monitorModel, { _id: value.monitorId }, { $addToSet: { devoteeIds: { $each: value.devoteeIds } } }, { new: true });
+        const monitor = await monitorModel.findOne({ _id: value.monitorId, isDeleted: false });
         if (!monitor) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Monitor not found", {}, {}));
 
-        return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Devotee assigned to batch successfully", monitor, {}));
+        // Validate that all devotees belong to the same batch as the monitor
+        const users = await userModel.find({ _id: { $in: value.devoteeIds }, isDeleted: false });
+        if (users.length !== value.devoteeIds.length) {
+            return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Some users not found", {}, {}));
+        }
+
+        const invalidDevotees = users.filter(u => u.batchId?.toString() !== monitor.batchId.toString());
+        if (invalidDevotees.length > 0) {
+            return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Some devotees do not belong to this monitor's batch", {}, {
+                invalidDevoteeIds: invalidDevotees.map(u => u._id)
+            }));
+        }
+
+        // Remove these devotees from any other monitors in the same batch
+        await monitorModel.updateMany(
+            { batchId: monitor.batchId, isDeleted: false },
+            { $pull: { devoteeIds: { $in: value.devoteeIds } } }
+        );
+
+        // Add to the target monitor
+        const updatedMonitor = await monitorModel.findOneAndUpdate(
+            { _id: value.monitorId },
+            { $addToSet: { devoteeIds: { $each: value.devoteeIds } } },
+            { new: true }
+        );
+
+        return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Devotees assigned successfully", updatedMonitor, {}));
     } catch (error) {
         console.error(error);
         return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error assigning devotee", {}, error.message));
@@ -596,7 +701,7 @@ export const getMonitors = async (req, res) => {
 
         const skip = (page - 1) * limit;
 
-        const monitors = await findAllWithPopulate(monitorModel, criteria, {}, { skip: skip, limit: limit }, [{ path: userModelName, select: "name email" }, { path: batchModelName, select: "name isActive" }]);
+        const monitors = await findAllWithPopulate(monitorModel, criteria, {}, { skip: skip, limit: limit }, [{ path: "userId", select: "name email phoneNumber" }, { path: "batchId", select: "name isActive" }]);
         if (!monitors) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Monitors not found", {}, {}));
 
         const total = await countData(monitorModel, criteria);
@@ -622,7 +727,7 @@ export const getMonitorById = async (req, res) => {
         const { error, value } = commonIdSchema.validate(req.params);
         if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
 
-        const monitor = await findOneAndPopulate(monitorModel, { _id: value.id, isDeleted: false }, {}, {}, [{ path: "devoteeIds", select: "name email" }, { path: "batchId", select: "name isActive" }]);
+        const monitor = await findOneAndPopulate(monitorModel, { _id: value.id, isDeleted: false }, {}, {}, [{ path: "userId", select: "name email phoneNumber" }, { path: "devoteeIds", select: "name email phoneNumber" }, { path: "batchId", select: "name isActive" }]);
         if (!monitor) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Monitor not found", {}, {}));
 
         return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Monitor fetched successfully", monitor, {}));
@@ -659,5 +764,27 @@ export const getBatchesByMonitorId = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error getting batches", {}, error.message));
+    }
+};
+
+export const getUnassignedDevotees = async (req, res) => {
+    reqInfo(req)
+    try {
+        const { error, value } = getUnassignedDevoteesSchema.validate(req.query);
+        if (error) return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Validation error", {}, error.details[0].message));
+
+        const monitors = await monitorModel.find({ batchId: value.batchId, isDeleted: false }).select("devoteeIds").lean();
+        const assignedDevoteeIds = monitors.flatMap(m => m.devoteeIds.map(id => id.toString()));
+
+        const unassignedDevotees = await userModel.find({
+            batchId: value.batchId,
+            isDeleted: false,
+            _id: { $nin: assignedDevoteeIds }
+        }).select("name email phoneNumber surname currentCity isVerified").lean();
+
+        return res.status(STATUS_CODE.SUCCESS).json(new apiResponse(STATUS_CODE.SUCCESS, "Unassigned devotees fetched successfully", unassignedDevotees, {}));
+    } catch (error) {
+        console.error(error);
+        return res.status(STATUS_CODE.BAD_REQUEST).json(new apiResponse(STATUS_CODE.BAD_REQUEST, "Error getting unassigned devotees", {}, error.message));
     }
 };
